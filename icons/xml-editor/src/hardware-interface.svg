@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg2965"
+   viewBox="0 0 200.99999 200.99999"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   width="100%"
+   height="100%"
+   sodipodi:docname="hardware-interface.svg"
+   inkscape:export-filename="/home/crep/git/xml-editor/icons/xml-editor/48x48/hardware-interface.png"
+   inkscape:export-xdpi="21.6"
+   inkscape:export-ydpi="21.6">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1625"
+     inkscape:window-height="1026"
+     id="namedview30"
+     showgrid="false"
+     inkscape:zoom="0.99054551"
+     inkscape:cx="110.04077"
+     inkscape:cy="108.06262"
+     inkscape:window-x="55"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2965"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <defs
+     id="defs2967" />
+  <g
+     id="g3674"
+     transform="matrix(1.2555068,0,0,1.2555068,-5.2576204,-5.9298036)">
+    <g
+       id="g4497">
+      <rect
+         style="fill:#eeeeec;fill-opacity:1;fill-rule:nonzero;stroke:#204a87;stroke-width:6;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect4468-1"
+         width="69.957878"
+         height="42.831356"
+         x="49.256065"
+         y="105.29375"
+         rx="10"
+         ry="10" />
+      <rect
+         style="fill:#eeeeec;fill-opacity:1;fill-rule:nonzero;stroke:#204a87;stroke-width:6;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect4468"
+         width="69.957878"
+         height="42.831356"
+         x="49.256065"
+         y="21.415676"
+         rx="10"
+         ry="10" />
+    </g>
+    <rect
+       id="rect5144"
+       y="31.198246"
+       width="44.13945"
+       x="61.820301"
+       height="4.7104812"
+       style="fill:#204a87;stroke-width:1.89999998" />
+    <g
+       transform="translate(0.34497833,0.36554646)"
+       id="g4492">
+      <rect
+         style="fill:#3465a4;stroke-width:1.89999998"
+         height="4.7104812"
+         x="61.820301"
+         width="44.13945"
+         y="31.198246"
+         id="rect5146" />
+      <rect
+         style="fill:#3465a4;stroke-width:1.89999998"
+         height="4.7104812"
+         x="61.820301"
+         width="44.13945"
+         y="40.104336"
+         id="rect5148" />
+      <rect
+         style="fill:#3465a4;stroke-width:1.89999998"
+         height="4.7104812"
+         x="61.820301"
+         width="44.13945"
+         y="49.022888"
+         id="rect5150" />
+    </g>
+    <g
+       transform="translate(1.0483294,0.48207497)"
+       id="g4488">
+      <path
+         style="fill:#3465a4"
+         id="path4050"
+         d="m 70.8413,121.6418 -0.41996,2.3922 0.001,10e-4 c -0.51333,0.0838 -1.01,0.21831 -1.4844,0.39736 v -0.001 l -1.5587,-1.8624 -1.465,0.84639 0.83187,2.2807 0.002,0.001 c -0.39716,0.32604 -0.7612,0.69136 -1.087,1.0887 l -10e-4,-0.005 -2.2807,-0.83186 -0.84639,1.465 1.8624,1.5603 c -0.17875,0.47401 -0.31199,0.96993 -0.39573,1.4828 l -10e-4,-10e-4 -2.3922,0.41996 v 1.6928 l 2.3922,0.41996 10e-4,-0.001 c 0.0837,0.51287 0.21698,1.0088 0.39573,1.4828 l -1.8624,1.5603 0.84639,1.465 2.2807,-0.83186 10e-4,-0.005 c 0.32584,0.39731 0.68988,0.76265 1.087,1.0887 l -0.002,0.001 -0.83187,2.2807 1.465,0.84639 1.5587,-1.8624 v -0.001 c 0.47439,0.17904 0.97106,0.31348 1.4844,0.39736 l -0.001,0.001 0.41996,2.3922 h 1.6912 l 0.41996,-2.3922 -0.001,-0.001 c 0.51325,-0.0837 1.01,-0.21697 1.4844,-0.39575 l 1.5603,1.8624 1.465,-0.84639 -0.83347,-2.2807 c 0.39629,-0.32519 0.76013,-0.68925 1.0854,-1.0854 l 2.2823,0.83186 0.84477,-1.465 -1.8608,-1.5603 c 0.17879,-0.47407 0.31359,-0.96985 0.39736,-1.4828 l 2.3922,-0.41835 v -1.6928 l -2.3922,-0.41996 c -0.0838,-0.51239 -0.21876,-1.0076 -0.39736,-1.4812 l 1.8608,-1.5603 -0.84477,-1.465 -2.2823,0.83186 c -0.32531,-0.39621 -0.68913,-0.76026 -1.0854,-1.0854 l 0.83347,-2.2807 -1.465,-0.84639 -1.5603,1.8624 c -0.47436,-0.17876 -0.97116,-0.31209 -1.4844,-0.39574 l 0.001,-0.001 -0.41996,-2.3922 h -1.6912 z m 0.84638,4.1189 c 3.293,0 5.9635,2.6688 5.9635,5.9619 0,3.293 -2.6704,5.9618 -5.9635,5.9618 -3.293,0 -5.9618,-2.6688 -5.9618,-5.9618 0,-3.293 2.6688,-5.9619 5.9618,-5.9619 z"
+         inkscape:connector-curvature="0" />
+      <path
+         style="fill:#3465a4"
+         id="path3396"
+         d="m 91.1013,110.6518 -0.52518,2.9914 10e-4,0.001 c -0.64193,0.10492 -1.263,0.27302 -1.8563,0.49691 v -10e-4 l -1.9492,-2.3289 -1.832,1.0584 1.0402,2.8521 0.004,0.001 c -0.49668,0.40771 -0.95192,0.86453 -1.3594,1.3614 l -0.001,-0.006 -2.8521,-1.0402 -1.0584,1.832 2.3289,1.9512 c -0.22353,0.59278 -0.39015,1.2129 -0.49486,1.8543 l -0.001,-0.001 -2.9914,0.52517 v 2.1169 l 2.9914,0.52516 0.001,-0.001 c 0.10466,0.64134 0.27133,1.2615 0.49486,1.8543 l -2.3289,1.9512 1.0584,1.832 2.8521,-1.0402 0.001,-0.006 c 0.40747,0.49687 0.86271,0.95371 1.3594,1.3614 l -0.004,0.001 -1.0402,2.8521 1.832,1.0584 1.9492,-2.3289 v -0.001 c 0.59324,0.22389 1.2143,0.39201 1.8563,0.4969 l -10e-4,0.001 0.52518,2.9914 h 2.1148 l 0.52517,-2.9914 -0.001,-0.001 c 0.64181,-0.10466 1.2631,-0.27132 1.8563,-0.49486 l 1.9512,2.3289 1.832,-1.0584 -1.0423,-2.8521 c 0.49557,-0.40665 0.95056,-0.86192 1.3574,-1.3574 l 2.8541,1.0402 1.0564,-1.8321 -2.3269,-1.9512 c 0.22357,-0.59283 0.39215,-1.2128 0.49689,-1.8542 l 2.9915,-0.52314 v -2.1169 l -2.9915,-0.52516 c -0.10479,-0.64077 -0.27355,-1.26 -0.49689,-1.8522 l 2.3269,-1.9512 -1.0564,-1.8321 -2.8541,1.0403 c -0.40679,-0.49547 -0.86177,-0.95071 -1.3574,-1.3574 l 1.0423,-2.8521 -1.832,-1.0584 -1.9512,2.3289 c -0.59319,-0.22353 -1.2145,-0.39027 -1.8563,-0.49486 l 0.001,-0.001 -0.52517,-2.9914 h -2.1148 z m 1.0584,5.1507 c 4.118,0 7.4574,3.3374 7.4574,7.4554 0,4.118 -3.3394,7.4554 -7.4574,7.4554 -4.118,0 -7.4554,-3.3374 -7.4554,-7.4554 0,-4.118 3.3374,-7.4554 7.4554,-7.4554 z"
+         inkscape:connector-curvature="0" />
+    </g>
+    <rect
+       style="fill:#204a87;stroke-width:1.89999998"
+       x="80.975853"
+       y="71.437393"
+       width="6.5183001"
+       height="26.666"
+       id="rect5126" />
+  </g>
+  <metadata
+     id="metadata28">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>machine control-blue</dc:title>
+        <dc:date>2011-09-12T08:09:20</dc:date>
+        <dc:description>Icon for machine control, to fit http://www.openclipart.org/user-detail/shokunin set
+\n</dc:description>
+        <dc:source>http://openclipart.org/detail/160057/machine-control-blue-by-zxmon21</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>zxmon21</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>arrow</rdf:li>
+            <rdf:li>chat</rdf:li>
+            <rdf:li>clip art</rdf:li>
+            <rdf:li>clipart</rdf:li>
+            <rdf:li>communicator</rdf:li>
+            <rdf:li>computer</rdf:li>
+            <rdf:li>desktop</rdf:li>
+            <rdf:li>earth</rdf:li>
+            <rdf:li>email.mail</rdf:li>
+            <rdf:li>globe</rdf:li>
+            <rdf:li>icon</rdf:li>
+            <rdf:li>icons</rdf:li>
+            <rdf:li>information</rdf:li>
+            <rdf:li>interface</rdf:li>
+            <rdf:li>lock</rdf:li>
+            <rdf:li>machine control</rdf:li>
+            <rdf:li>messenger</rdf:li>
+            <rdf:li>mobile</rdf:li>
+            <rdf:li>network</rdf:li>
+            <rdf:li>pc</rdf:li>
+            <rdf:li>phone</rdf:li>
+            <rdf:li>secure</rdf:li>
+            <rdf:li>set</rdf:li>
+            <rdf:li>shopping cart</rdf:li>
+            <rdf:li>unlock</rdf:li>
+            <rdf:li>web 2.0</rdf:li>
+            <rdf:li>website</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <rect
+     style="fill:none;stroke:none;stroke-width:1"
+     id="rect3012"
+     width="200"
+     height="200"
+     x="0.5"
+     y="0.49999693"
+     rx="10"
+     ry="10" />
+</svg>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg3349"
+   viewBox="0 0 201 201"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   width="100%"
+   height="100%"
+   sodipodi:docname="vision.svg"
+   inkscape:export-filename="/home/crep/git/xml-editor/icons/xml-editor/48x48/vision.png"
+   inkscape:export-xdpi="21.6"
+   inkscape:export-ydpi="21.6">
+  <defs
+     id="defs14" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1625"
+     inkscape:window-height="1026"
+     id="namedview12"
+     showgrid="false"
+     inkscape:zoom="0.86628618"
+     inkscape:cx="330.7934"
+     inkscape:cy="-28.375705"
+     inkscape:window-x="55"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg3349"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <g
+     id="g3008"
+     transform="matrix(0.35494832,0,0,0.35494832,30.846539,54.872778)">
+    <path
+       style="fill:#204a87"
+       inkscape:connector-curvature="0"
+       d="M 0.0219901,129.68378 C 1.1594744,91.006545 56.801152,0.031563 194.5429,0.0038388 328.77951,-0.0238854 392.22635,95.773127 392.47586,123.99636 392.84974,166.09952 337.87305,257.08837 193.3963,257.08837 48.927479,257.08837 -1.1246036,168.35904 0.0120886,129.68378 z"
+       id="path3261-0" />
+    <path
+       style="fill:#ffffff"
+       inkscape:connector-curvature="0"
+       d="m 0.0219901,125.09147 c 0,0 76.2158059,-93.278072 193.3842199,-95.553437 117.16643,-2.275167 187.69481,86.453957 197.93296,95.553437 10.23795,9.10047 -89.28578,106.5243 -199.07956,102.37953 C 82.487623,223.33217 1.1646232,129.6422 1.1646232,129.6422 l -1.13748432,-4.55014 z"
+       id="path3263-2" />
+    <path
+       style="fill:#babdb6"
+       inkscape:connector-curvature="0"
+       d="m 303.69785,129.38591 c 0,53.3947 -47.46581,96.68121 -106.01595,96.68121 -58.55014,0 -106.015952,-43.28651 -106.015952,-96.68121 0,-53.394703 47.465812,-96.681217 106.015952,-96.681217 58.55014,0 106.01595,43.286514 106.01595,96.681217 z"
+       id="path3265-2" />
+    <path
+       style="fill:#2e3436"
+       inkscape:connector-curvature="0"
+       d="m 268.04325,130.06622 c 0,38.85118 -31.49541,70.34659 -70.34659,70.34659 -38.85118,0 -70.34658,-31.49541 -70.34658,-70.34659 0,-38.851177 31.4954,-70.346583 70.34658,-70.346583 38.85118,0 70.34659,31.495406 70.34659,70.346583 z"
+       id="path3267-6" />
+    <path
+       id="path3223"
+       d="M 94.22,82.87 185.239,127.379 139.73,40.861 C 120.059,48.3626 107.64,56.364 94.221,82.87 z"
+       inkscape:connector-curvature="0"
+       style="fill:#ffffff" />
+  </g>
+  <metadata
+     id="metadata10">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>Eye sign</dc:title>
+        <dc:date>2010-05-27T11:53:45</dc:date>
+        <dc:description>Eye sign usually used on territory where CCTV system is activated</dc:description>
+        <dc:source>http://openclipart.org/detail/63247/eye-sign-by-dbdeveloper</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>dbdeveloper</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>CCTV</rdf:li>
+            <rdf:li>Security Camera Recorder</rdf:li>
+            <rdf:li>clip art</rdf:li>
+            <rdf:li>clipart</rdf:li>
+            <rdf:li>eye</rdf:li>
+            <rdf:li>sign</rdf:li>
+            <rdf:li>video surveillance systems</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <rect
+     style="fill:none;stroke:none;stroke-width:1"
+     id="rect3012"
+     width="200"
+     height="200"
+     x="0.49999171"
+     y="0.5"
+     rx="10"
+     ry="10" />
+</svg>

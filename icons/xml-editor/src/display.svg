@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg5324"
+   viewBox="0 0 201.00001 201.00001"
+   version="1.0"
+   inkscape:version="0.48.4 r9939"
+   width="100%"
+   height="100%"
+   sodipodi:docname="display.svg"
+   inkscape:export-filename="/home/crep/git/xml-editor/icons/xml-editor/48x48/display.png"
+   inkscape:export-xdpi="21.599998"
+   inkscape:export-ydpi="21.599998">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1625"
+     inkscape:window-height="1026"
+     id="namedview89"
+     showgrid="false"
+     inkscape:zoom="1.2720026"
+     inkscape:cx="139.34584"
+     inkscape:cy="58.589944"
+     inkscape:window-x="55"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg5324"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <defs
+     id="defs5326">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3498">
+      <stop
+         style="stop-color:#204a87;stop-opacity:1;"
+         offset="0"
+         id="stop3500" />
+      <stop
+         style="stop-color:#204a87;stop-opacity:0;"
+         offset="1"
+         id="stop3502" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3907">
+      <stop
+         id="stop3909"
+         stop-color="#dedbc7"
+         offset="0" />
+      <stop
+         id="stop3911"
+         stop-color="#fff"
+         offset="1" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3907"
+       id="linearGradient3303"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-1.2077753,0,0,1.2077753,593.18332,-59.700822)"
+       x1="101"
+       y1="309.13"
+       x2="101"
+       y2="99.362" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3907"
+       id="linearGradient3307"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.2077753,0,0,1.2077753,-46.885755,-60.224836)"
+       x1="101"
+       y1="309.13"
+       x2="101"
+       y2="99.362" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3498"
+       id="linearGradient3504"
+       x1="447.32611"
+       y1="68.009926"
+       x2="-252.35797"
+       y2="1064.8632"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3498"
+       id="linearGradient3553"
+       gradientUnits="userSpaceOnUse"
+       x1="447.32611"
+       y1="68.009926"
+       x2="-252.35797"
+       y2="1064.8632" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3907"
+       id="linearGradient3555"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.2077753,0,0,1.2077753,-46.885755,-60.224836)"
+       x1="101"
+       y1="309.13"
+       x2="101"
+       y2="99.362" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3907"
+       id="linearGradient3557"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-1.2077753,0,0,1.2077753,593.18332,-59.700822)"
+       x1="101"
+       y1="309.13"
+       x2="101"
+       y2="99.362" />
+  </defs>
+  <g
+     id="g3545"
+     transform="matrix(0.38043915,0,0,0.38043915,-3.4236633,27.444956)">
+    <rect
+       id="rect5196"
+       ry="8.6611109"
+       height="353.8692"
+       width="442.03726"
+       y="15.093597"
+       x="52.148991"
+       style="fill:#d3d7cf" />
+    <rect
+       id="rect5198"
+       ry="0"
+       height="292.27878"
+       width="388.89139"
+       y="41.661827"
+       x="78.717224"
+       style="fill:url(#linearGradient3553);fill-opacity:1" />
+    <path
+       id="path5202"
+       d="M 71.168037,34.414232 H 474.61117 l -7.00255,7.247594 H 78.717222 l -7.549185,-7.247594 z"
+       inkscape:connector-curvature="0"
+       style="fill:#dedbc7" />
+    <path
+       id="path5204"
+       d="M 71.469627,341.07512 V 34.715822 l 7.247595,6.738661 V 333.69558 l -7.247595,7.37954 z"
+       style="fill:url(#linearGradient3555)"
+       inkscape:connector-curvature="0" />
+    <path
+       id="path5206"
+       d="M 475.03528,341.28246 H 71.168037 l 7.209895,-7.23817 H 467.70286 l 7.33242,7.23817 z"
+       inkscape:connector-curvature="0"
+       style="fill:#fcfcf6" />
+    <path
+       id="path5208"
+       d="M 474.81851,341.17879 V 34.385958 l -7.23817,7.586883 V 334.0066 l 7.23817,7.17219 z"
+       style="fill:url(#linearGradient3557)"
+       inkscape:connector-curvature="0" />
+  </g>
+  <metadata
+     id="metadata87">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>Computer LCD display</dc:title>
+        <dc:date>2007-01-28T23:57:57</dc:date>
+        <dc:description>clip art, clipart, computer, computer, display, display, image, lcd, lcd, media, monitor, monitor, panel, panel, png, public domain, screen, screen, svg, tool, tool, </dc:description>
+        <dc:source>http://openclipart.org/detail/2980/computer-lcd-display-by-rihard</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>rihard</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>clip art</rdf:li>
+            <rdf:li>clipart</rdf:li>
+            <rdf:li>computer</rdf:li>
+            <rdf:li>display</rdf:li>
+            <rdf:li>image</rdf:li>
+            <rdf:li>lcd</rdf:li>
+            <rdf:li>media</rdf:li>
+            <rdf:li>monitor</rdf:li>
+            <rdf:li>panel</rdf:li>
+            <rdf:li>png</rdf:li>
+            <rdf:li>public domain</rdf:li>
+            <rdf:li>screen</rdf:li>
+            <rdf:li>svg</rdf:li>
+            <rdf:li>tool</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <rect
+     style="fill:none;stroke:none;stroke-width:0.99999994000000003"
+     id="rect3012"
+     width="200"
+     height="200"
+     x="0.49999672"
+     y="0.49999997"
+     rx="10"
+     ry="10"
+     inkscape:export-filename="/home/crep/git/xml-editor/icons/xml-editor/256x256/display.png"
+     inkscape:export-xdpi="115.19999"
+     inkscape:export-ydpi="115.19999" />
+</svg>

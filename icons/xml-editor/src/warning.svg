@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg1609"
+   viewBox="0 0 201.00001 201.00001"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   width="100%"
+   height="100%"
+   sodipodi:docname="warning.svg"
+   inkscape:export-filename="/home/crep/git/xml-editor/icons/xml-editor/48x48/warning.png"
+   inkscape:export-xdpi="21.599997"
+   inkscape:export-ydpi="21.599997">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1625"
+     inkscape:window-height="1026"
+     id="namedview17"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="1.7146178"
+     inkscape:cx="85.857649"
+     inkscape:cy="140.94682"
+     inkscape:window-x="55"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1609" />
+  <defs
+     id="defs1610">
+    <filter
+       id="filter3789"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur3791"
+         stdDeviation="1.3360687" />
+    </filter>
+  </defs>
+  <path
+     inkscape:connector-curvature="0"
+     id="path4153"
+     d="m 98.039971,31.496888 c -0.753446,0.346099 -1.430994,0.841674 -2.00084,1.460512 -0.569834,0.618863 -0.915338,1.435367 -1.344867,2.172973 -24.189625,41.543765 -45.445592,81.911637 -69.340029,126.785077 -0.20413,0.38331 -0.229615,0.82963 -0.229615,1.28243 0,0.94434 0.173322,1.85349 0.492016,2.67175 0.318682,0.81826 0.774996,1.55417 1.344867,2.17297 0.569822,0.61887 1.247321,1.11444 2.00084,1.46052 0.753446,0.3461 1.590493,0.53434 2.460022,0.53434 l 138.155285,0 c 0.86956,0 1.70662,-0.18824 2.46002,-0.53434 0.75344,-0.34611 1.43099,-0.84169 2.00084,-1.46052 0.56984,-0.61885 1.02615,-1.3547 1.34486,-2.17297 0.31867,-0.81828 0.49322,-1.7274 0.49202,-2.67175 -5.8e-4,-0.45317 -0.0251,-0.89933 -0.22961,-1.28243 -22.66753,-42.45727 -45.16134,-85.231594 -69.34489,-126.772929 -0.4294,-0.737679 -0.775,-1.554171 -1.34487,-2.172973 -0.56982,-0.618862 -1.24732,-1.114438 -2.00084,-1.460513 -0.75346,-0.346098 -1.59049,-0.534338 -2.46002,-0.534338 -0.862702,-0.01801 -1.752845,0.284978 -2.455189,0.522191 z"
+     style="fill:#eeeeec;stroke:#204a87;stroke-width:6.07382727;stroke-miterlimit:4;stroke-dasharray:none"
+     sodipodi:nodetypes="ccccscccsssccscccccc" />
+  <path
+     inkscape:connector-curvature="0"
+     d="m 99.00656,63.41756 c -6.038113,0 -10.932889,4.894776 -10.932889,10.93289 0,0.142978 -0.0055,0.275934 0,0.417575 l 4.859062,58.308745 h 0.03796 c 0.220334,3.15402 2.825788,5.65619 6.035927,5.65619 3.210139,0 5.815569,-2.50217 6.035929,-5.65619 h 0.038 l 4.59327,-55.082327 c 0.15306,-1.047128 0.26603,-2.107619 0.26603,-3.230062 0.005,-0.141642 0,-0.274598 0,-0.417576 0,-6.038113 -4.89477,-10.932889 -10.932885,-10.932889 z"
+     id="path2992"
+     style="fill:#204a87" />
+  <path
+     inkscape:connector-curvature="0"
+     d="m 109.9394,152.51332 c 0,6.03811 -4.89484,10.93289 -10.932864,10.93289 -6.038022,0 -10.932865,-4.89478 -10.932865,-10.93289 0,-6.03811 4.894843,-10.93289 10.932865,-10.93289 6.038024,0 10.932864,4.89478 10.932864,10.93289 z"
+     id="path3803"
+     style="fill:#204a87" />
+  <metadata
+     id="metadata15">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>Warning Sign</dc:title>
+        <dc:date>2011-01-10T06:09:42</dc:date>
+        <dc:description>Just another Warning sigh with exclamation mark. I made it symmetric with some gradient. The file in wiki (http://commons.wikimedia.org/wiki/File:Warning.svg) is not so symmetric.</dc:description>
+        <dc:source>http://openclipart.org/detail/104263/warning-sign-by-kg</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>kg</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>Caution</rdf:li>
+            <rdf:li>Hazard</rdf:li>
+            <rdf:li>Sign</rdf:li>
+            <rdf:li>Warning</rdf:li>
+            <rdf:li>Warning Sign</rdf:li>
+            <rdf:li>alert</rdf:li>
+            <rdf:li>carefulness</rdf:li>
+            <rdf:li>clip art</rdf:li>
+            <rdf:li>clipart</rdf:li>
+            <rdf:li>danger</rdf:li>
+            <rdf:li>exclamation mark</rdf:li>
+            <rdf:li>protection</rdf:li>
+            <rdf:li>safeguard</rdf:li>
+            <rdf:li>safety</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <rect
+     style="fill:none;stroke:none;stroke-width:1"
+     id="rect3012"
+     width="200.00002"
+     height="200.00002"
+     x="0.5"
+     y="0.49999747"
+     rx="10"
+     ry="10" />
+</svg>

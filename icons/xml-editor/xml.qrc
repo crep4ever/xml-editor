@@ -1,0 +1,20 @@
+<!DOCTYPE RCC><RCC version="1.0">
+  <qresource prefix="icons/xml-editor">
+    <file>48x48/fold.png</file>
+    <file>48x48/unfold.png</file>
+
+    <file>src/algo.svg</file>
+    <file>src/benchmarks.svg</file>
+    <file>src/display.svg</file>
+    <file>src/hardware-interface.svg</file>
+    <file>src/logs.svg</file>
+    <file>src/machine.svg</file>
+    <file>src/metrics.svg</file>
+    <file>src/process.svg</file>
+    <file>src/system.svg</file>
+    <file>src/tools.svg</file>
+    <file>src/vision.svg</file>
+    <file>src/warning.svg</file>
+    <file>src/xml-editor.svg</file>
+ </qresource>
+</RCC>
