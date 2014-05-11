@@ -1,0 +1,7 @@
+.build*
+src/config.h
+build
+xml-editor
+doc/html
+doc/man
+doc/latex
