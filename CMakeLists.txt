@@ -179,6 +179,6 @@ if(GENERATE_MANPAGES)
     REGEX ${regex} EXCLUDE)
 endif()
 install(FILES ${XML_EDITOR_APPLICATION_NAME}.desktop DESTINATION share/applications)
-install(FILES icons/xml-editor/256x256/xml-editor.png DESTINATION share/icons)
+install(FILES icons/xml-editor/src/xml-editor.svg DESTINATION share/icons)
 install(FILES ${COMPILED_TRANSLATIONS} DESTINATION ${XML_EDITOR_DATA_PATH}/lang)
 # }}}
