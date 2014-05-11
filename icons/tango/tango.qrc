@@ -1,0 +1,21 @@
+<!DOCTYPE RCC><RCC version="1.0">
+  <qresource prefix="icons/tango">
+    <file>src/accessories-text-editor.svg</file>
+    <file>src/document-open.svg</file>
+    <file>src/document-open-recent.svg</file>
+    <file>src/document-properties.svg</file>
+    <file>src/document-revert.svg</file>
+    <file>src/document-save.svg</file>
+    <file>src/document-save-as.svg</file>
+    <file>src/edit-clear.svg</file>
+    <file>src/folder.svg</file>
+    <file>src/go-down.svg</file>
+    <file>src/go-up.svg</file>
+    <file>src/go-home.svg</file>
+    <file>src/help-about.svg</file>
+    <file>src/list-add.svg</file>
+    <file>src/list-remove.svg</file>
+    <file>src/preferences-system.svg</file>
+    <file>src/application-exit.svg</file>
+  </qresource>
+</RCC>

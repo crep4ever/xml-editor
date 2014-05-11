@@ -1,0 +1,32 @@
+xml-editor(1)
+==================
+
+NOM
+---
+
+xml-editor - éditeur de fichiers XML
+
+SYNOPSIS
+--------
+
+*xml-editor* [*-v* | *--version*] [*-h* | *--help*] [FILE]
+
+DESCRIPTION
+-----------
+
+*xml-editor* est une interface graphique pour l'édition de fichiers xml.
+
+FILE
+-------
+Fichier XML
+
+OPTIONS
+-------
+$-v*, *--version*::
+    Affiche les informations de version.
+*-h*, *--help*::
+    Affiche un message d'aide et s'arrête.
+
+AUTHORS
+-------
+Romain Goffe <romain.goffe@gmail.com>

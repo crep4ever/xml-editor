@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Algo>
+    <SubCat1>
+        <Param1>/Conf/Algo/SubCat1/Param1::false=value1</Param1>
+        <Param2>/Conf/Algo/SubCat1/Param2::false=value2</Param2>
+        <Param3>/Conf/Algo/SubCat1/Param3::false=value3</Param3>
+    </SubCat1>
+    <SubCat2>
+        <Param4>/Conf/Algo/SubCat2/Param4::false=value4</Param4>
+        <Param5>/Conf/Algo/SubCat2/Param5::false=value5</Param5>
+        <Param6>/Conf/Algo/SubCat2/Param6::false=value6</Param6>
+    </SubCat2>
+</Algo>
+<Benchmarks>
+    <SubCat3>
+        <Param7>/Conf/Benchmarks/SubCat3/Param7::false=value7</Param7>
+        <Param8>/Conf/Benchmarks/SubCat3/Param8::false=value8</Param8>
+        <Param9>/Conf/Benchmarks/SubCat3/Param9::false=test</Param9>
+    </SubCat3>
+    <SubCat4>
+        <Param10>/Conf/Benchmarks/SubCat4/Param10::false=value10</Param10>
+        <Param11>/Conf/Benchmarks/SubCat4/Param11::false=value11</Param11>
+        <Param12>/Conf/Benchmarks/SubCat4/Param12::false=value12</Param12>
+    </SubCat4>
+</Benchmarks>
+
