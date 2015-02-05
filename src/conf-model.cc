@@ -23,6 +23,7 @@
 #include <QXmlStreamReader>
 #include <QFile>
 #include <QDir>
+#include <QMessageBox>
 
 #include "utils/tango-colors.hh"
 
@@ -226,6 +227,15 @@ int CConfModel::columnCount(const QModelIndex &index) const
 
 void CConfModel::load(const QString & filename)
 {
+  const bool vitFile = QFileInfo(filename).baseName().contains("localconf", Qt::CaseInsensitive);
+
+  if (!vitFile)
+    {
+      QMessageBox messageBox;
+      messageBox.setText(tr("Be sure to select a Vit configuration file (LocalConf files). Standard xml files are not supported yet."));
+      messageBox.exec();
+    }
+
   QFile file(filename);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
@@ -238,7 +248,7 @@ void CConfModel::load(const QString & filename)
   m_rawData = in.readAll();
   file.close();
 
-  if (QFileInfo(filename).baseName().contains("localconf", Qt::CaseInsensitive))
+  if (vitFile)
     {
       parseLocalConfData(VitToXml(m_rawData));
 
@@ -249,7 +259,6 @@ void CConfModel::load(const QString & filename)
     }
   else
     {
-      qDebug() << "Opening " << filename << " as standard xml file";
       parseXmlData(m_rawData);
     }
 }
