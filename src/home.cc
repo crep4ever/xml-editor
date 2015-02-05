@@ -74,19 +74,19 @@ CHome::CHome(QWidget *parent)
 
       QHBoxLayout *recentFilesLayout = new QHBoxLayout;
       foreach (const QString & recentFile, recentFiles)
-	{
-	  QFileInfo fi(recentFile);
-	  QToolButton *editButton = new QToolButton;
-	  editButton->setMinimumSize(QSize(100, 80));
-	  editButton->setToolTip(recentFile);
-	  editButton->setText(fi.fileName());
-	  editButton->setIcon(QIcon::fromTheme("accessories-text-editor", QIcon(":/icons/tango/src/accessories-text-editor.svg")));
-	  editButton->setIconSize(QSize(48, 48));
-	  editButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-	  connect(editButton, SIGNAL(clicked()), this, SLOT(editFile()));
+        {
+          QFileInfo fi(recentFile);
+          QToolButton *editButton = new QToolButton;
+          editButton->setMinimumSize(QSize(100, 80));
+          editButton->setToolTip(recentFile);
+          editButton->setText(fi.fileName());
+          editButton->setIcon(QIcon::fromTheme("accessories-text-editor", QIcon(":/icons/tango/src/accessories-text-editor.svg")));
+          editButton->setIconSize(QSize(48, 48));
+          editButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+          connect(editButton, SIGNAL(clicked()), this, SLOT(editFile()));
 
-	  recentFilesLayout->addWidget(editButton);
-	}
+          recentFilesLayout->addWidget(editButton);
+        }
       recentFilesLayout->addStretch();
 
       QVBoxLayout *recentMainLayout = new QVBoxLayout;
@@ -110,7 +110,7 @@ CHome::CHome(QWidget *parent)
       QStringList files = scanFiles(directory);
 
       if (files.isEmpty())
-	continue;
+        continue;
 
       QWidget *splitterWidget = new QWidget(this);
       QVBoxLayout *splitterLayout = new QVBoxLayout;
@@ -137,18 +137,18 @@ CHome::CHome(QWidget *parent)
       QGroupBox *groupBox = new QGroupBox;
       QHBoxLayout *filesLayout = new QHBoxLayout;
       foreach (QString file, files)
-	{
-	  QToolButton *editButton = new QToolButton;
-	  editButton->setMinimumSize(QSize(100, 80));
-	  editButton->setToolTip(QString("%1/%2").arg(directory).arg(file));
-	  editButton->setText(file);
-	  editButton->setIcon(QIcon::fromTheme("accessories-text-editor", QIcon(":/icons/tango/src/accessories-text-editor.svg")));
-	  editButton->setIconSize(QSize(48, 48));
-	  editButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-	  connect(editButton, SIGNAL(clicked()), this, SLOT(editFile()));
+        {
+          QToolButton *editButton = new QToolButton;
+          editButton->setMinimumSize(QSize(100, 80));
+          editButton->setToolTip(QString("%1/%2").arg(directory).arg(file));
+          editButton->setText(file);
+          editButton->setIcon(QIcon::fromTheme("accessories-text-editor", QIcon(":/icons/tango/src/accessories-text-editor.svg")));
+          editButton->setIconSize(QSize(48, 48));
+          editButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+          connect(editButton, SIGNAL(clicked()), this, SLOT(editFile()));
 
-	  filesLayout->addWidget(editButton);
-	}
+          filesLayout->addWidget(editButton);
+        }
       filesLayout->addStretch();
       groupBox->setLayout(filesLayout);
       m_boxes.append(groupBox);
@@ -190,9 +190,9 @@ QStringList CHome::scanFiles(const QString & path)
   foreach (const QString & filePath, files)
     {
       if (filePath.endsWith(".xml"))
-	{
-	  xmlFiles << filePath;
-	}
+        {
+          xmlFiles << filePath;
+        }
     }
 
   return xmlFiles;

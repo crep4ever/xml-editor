@@ -35,7 +35,7 @@ CKeysView::CKeysView(QWidget *parent)
 {
   CFilterLineEdit *filterLineEdit = new CFilterLineEdit;
   connect(filterLineEdit, SIGNAL(textChanged(const QString &)),
-	  this, SIGNAL(parameterFilterChanged(const QString &)));
+          this, SIGNAL(parameterFilterChanged(const QString &)));
 
   m_revertChangesButton = new QPushButton(tr("Revert changes"));
   m_revertChangesButton->setIcon(QIcon::fromTheme("document-revert", QIcon(":/icons/tango/src/document-revert.svg")));
@@ -52,14 +52,14 @@ CKeysView::CKeysView(QWidget *parent)
   m_view->setSelectionMode(QAbstractItemView::SingleSelection);
   m_view->setSelectionBehavior(QAbstractItemView::SelectRows);
   m_view->setEditTriggers(QAbstractItemView::SelectedClicked |
-  QAbstractItemView::EditKeyPressed |
-  QAbstractItemView::DoubleClicked);
+                          QAbstractItemView::EditKeyPressed |
+                          QAbstractItemView::DoubleClicked);
   m_view->setSortingEnabled(true);
   m_view->verticalHeader()->setVisible(false);
 
   QAction *action = new QAction(tr("&Adjust columns"), this);
   connect(action, SIGNAL(triggered()),
-	  m_view, SLOT(resizeColumnsToContents()));
+          m_view, SLOT(resizeColumnsToContents()));
 
   m_view->setContextMenuPolicy(Qt::ActionsContextMenu);
   m_view->addAction(action);
@@ -92,22 +92,22 @@ void CKeysView::setModel(QSortFilterProxyModel *model)
   m_view->horizontalHeader()->setStretchLastSection(true);
 
   connect(m_revertChangesButton, SIGNAL(clicked()),
-	    model->sourceModel(), SLOT(revert()));
+          model->sourceModel(), SLOT(revert()));
 
   connect(model->sourceModel(), SIGNAL(editedValueCountChanged(int)),
-	    this, SLOT(updateRevertChangesLabel(int)));
+          this, SLOT(updateRevertChangesLabel(int)));
 }
 
-  void CKeysView::updateRevertChangesLabel(int count)
-  {
-    if (count == 0)
-      {
-	m_revertChangesButton->setText(tr("Revert changes"));
-	m_revertChangesButton->setEnabled(false);
-      }
-    else
-      {
-	m_revertChangesButton->setText(tr("Revert changes (%1)").arg(count));
-	m_revertChangesButton->setEnabled(true);
-      }
+void CKeysView::updateRevertChangesLabel(int count)
+{
+  if (count == 0)
+    {
+      m_revertChangesButton->setText(tr("Revert changes"));
+      m_revertChangesButton->setEnabled(false);
+    }
+  else
+    {
+      m_revertChangesButton->setText(tr("Revert changes (%1)").arg(count));
+      m_revertChangesButton->setEnabled(true);
+    }
 }
