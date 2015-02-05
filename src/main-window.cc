@@ -336,6 +336,7 @@ void CMainWindow::open(const QString & filename)
 
   m_categoriesView->setModel(m_model);
   m_keysView->setModel(m_proxy);
+  m_keysView->resizeColumns();
 
   connect(m_model, SIGNAL(editedValueCountChanged(int)),
 	  this, SLOT(setModified(int)));

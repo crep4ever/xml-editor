@@ -54,6 +54,9 @@ public:
 
   void reset();
 
+public slots:
+  void resizeColumns();
+
 signals:
   void parameterFilterChanged(const QString &);
 

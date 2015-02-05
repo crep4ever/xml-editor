@@ -88,14 +88,19 @@ void CKeysView::setModel(QSortFilterProxyModel *model)
   m_view->setColumnHidden(3, false); // show parameter value
   m_view->setColumnHidden(4, false); // show parameter default value
 
-  m_view->resizeColumnsToContents();
-  m_view->horizontalHeader()->setStretchLastSection(true);
-
   connect(m_revertChangesButton, SIGNAL(clicked()),
           model->sourceModel(), SLOT(revert()));
 
   connect(model->sourceModel(), SIGNAL(editedValueCountChanged(int)),
           this, SLOT(updateRevertChangesLabel(int)));
+}
+
+void CKeysView::resizeColumns()
+{
+  m_view->setColumnWidth(2, 450);
+  m_view->setColumnWidth(3, 150);
+  m_view->setColumnWidth(4, 150);
+  m_view->horizontalHeader()->setStretchLastSection(true);
 }
 
 void CKeysView::updateRevertChangesLabel(int count)
