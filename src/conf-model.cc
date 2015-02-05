@@ -255,7 +255,19 @@ void CConfModel::load(const QString & filename)
       // look for potential LocalConf.xml.new in same path
       const QString originalLocalConf = QFileInfo(filename).absolutePath() + QDir::separator() + "LocalConf.xml.new";
 
-      parseOriginalLocalConfData(VitToXml(m_rawData));
+      QFile file(originalLocalConf);
+      if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+          qWarning() << tr("Can't open file in read mode: %1").arg(filename);
+          return;
+        }
+
+      QTextStream in(&file);
+      in.setCodec("UTF-8");
+      QString originalConfData = in.readAll();
+      file.close();
+
+      parseOriginalLocalConfData(VitToXml(originalConfData));
     }
   else
     {
