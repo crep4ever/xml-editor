@@ -86,6 +86,7 @@ void CKeysView::setModel(QSortFilterProxyModel *model)
   m_view->setColumnHidden(1, true); // hide subcategory
   m_view->setColumnHidden(2, false); // show parameter name
   m_view->setColumnHidden(3, false); // show parameter value
+  m_view->setColumnHidden(4, false); // show parameter default value
 
   m_view->resizeColumnsToContents();
   m_view->horizontalHeader()->setStretchLastSection(true);

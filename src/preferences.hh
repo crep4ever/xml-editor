@@ -35,7 +35,7 @@ class QLineEdit;
 class QCheckBox;
 class QSpinBox;
 
-/** 
+/**
     \file preferences.hh
     \class CConfigDialog
     \brief Handles the display of the configuration pages
@@ -68,7 +68,7 @@ private:
   QStackedWidget *m_pagesWidget;
 };
 
-/** 
+/**
  * \class CPage
  * \brief Base class for configuration pages
  */

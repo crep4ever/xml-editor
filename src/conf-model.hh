@@ -26,8 +26,8 @@
 /*!
   \file conf-model.hh
   \class CConfModel
-  \brief Main model of the application. 
-  
+  \brief Main model of the application.
+
   A CConfModel stores configuration parameters in a table.
   Each row corresponds to a parameter.
   The four columns store its:
@@ -35,14 +35,14 @@
   \li sub-category
   \li name
   \li value
-  
+
   This model is built when parsing an xml file.
   Due to ViT specific and non-standard xml representation
   of its configuration file. The following hacks are necessary:
 
   \li preprocess the file with \a VitToXml method to have a valid xml document
   \li store the xml document as a raw string (m_rawData) for saving purposes
-  
+
   Keeping a raw version of the file allows to keep in sync
   modifications of the model when invoking the method \a setData.
 */
@@ -58,7 +58,8 @@ public:
       CategoryRole = Qt::UserRole + 1,
       SubCategoryRole = Qt::UserRole + 2,
       ParameterRole = Qt::UserRole + 3,
-      ValueRole = Qt::UserRole + 4
+      ValueRole = Qt::UserRole + 4,
+      DefaultValueRole = Qt::UserRole + 5
     };
 
   /// Constructor
@@ -66,7 +67,7 @@ public:
 
   /// Destructor
   virtual ~CConfModel();
- 
+
   /*!
     Return a valid xml document from a ViT configuration file.
     Modifications include:
@@ -165,6 +166,14 @@ public slots:
     \sa editedValuesCount, editedValueCountChanged
   */
   void revert();
+
+private:
+
+  void parseLocalConfData(const QString & p_data);
+  void parseOriginalLocalConfData(const QString & p_data);
+  void parseXmlData(const QString & p_data);
+
+  void updateLocalConfRow(const QStringList & p_originalConfValues);
 
 signals:
 

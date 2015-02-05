@@ -31,7 +31,7 @@ class QGroupBox;
   \file home.hh
   \class CHome
   \brief Home screen of the application.
-  
+
   Displays recently opened files and
   xml files found in specified directories.
   Those directories can be defined in the preferences

@@ -19,10 +19,13 @@
 #include "conf-model.hh"
 
 #include <QDebug>
+#include <QFileInfo>
 #include <QXmlStreamReader>
 #include <QFile>
+#include <QDir>
 
 #include "utils/tango-colors.hh"
+
 
 CConfModel::CConfModel(const QString & filename, QObject *parent)
   : QAbstractTableModel(parent)
@@ -30,7 +33,7 @@ CConfModel::CConfModel(const QString & filename, QObject *parent)
   , m_rows()
   , m_originalValues()
   , m_rowCount(0)
-  , m_columnCount(4)
+  , m_columnCount(5)
 {
   load(filename);
 }
@@ -54,6 +57,8 @@ QVariant CConfModel::headerData (int section, Qt::Orientation orientation, int r
 	  return tr("Parameter");
 	case 3:
 	  return tr("Value");
+	case 4:
+	  return tr("Default");
 	default:
 	  return QVariant();
         }
@@ -80,6 +85,8 @@ QVariant CConfModel::data(const QModelIndex &index, int role) const
 	    return data(index, ParameterRole);
 	  case 3:
 	    return data(index, ValueRole);
+	  case 4:
+	    return data(index, DefaultValueRole);
 
 	  default:
 	    return QVariant();
@@ -99,20 +106,38 @@ QVariant CConfModel::data(const QModelIndex &index, int role) const
     case ValueRole:
       return m_rows[index.row()][3];
 
+    case DefaultValueRole:
+      if (m_rows[index.row()].count() >= 5)
+        return m_rows[index.row()][4];
+      else
+        return QVariant();
+
     case Qt::EditRole:
       return  data(index, Qt::DisplayRole);
 
     case Qt::BackgroundRole:
-      return !m_originalValues[index.row()].isEmpty() ? _TangoChameleon1 : QVariant();
+      if (!m_originalValues[index.row()].isEmpty())
+        {
+          return _TangoChameleon1; // value has been modified by user
+        }
+      if (!data(index, DefaultValueRole).isNull() && data(index, DefaultValueRole) != data(index, ValueRole))
+        {
+          return _TangoPlum1; // value is different from default value
+        }
+      return QVariant(); // value is equal to default and has not been modified
 
     case Qt::ToolTipRole:
       if (index.column() == 3)
-	return !m_originalValues[index.row()].isEmpty() ? tr("Original value: %1").arg(m_originalValues[index.row()]) : QVariant();
+        {
+          return !m_originalValues[index.row()].isEmpty() ? tr("Original value: %1").arg(m_originalValues[index.row()]) : QVariant();
+        }
       else
-	return QString("%1 / %2 / %3")
-	  .arg(data(index, CategoryRole).toString())
-	  .arg(data(index, SubCategoryRole).toString())
-	  .arg(data(index, ParameterRole).toString());
+        {
+          return QString("%1 / %2 / %3")
+            .arg(data(index, CategoryRole).toString())
+            .arg(data(index, SubCategoryRole).toString())
+            .arg(data(index, ParameterRole).toString());
+        }
 
     default:
       break;
@@ -127,30 +152,30 @@ bool CConfModel::setData(const QModelIndex & index, const QVariant & value, int 
     {
     case Qt::EditRole:
       {
-	m_rows[index.row()][index.column()] = value.toString();
+        m_rows[index.row()][index.column()] = value.toString();
 
-	const QString param = QString("/Conf/%1/%2/%3::false")
-	  .arg(m_rows[index.row()][0])
-	  .arg(m_rows[index.row()][1])
-	  .arg(m_rows[index.row()][2]);
+        const QString param = QString("/Conf/%1/%2/%3::false")
+          .arg(m_rows[index.row()][0])
+          .arg(m_rows[index.row()][1])
+          .arg(m_rows[index.row()][2]);
 
-	const QRegExp rxParam(QString("%1=([^<]+)").arg(param));
-	rxParam.indexIn(m_rawData);
-	const QString oldValue = rxParam.cap(1);
-	const QString newValue = value.toString();
+        const QRegExp rxParam(QString("%1=([^<]+)").arg(param));
+        rxParam.indexIn(m_rawData);
+        const QString oldValue = rxParam.cap(1);
+        const QString newValue = value.toString();
 
-	if (oldValue != newValue)
-	  {
-	    if (m_originalValues[index.row()].isEmpty())
-	      {
-		m_originalValues[index.row()] = oldValue;
-	      }
-	    m_rawData.replace(QString("%1=%2").arg(param).arg(oldValue),
-			      QString("%1=%2").arg(param).arg(value.toString()));
+        if (oldValue != newValue)
+          {
+            if (m_originalValues[index.row()].isEmpty())
+              {
+                m_originalValues[index.row()] = oldValue;
+              }
+            m_rawData.replace(QString("%1=%2").arg(param).arg(oldValue),
+                              QString("%1=%2").arg(param).arg(value.toString()));
 
-	    emit(editedValueCountChanged(editedValuesCount()));
-	    emit(dataChanged(index, index));
-	  }
+            emit(editedValueCountChanged(editedValuesCount()));
+            emit(dataChanged(index, index));
+          }
       }
       return true;
 
@@ -163,16 +188,29 @@ bool CConfModel::setData(const QModelIndex & index, const QVariant & value, int 
 
 void CConfModel::addRow(const QStringList & row)
 {
-  if (row.count() != columnCount())
-    {
-      qWarning() << "Invalid row: " << row;
-      return;
-    }
-
   m_rows << row;
   m_originalValues << "";
   ++m_rowCount;
 }
+
+void CConfModel::updateLocalConfRow(const QStringList & p_originalConfValues)
+{
+  // find corresponding row in model
+  for (int i = 0; i < m_rows.count(); ++i)
+    {
+      // Check that columns "category", "subcategory" and "parameter"
+      // are the same so that the last item of p_originalConfValues can be considered
+      // as the default value for the LocalConf.xml that is in m_rows
+      if (m_rows[i][0] == p_originalConfValues[0] &&   // category
+          m_rows[i][1] == p_originalConfValues[1] &&   // subcategory
+          m_rows[i][2] == p_originalConfValues[2])     // parameter
+        {
+          m_rows[i] << p_originalConfValues[3];
+          break;
+        }
+    }
+}
+
 
 int CConfModel::rowCount(const QModelIndex &index) const
 {
@@ -200,39 +238,168 @@ void CConfModel::load(const QString & filename)
   m_rawData = in.readAll();
   file.close();
 
-  QXmlStreamReader xml(VitToXml(m_rawData));
+  if (QFileInfo(filename).baseName().contains("localconf", Qt::CaseInsensitive))
+    {
+      qDebug() << "Opening " << filename << " as Vit config file";
+      parseLocalConfData(VitToXml(m_rawData));
+
+      // look for potential LocalConf.xml.new in same path
+      const QString originalLocalConf = QFileInfo(filename).absolutePath() + QDir::separator() + "LocalConf.xml.new";
+
+      parseOriginalLocalConfData(VitToXml(m_rawData));
+    }
+  else
+    {
+      qDebug() << "Opening " << filename << " as standard xml file";
+      parseXmlData(m_rawData);
+    }
+}
+
+void CConfModel::parseXmlData(const QString & p_data)
+{
+  QString category, subcategory, key, value;
+
+  QXmlStreamReader xml(p_data);
+
+  while (!xml.atEnd())
+    {
+      xml.readNext();
+
+      //qDebug() << "name " << xml.name();
+      //qDebug() << "text " << xml.text();
+      //qDebug() << "start " << xml.isStartElement();
+      //qDebug() << "end " << xml.isEndElement();
+
+      if (xml.isStartElement())
+        {
+          category = xml.name().toString();
+          //qDebug() << "start category " << category;
+
+          while (!xml.atEnd())
+            {
+              xml.readNext();
+
+              if (xml.isEndElement() && xml.name().toString() == category) // reach end tag of parent category
+                {
+                  //qDebug() << "stop parsing subcategories of category " << category;
+                  break;
+                }
+
+              if (xml.isStartElement())
+                {
+                  subcategory = xml.name().toString();
+                  qDebug() << "start subcategory " << subcategory;
+
+                  QStringList attributes;
+                  foreach (const QXmlStreamAttribute & attribute, xml.attributes())
+                    {
+                      //qDebug() << xml.name() << " with attribute " << attribute.name();
+
+                      attributes << QString("[%1 = %2]")
+                        .arg(attribute.name().toString())
+                        .arg(attribute.value().toString());
+                    }
+
+                  key = attributes.join(" ");
+
+                  xml.readNext();
+
+                  value = xml.text().toString();
+
+                  if (!category.isEmpty() && !value.isEmpty())
+                    {
+                      //qDebug() << "category " << category;
+                      //qDebug() << "subcategory " << subcategory;
+                      //qDebug() << "key " << key;
+                      //qDebug() << "value " << value;
+
+                      addRow(QStringList() << category << subcategory << key << value);
+                    }
+                }
+            }
+        }
+    }
+
+
+  if (xml.hasError())
+    {
+      qWarning() << tr("Badly formed xml document");
+      qWarning() << tr("Error: %1").arg(xml.errorString());
+    }
+}
+
+void CConfModel::parseLocalConfData(const QString & p_data)
+{
+  QXmlStreamReader xml(p_data);
   while (!xml.atEnd())
     {
       xml.readNext();
       const QString str = xml.text().toString();
       if (!str.isEmpty())
-	{
-	  QStringList tokens = str.split("=");
-	  if (tokens.size() > 1)
-	    {
-	      QString value = tokens[1];
-	      QStringList tokens2 = tokens[0].split("/");
-	      if (tokens2.size() > 4)
-		{
-		  QString category = tokens2[2];
-		  QString subcategory = tokens2[3];
-		  QString key = tokens2[4].remove("::false");
+        {
+          QStringList tokens = str.split("=");
+          if (tokens.size() > 1)
+            {
+              QString value = tokens[1];
+              QStringList tokens2 = tokens[0].split("/");
+              if (tokens2.size() > 4)
+                {
+                  QString category = tokens2[2];
+                  QString subcategory = tokens2[3];
+                  QString key = tokens2[4].remove("::false");
 
-		  addRow(QStringList() << category
-			 << subcategory
-			 << key
-			 << value);
-		}
-	    }
-	}
+                  addRow(QStringList() << category
+                         << subcategory
+                         << key
+                         << value);
+                }
+            }
+        }
     }
 
   if (xml.hasError())
     {
-      qWarning() << tr("Badly formed xml document: %1").arg(filename);
+      qWarning() << tr("Badly formed xml document");
       qWarning() << tr("Error: %1").arg(xml.errorString());
     }
 }
+
+void CConfModel::parseOriginalLocalConfData(const QString & p_data)
+{
+  QXmlStreamReader xml(p_data);
+  while (!xml.atEnd())
+    {
+      xml.readNext();
+      const QString str = xml.text().toString();
+      if (!str.isEmpty())
+        {
+          QStringList tokens = str.split("=");
+          if (tokens.size() > 1)
+            {
+              QString value = tokens[1];
+              QStringList tokens2 = tokens[0].split("/");
+              if (tokens2.size() > 4)
+                {
+                  QString category = tokens2[2];
+                  QString subcategory = tokens2[3];
+                  QString key = tokens2[4].remove("::false");
+
+                  updateLocalConfRow(QStringList() << category
+                                     << subcategory
+                                     << key
+                                     << value);
+                }
+            }
+        }
+    }
+
+  if (xml.hasError())
+    {
+      qWarning() << tr("Badly formed xml document");
+      qWarning() << tr("Error: %1").arg(xml.errorString());
+    }
+}
+
 
 Qt::ItemFlags CConfModel::flags(const QModelIndex & index) const
 {
@@ -250,7 +417,7 @@ QString CConfModel::VitToXml(const QString & vit)
   lines.insert(lines.begin() + 1, "<Settings>");
   lines.insert(lines.end(), "</Settings>");
 
-  // Ensure xml nodes start with letters 
+  // Ensure xml nodes start with letters
   QString xml = lines.join("\n");
 
   xml.replace("<2", "<Two");
