@@ -240,7 +240,6 @@ void CConfModel::load(const QString & filename)
 
   if (QFileInfo(filename).baseName().contains("localconf", Qt::CaseInsensitive))
     {
-      qDebug() << "Opening " << filename << " as Vit config file";
       parseLocalConfData(VitToXml(m_rawData));
 
       // look for potential LocalConf.xml.new in same path
@@ -288,7 +287,7 @@ void CConfModel::parseXmlData(const QString & p_data)
               if (xml.isStartElement())
                 {
                   subcategory = xml.name().toString();
-                  qDebug() << "start subcategory " << subcategory;
+                  //qDebug() << "start subcategory " << subcategory;
 
                   QStringList attributes;
                   foreach (const QXmlStreamAttribute & attribute, xml.attributes())
