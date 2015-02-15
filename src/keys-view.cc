@@ -56,6 +56,7 @@ CKeysView::CKeysView(QWidget *parent)
                           QAbstractItemView::DoubleClicked);
   m_view->setSortingEnabled(true);
   m_view->verticalHeader()->setVisible(false);
+  m_view->verticalHeader()->setDefaultSectionSize(50);
 
   QAction *action = new QAction(tr("&Adjust columns"), this);
   connect(action, SIGNAL(triggered()),
