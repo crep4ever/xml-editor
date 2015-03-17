@@ -227,7 +227,7 @@ int CConfModel::columnCount(const QModelIndex &index) const
 
 void CConfModel::load(const QString & filename)
 {
-  const bool vitFile = QFileInfo(filename).baseName().contains("localconf", Qt::CaseInsensitive);
+  const bool vitFile = QFileInfo(filename).baseName().contains("localconf", Qt::CaseInsensitive) || QFileInfo(filename).baseName().contains("persistentconf", Qt::CaseInsensitive);
 
   if (!vitFile)
     {
