@@ -350,10 +350,14 @@ void CMainWindow::open(const QString & filename)
 	  m_proxy, SLOT(setFilterWildcard(const QString &)));
 
   m_mainWidget->setCurrentIndex(1);
+
   m_saveAsAct->setEnabled(true);
+
 
   statusBar()->showMessage(filename);
   writeSettings(); // updates openPath setting
+
+  m_keysView->setFocus();
 }
 
 void CMainWindow::open()
