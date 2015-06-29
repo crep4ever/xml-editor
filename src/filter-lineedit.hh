@@ -94,6 +94,9 @@ public:
     /// when clicking on the CMagButton on the left.
     void addAction(QAction *action);
 
+public slots:
+    void filterModifiedValues();
+
 private:
     QMenu* m_menu;
 };
