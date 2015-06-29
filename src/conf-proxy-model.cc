@@ -23,6 +23,7 @@ CConfProxyModel::~CConfProxyModel()
 void CConfProxyModel::setFilterWildcard(const QString &filterString)
 {
   m_filterString = filterString;
+  m_filterString.replace("*", " ");
 
   clearKeywordFilter();
 
