@@ -341,10 +341,10 @@ void CMainWindow::open(const QString & filename)
 	  this, SLOT(setModified(int)));
 
   connect(m_categoriesView, SIGNAL(categoryFilterChanged(const QString &)),
-	  m_proxy, SLOT(setFilterFixedString(const QString &)));
+	  m_proxy, SLOT(setFilterWildcard(const QString &)));
 
   connect(m_categoriesView, SIGNAL(subcategoryFilterChanged(const QString &)),
-	  m_proxy, SLOT(setFilterFixedString(const QString &)));
+	  m_proxy, SLOT(setFilterWildcard(const QString &)));
 
   connect(m_keysView, SIGNAL(parameterFilterChanged(const QString &)),
 	  m_proxy, SLOT(setFilterWildcard(const QString &)));
