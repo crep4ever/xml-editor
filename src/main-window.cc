@@ -33,7 +33,6 @@
 #include <QSplitter>
 #include <QLabel>
 #include <QStackedWidget>
-#include <QSortFilterProxyModel>
 #include <QDebug>
 
 #include "preferences.hh"
@@ -41,7 +40,7 @@
 #include "conf-model.hh"
 #include "categories-view.hh"
 #include "keys-view.hh"
-
+#include "conf-proxy-model.hh"
 #include "config.hh"
 
 CMainWindow::CMainWindow(QWidget *parent)
@@ -327,7 +326,7 @@ void CMainWindow::open(const QString & filename)
     }
 
   m_model = new CConfModel(filename);
-  m_proxy = new QSortFilterProxyModel(this);
+  m_proxy = new CConfProxyModel(this);
   m_proxy->setSourceModel(m_model);
   m_proxy->setSortLocaleAware(true);
   m_proxy->setDynamicSortFilter(true);
@@ -342,19 +341,23 @@ void CMainWindow::open(const QString & filename)
 	  this, SLOT(setModified(int)));
 
   connect(m_categoriesView, SIGNAL(categoryFilterChanged(const QString &)),
-	  m_proxy, SLOT(setFilterFixedString(const QString &)));
+	  m_proxy, SLOT(setFilterWildcard(const QString &)));
 
   connect(m_categoriesView, SIGNAL(subcategoryFilterChanged(const QString &)),
-	  m_proxy, SLOT(setFilterFixedString(const QString &)));
+	  m_proxy, SLOT(setFilterWildcard(const QString &)));
 
   connect(m_keysView, SIGNAL(parameterFilterChanged(const QString &)),
-	  m_proxy, SLOT(setFilterFixedString(const QString &)));
+	  m_proxy, SLOT(setFilterWildcard(const QString &)));
 
   m_mainWidget->setCurrentIndex(1);
+
   m_saveAsAct->setEnabled(true);
+
 
   statusBar()->showMessage(filename);
   writeSettings(); // updates openPath setting
+
+  m_keysView->setFocus();
 }
 
 void CMainWindow::open()

@@ -25,6 +25,7 @@
 class QSortFilterProxyModel;
 class QTableView;
 class QPushButton;
+class CFilterLineEdit;
 
 /*!
   \file keys-view.hh
@@ -54,6 +55,8 @@ public:
 
   void reset();
 
+  void setFocus();
+
 public slots:
   void resizeColumns();
 
@@ -65,6 +68,7 @@ private slots:
 
 private:
   QTableView *m_view;
+  CFilterLineEdit *m_filterLineEdit;
   QPushButton *m_revertChangesButton;
 };
 

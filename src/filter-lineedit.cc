@@ -166,6 +166,11 @@ CFilterLineEdit::CFilterLineEdit(QWidget *parent)
   addWidget(clearButton, RightSide);
   addWidget(magButton, LeftSide);
 
+  QAction *action = new QAction(tr("Filter modified values"), this);
+  action->setStatusTip(tr("Filter modified values"));
+  connect(action, SIGNAL(triggered()), SLOT(filterModifiedValues()));
+  addAction(action);
+
   updateTextMargins();
   setInactiveText(tr("Filter"));
 }
@@ -177,3 +182,22 @@ void CFilterLineEdit::addAction(QAction* action)
 {
   m_menu->addAction(action);
 }
+
+void CFilterLineEdit::filterModifiedValues()
+{
+    QString filter = text();
+
+    if (filter.contains(" :modified"))
+    {
+        filter.remove(" :modified");
+        filter += " !:modified";
+    }
+    else
+    {
+        filter.remove(" !:modified");
+        filter += " :modified";
+    }
+
+    setText(filter);
+}
+

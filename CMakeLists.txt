@@ -23,6 +23,7 @@ set(XML_EDITOR_SOURCES
   src/conf-model.cc
   src/categories-view.cc
   src/keys-view.cc
+  src/conf-proxy-model.cc
   )
 
 # header (moc)
@@ -36,6 +37,7 @@ set(XML_EDITOR_QT_HEADER
   src/home.hh
   src/categories-view.hh
   src/keys-view.hh
+  src/conf-proxy-model.hh
   )
 
 # resources (rcs)

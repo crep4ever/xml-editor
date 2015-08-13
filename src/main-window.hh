@@ -23,7 +23,7 @@
 
 class QToolBar;
 class QStackedWidget;
-class QSortFilterProxyModel;
+class CConfProxyModel;
 class CConfModel;
 class CCategoriesView;
 class CKeysView;
@@ -82,7 +82,7 @@ private:
   QStackedWidget *m_mainWidget;
   QToolBar *m_mainToolBar;
   CConfModel *m_model;
-  QSortFilterProxyModel *m_proxy;
+  CConfProxyModel *m_proxy;
   CCategoriesView *m_categoriesView;
   CKeysView *m_keysView;
 

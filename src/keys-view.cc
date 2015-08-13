@@ -31,10 +31,11 @@
 CKeysView::CKeysView(QWidget *parent)
   : QWidget(parent)
   , m_view(0)
+  , m_filterLineEdit(0)
   , m_revertChangesButton(0)
 {
-  CFilterLineEdit *filterLineEdit = new CFilterLineEdit;
-  connect(filterLineEdit, SIGNAL(textChanged(const QString &)),
+  m_filterLineEdit = new CFilterLineEdit;
+  connect(m_filterLineEdit, SIGNAL(textChanged(const QString &)),
           this, SIGNAL(parameterFilterChanged(const QString &)));
 
   m_revertChangesButton = new QPushButton(tr("Revert changes"));
@@ -43,7 +44,7 @@ CKeysView::CKeysView(QWidget *parent)
 
 
   QLayout *headerLayout = new QHBoxLayout;
-  headerLayout->addWidget(filterLineEdit);
+  headerLayout->addWidget(m_filterLineEdit);
   headerLayout->addWidget(m_revertChangesButton);
 
   m_view = new QTableView;
@@ -116,4 +117,9 @@ void CKeysView::updateRevertChangesLabel(int count)
       m_revertChangesButton->setText(tr("Revert changes (%1)").arg(count));
       m_revertChangesButton->setEnabled(true);
     }
+}
+
+void CKeysView::setFocus()
+{
+  m_filterLineEdit->setFocus();
 }
