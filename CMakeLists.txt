@@ -6,14 +6,14 @@ set(BUILD_DIR ${CMAKE_CURRENT_BINARY_DIR})
 
 set(CMAKE_MODULE_PATH "${SOURCE_DIR}/cmake/")
 
-if(NOT EXISTS ${CMAKE_MODULE_PATH}/xml-editor-config.cmake)
-  message(FATAL_ERROR "Cannot find: ${CMAKE_MODULE_PATH}/xml-editor-config.cmake")
+if(NOT EXISTS ${CMAKE_MODULE_PATH}/conf-editor-config.cmake)
+  message(FATAL_ERROR "Cannot find: ${CMAKE_MODULE_PATH}/conf-editor-config.cmake")
 endif()
 
-include(${CMAKE_MODULE_PATH}/xml-editor-config.cmake)
+include(${CMAKE_MODULE_PATH}/conf-editor-config.cmake)
 
 # {{{ Sources
-set(XML_EDITOR_SOURCES
+set(CONF_EDITOR_SOURCES
   src/main.cc
   src/main-window.cc
   src/preferences.cc
@@ -27,7 +27,7 @@ set(XML_EDITOR_SOURCES
   )
 
 # header (moc)
-set(XML_EDITOR_QT_HEADER
+set(CONF_EDITOR_QT_HEADER
   src/main-window.hh
   src/preferences.hh
   src/utils/lineedit.hh
@@ -41,8 +41,8 @@ set(XML_EDITOR_QT_HEADER
   )
 
 # resources (rcs)
-set(XML_EDITOR_RCS
-  icons/xml-editor/xml.qrc
+set(CONF_EDITOR_RCS
+  icons/conf-editor/xml.qrc
   icons/tango/tango.qrc
   )
 
@@ -59,14 +59,14 @@ include_directories(
   )
 
 # process Qt special files
-qt4_wrap_cpp(XML_EDITOR_MOCS ${XML_EDITOR_QT_HEADER})
-qt4_add_resources(XML_EDITOR_RESSOURCES ${XML_EDITOR_RCS})
+qt4_wrap_cpp(CONF_EDITOR_MOCS ${CONF_EDITOR_QT_HEADER})
+qt4_add_resources(CONF_EDITOR_RESSOURCES ${CONF_EDITOR_RCS})
 
 # generating executable
-add_executable(${XML_EDITOR_APPLICATION_NAME} WIN32
-  ${XML_EDITOR_SOURCES}
-  ${XML_EDITOR_MOCS}
-  ${XML_EDITOR_RESSOURCES}
+add_executable(${CONF_EDITOR_APPLICATION_NAME} WIN32
+  ${CONF_EDITOR_SOURCES}
+  ${CONF_EDITOR_MOCS}
+  ${CONF_EDITOR_RESSOURCES}
   ${COMPILED_TRANSLATIONS}
   )
 
@@ -76,14 +76,14 @@ endif(WIN32)
 
 list(APPEND LIBRARIES ${QT_LIBRARIES} ${OpenCV_LIBS})
 
-target_link_libraries(${XML_EDITOR_APPLICATION_NAME} ${LIBRARIES})
+target_link_libraries(${CONF_EDITOR_APPLICATION_NAME} ${LIBRARIES})
 
 # {{{ Internationalization
 set (TRANSLATIONS
-  lang/xml-editor_fr.ts)
+  lang/conf-editor_fr.ts)
 
 set (COMPILED_TRANSLATIONS
-  lang/xml-editor_fr.qm)
+  lang/conf-editor_fr.qm)
 
 add_custom_target(
   translations_target
@@ -93,22 +93,22 @@ add_custom_target(
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 #uncomment and run `make translations_target` to update translations ts files from sources
 #warning, if uncommented, running make clean will remove ts files
-#qt4_create_translation(COMPILED_TRANSLATIONS ${XML_EDITOR_SOURCES} ${TRANSLATIONS} )
+#qt4_create_translation(COMPILED_TRANSLATIONS ${CONF_EDITOR_SOURCES} ${TRANSLATIONS} )
 # }}}
 
 # {{{ Manpages
 if(GENERATE_MANPAGES)
 
-  set(XML_EDITOR_MAN_SRCS
-    ${SOURCE_DIR}/manpages/xml-editor.1.txt
+  set(CONF_EDITOR_MAN_SRCS
+    ${SOURCE_DIR}/manpages/conf-editor.1.txt
     )
 
-  set(XML_EDITOR_MAN_LANGS default fr)
+  set(CONF_EDITOR_MAN_LANGS default fr)
 
-  foreach(lang ${XML_EDITOR_MAN_LANGS})
+  foreach(lang ${CONF_EDITOR_MAN_LANGS})
 
-    foreach(txtfile ${XML_EDITOR_MAN_SRCS})
-      # figure the base name of the file (ie "xml-editor.1")
+    foreach(txtfile ${CONF_EDITOR_MAN_SRCS})
+      # figure the base name of the file (ie "conf-editor.1")
       GET_FILENAME_COMPONENT(tmpname ${txtfile} NAME)
       string(REGEX REPLACE ".txt\$" "" basename ${tmpname})
 
@@ -170,17 +170,17 @@ endif()
 # }}}
 
 # {{{ Installation
-install(TARGETS ${XML_EDITOR_APPLICATION_NAME} RUNTIME DESTINATION bin)
+install(TARGETS ${CONF_EDITOR_APPLICATION_NAME} RUNTIME DESTINATION bin)
 if(GENERATE_MANPAGES)
   if(COMPRESS_MANPAGES)
     set(regex "\\.(xml|txt|[0-9])$")
   else()
     set(regex "\\.(xml|txt|gz)$")
   endif()
-  install(DIRECTORY ${BUILD_DIR}/${relpath}/ DESTINATION ${XML_EDITOR_MAN_PATH}
+  install(DIRECTORY ${BUILD_DIR}/${relpath}/ DESTINATION ${CONF_EDITOR_MAN_PATH}
     REGEX ${regex} EXCLUDE)
 endif()
-install(FILES ${XML_EDITOR_APPLICATION_NAME}.desktop DESTINATION share/applications)
-install(FILES icons/xml-editor/src/xml-editor.svg DESTINATION share/icons)
-install(FILES ${COMPILED_TRANSLATIONS} DESTINATION ${XML_EDITOR_DATA_PATH}/lang)
+install(FILES ${CONF_EDITOR_APPLICATION_NAME}.desktop DESTINATION share/applications)
+install(FILES icons/conf-editor/src/conf-editor.svg DESTINATION share/icons)
+install(FILES ${COMPILED_TRANSLATIONS} DESTINATION ${CONF_EDITOR_DATA_PATH}/lang)
 # }}}
