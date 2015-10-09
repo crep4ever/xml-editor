@@ -36,7 +36,6 @@
 #include <QDebug>
 
 #include "preferences.hh"
-#include "home.hh"
 #include "conf-model.hh"
 #include "categories-view.hh"
 #include "keys-view.hh"
@@ -45,16 +44,16 @@
 
 CMainWindow::CMainWindow(QWidget *parent)
 : QMainWindow(parent)
-  , m_mainWidget(new QStackedWidget(this))
-  , m_mainToolBar(0)
-  , m_model(0)
-  , m_proxy(0)
+, m_mainWidget(new QStackedWidget(this))
+, m_mainToolBar(0)
+, m_model(0)
+, m_proxy(0)
 , m_categoriesView(0)
-  , m_keysView(0)
+, m_keysView(0)
 , m_isToolBarDisplayed(true)
-  , m_isStatusBarDisplayed(true)
+, m_isStatusBarDisplayed(true)
 , m_openPath(QDir::homePath())
-  , m_savePath(QDir::homePath())
+, m_savePath(QDir::homePath())
 {
   setWindowTitle(QApplication::applicationName());
   setWindowIcon(QIcon(":/icons/xml-editor/src/xml-editor.svg"));
@@ -73,11 +72,6 @@ CMainWindow::CMainWindow(QWidget *parent)
   splitter->setStretchFactor(0, 10);
   splitter->setStretchFactor(1, 6);
 
-  CHome *home = new CHome(this);
-  connect(home, SIGNAL(requestEditFile(const QString &)),
-	  this, SLOT(open(const QString &)));
-
-  m_mainWidget->addWidget(home);
   m_mainWidget->addWidget(splitter);
 
   setCentralWidget(m_mainWidget);
@@ -108,10 +102,6 @@ void CMainWindow::readSettings(bool firstLaunch)
   setStatusBarDisplayed(settings.value("statusBar", true).toBool());
   setToolBarDisplayed(settings.value("toolBar", true).toBool());
   settings.endGroup();
-
-  settings.beginGroup("home");
-  m_recentPaths = settings.value("recent-paths", QStringList()).toStringList();
-  settings.endGroup();
 }
 
 void CMainWindow::writeSettings()
@@ -126,20 +116,6 @@ void CMainWindow::writeSettings()
     }
   settings.setValue("openPath", m_openPath);
   settings.setValue("savePath", m_savePath);
-  settings.endGroup();
-
-  settings.beginGroup("home");
-  QStringList recentFiles;
-  const int max = settings.value("max-recent-files", 5).toInt();
-  for (int i = 0; i < max; ++i)
-    {
-      if (i >= m_recentPaths.count())
-	break;
-
-      recentFiles << m_recentPaths[i];
-    }
-
-  settings.setValue("recent-paths", recentFiles);
   settings.endGroup();
 }
 
@@ -164,12 +140,6 @@ void CMainWindow::createActions()
   m_saveAsAct->setIcon(QIcon::fromTheme("document-save-as", QIcon(":/icons/tango/src/document-save-as.svg")));
   m_saveAsAct->setStatusTip(tr("Save the current data file with a different name"));
   connect(m_saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
-
-  m_homeAct = new QAction(tr("&Home"), this);
-  m_homeAct->setShortcut(QKeySequence::SaveAs);
-  m_homeAct->setIcon(QIcon::fromTheme("go-home", QIcon(":/icons/tango/src/go-home.svg")));
-  m_homeAct->setStatusTip(tr("Return to welcome screen"));
-  connect(m_homeAct, SIGNAL(triggered()), this, SLOT(home()));
 
   m_aboutAct = new QAction(tr("&About"), this);
   m_aboutAct->setIcon(QIcon::fromTheme("help-about", QIcon(":/icons/tango/src/help-about.svg")));
@@ -252,7 +222,6 @@ void CMainWindow::createToolBar()
   m_mainToolBar = new QToolBar(tr("Main"), this);
   m_mainToolBar->setMovable(false);
   m_mainToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-  m_mainToolBar->addAction(m_homeAct);
   m_mainToolBar->addSeparator();
   m_mainToolBar->addAction(m_openAct);
   m_mainToolBar->addAction(m_saveAct);
@@ -261,25 +230,6 @@ void CMainWindow::createToolBar()
   addToolBar(m_mainToolBar);
 
   setUnifiedTitleAndToolBarOnMac(true);
-}
-
-void CMainWindow::home()
-{
-  if (isWindowModified())
-    {
-      if (QMessageBox::question(this, windowTitle(), tr("All your changes to %1 will be lost. "
-							"Do you want to save your changes?").arg(m_model->filename()),
-				QMessageBox::Yes,
-				QMessageBox::No,
-				QMessageBox::NoButton) == QMessageBox::Yes)
-	save();
-
-    }
-
-  m_mainWidget->setCurrentIndex(0);
-  setModified(0);
-  m_saveAct->setEnabled(false);
-  m_saveAsAct->setEnabled(false);
 }
 
 void CMainWindow::preferences()

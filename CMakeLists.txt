@@ -19,7 +19,6 @@ set(CONF_EDITOR_SOURCES
   src/preferences.cc
   src/utils/lineedit.cc
   src/filter-lineedit.cc
-  src/home.cc
   src/conf-model.cc
   src/categories-view.cc
   src/keys-view.cc
@@ -34,7 +33,6 @@ set(CONF_EDITOR_QT_HEADER
   src/utils/lineedit_p.hh
   src/filter-lineedit.hh
   src/conf-model.hh
-  src/home.hh
   src/categories-view.hh
   src/keys-view.hh
   src/conf-proxy-model.hh

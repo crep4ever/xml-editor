@@ -50,7 +50,6 @@ CConfigDialog::CConfigDialog(QWidget* parent)
   m_contentsWidget->setFixedWidth(110);
 
   m_pagesWidget = new QStackedWidget;
-  m_pagesWidget->addWidget(new CHomePage);
   m_pagesWidget->addWidget(new CApplicationPage);
 
 
@@ -75,12 +74,6 @@ CConfigDialog::CConfigDialog(QWidget* parent)
 
 void CConfigDialog::createIcons()
 {
-  QListWidgetItem *scanFilesButton = new QListWidgetItem(m_contentsWidget);
-  scanFilesButton->setIcon(QIcon::fromTheme("go-home", QIcon(":/icons/tango/src/go-home.svg")));
-  scanFilesButton->setText(tr("Home"));
-  scanFilesButton->setTextAlignment(Qt::AlignHCenter);
-  scanFilesButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-
   QListWidgetItem *displayButton = new QListWidgetItem(m_contentsWidget);
   displayButton->setIcon(QIcon::fromTheme("preferences-system", QIcon(":/icons/tango/src/preferences-system.svg")));
   displayButton->setText(tr("Application"));
@@ -179,126 +172,3 @@ void CApplicationPage::writeSettings()
   settings.endGroup();
 }
 
-// Scan files Page
-
-CHomePage::CHomePage(QWidget *parent)
-  : CPage(parent)
-  , m_folderList(new QListWidget)
-  , m_recentFilesBox(new QSpinBox)
-{
-  QGroupBox *recentFilesGroupBox = new QGroupBox(tr("Recent files"));
-  QHBoxLayout *recentFilesLayout = new QHBoxLayout;
-  recentFilesLayout->addWidget(new QLabel(tr("Maximum:")));
-  recentFilesLayout->addWidget(m_recentFilesBox);
-  recentFilesLayout->addStretch();
-  recentFilesGroupBox->setLayout(recentFilesLayout);
-
-  QGroupBox *scanFoldersGroupBox = new QGroupBox(tr("Scan folders"));
-  scanFoldersGroupBox->setToolTip(tr("List folders that will be parsed at startup for xml files"));
-
-  m_folderList->setSelectionMode(QAbstractItemView::MultiSelection);
-  m_folderList->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-  QPushButton *addButton = new QPushButton(QIcon::fromTheme("list-add", QIcon(":/icons/tango/src/list-add.svg")), tr("Add"));
-  addButton->setMinimumHeight(30);
-  connect(addButton, SIGNAL(clicked()), this, SLOT(pickFolder()));
-
-  QPushButton *removeButton = new QPushButton(QIcon::fromTheme("list-remove", QIcon(":/icons/tango/src/list-remove.svg")), tr("Remove"));
-  removeButton->setMinimumHeight(30);
-  connect(removeButton, SIGNAL(clicked()), this, SLOT(removeFolder()));
-
-
-  QBoxLayout *actionsLayout = new QHBoxLayout;
-  actionsLayout->addStretch();
-  actionsLayout->addWidget(addButton);
-  actionsLayout->addWidget(removeButton);
-
-  QBoxLayout *folderLayout = new QVBoxLayout;
-  folderLayout->addWidget(m_folderList);
-  folderLayout->addLayout(actionsLayout);
-
-  scanFoldersGroupBox->setLayout(folderLayout);
-
-  QVBoxLayout *layout = new QVBoxLayout;
-  layout->addWidget(recentFilesGroupBox);
-  layout->addWidget(scanFoldersGroupBox);
-  layout->addStretch();
-
-  setLayout(layout);
-
-  readSettings();
-}
-
-void CHomePage::pickFolder()
-{
-  QString path = QFileDialog::getExistingDirectory(this, tr("Select directory"),
-						   QDir::homePath());
-  if (!path.isEmpty())
-    {
-      addFolder(path);
-    }
-}
-
-void CHomePage::addFolder(const QString & path)
-{
-  QFileInfo fileInfo(path);
-
-  QListWidgetItem *item = new QListWidgetItem;
-  item->setIcon(QIcon::fromTheme("folder", QIcon(":/icons/tango/src/folder.svg")));
-  item->setData(Qt::DisplayRole, fileInfo.absoluteFilePath());
-  item->setData(Qt::ToolTipRole, fileInfo.absoluteFilePath());
-  m_folderList->addItem(item);
-}
-
-void CHomePage::removeFolder()
-{
-  QList<QListWidgetItem *> items = m_folderList->selectedItems();
-  foreach (QListWidgetItem *item, items)
-    {
-      m_folderList->removeItemWidget(item);
-      delete item;
-    }
-
-}
-
-void CHomePage::readSettings()
-{
-  QStringList defaultFolderList;
-
-  // production default conf path
-  defaultFolderList <<  "/octopus/conf/";
-
-  // virtual dev os  default conf path
-  defaultFolderList <<  QString("%1/src/devMatrix/Delivery/linux/Debug/conf/").arg(QDir::homePath());
-  defaultFolderList <<  QString("%1/src/devMatrix/Delivery/linux/RelWithDebInfo/conf/").arg(QDir::homePath());
-
-  // devs default conf path
-  defaultFolderList <<  QString("%1/workspace/devMatrix/Delivery/linux/Debug/conf/").arg(QDir::homePath());
-  defaultFolderList <<  QString("%1/workspace/devMatrix/Delivery/linux/RelWithDebInfo/conf/").arg(QDir::homePath());
-
-  QSettings settings;
-  settings.beginGroup("home");
-  QStringList scanPaths = settings.value("scan-paths", defaultFolderList).toStringList();
-  m_recentFilesBox->setValue(settings.value("max-recent-files", 5).toInt());
-  settings.endGroup();
-
-  foreach (const QString & path, scanPaths)
-    {
-      addFolder(path);
-    }
-}
-
-void CHomePage::writeSettings()
-{
-  QStringList paths;
-  for (int i = 0; i < m_folderList->count(); ++i)
-    {
-      paths << m_folderList->item(i)->data(Qt::DisplayRole).toString();
-    }
-
-  QSettings settings;
-  settings.beginGroup("home");
-  settings.setValue("scan-paths", paths);
-  settings.setValue("max-recent-files", m_recentFilesBox->value());
-  settings.endGroup();
-}

@@ -117,29 +117,4 @@ private:
   QCheckBox *m_toolBarCheckBox;
 };
 
-/**
- * \class CHomePage
- * \brief Access home screen settings within CConfigDialog
- */
-class CHomePage : public CPage
-{
-  Q_OBJECT
-
-public:
-  /// Constructor.
-  CHomePage(QWidget *parent = 0);
-
-private slots:
-  void pickFolder();
-  void addFolder(const QString & path);
-  void removeFolder();
-
-private:
-  void readSettings();
-  void writeSettings();
-
-  QListWidget * m_folderList;
-  QSpinBox *m_recentFilesBox;
-};
-
 #endif // __PREFERENCES_HH__

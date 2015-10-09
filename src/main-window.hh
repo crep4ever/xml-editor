@@ -61,7 +61,6 @@ private slots:
   void saveAs();
   void setModified(int);
   // application
-  void home();
   void preferences();
   void setToolBarDisplayed(bool);
   void setStatusBarDisplayed(bool);
@@ -98,7 +97,6 @@ private:
   QAction *m_openAct;
   QAction *m_saveAct;
   QAction *m_saveAsAct;
-  QAction *m_homeAct;
 
   // Settings
   QString m_openPath;
