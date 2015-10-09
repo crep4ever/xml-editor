@@ -56,7 +56,7 @@ CMainWindow::CMainWindow(QWidget *parent)
 , m_savePath(QDir::homePath())
 {
   setWindowTitle(QApplication::applicationName());
-  setWindowIcon(QIcon(":/icons/xml-editor/src/xml-editor.svg"));
+  setWindowIcon(QIcon(":/icons/conf-editor/src/xml-editor.svg"));
 
   createActions();
   createMenus();
@@ -241,10 +241,10 @@ void CMainWindow::preferences()
 
 void CMainWindow::about()
 {
-  QString title(tr("About XML Editor"));
+  QString title(tr("About Conf Editor"));
   QString version = QCoreApplication::applicationVersion();
 
-  QString description(tr("This program allows to edit xml configuration files"));
+  QString description(tr("This program allows to edit configuration files"));
 
   QStringList authorsList = QStringList() << "R. Goffe";
   QString authors = authorsList.join(", ");

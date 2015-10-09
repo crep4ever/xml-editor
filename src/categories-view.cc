@@ -124,50 +124,50 @@ QIcon CCategoriesView::iconFromCategory(const QString & category)
 {
   if (category.contains("Process"))
     {
-      return QIcon(":/icons/xml-editor/src/process.svg");
+      return QIcon(":/icons/conf-editor/src/process.svg");
     }
   else if (category.contains("Display"))
     {
-      return QIcon(":/icons/xml-editor/src/display.svg");
+      return QIcon(":/icons/conf-editor/src/display.svg");
     }
   else if (category.contains("HardwareInterface"))
     {
-      return QIcon(":/icons/xml-editor/src/hardware-interface.svg");
+      return QIcon(":/icons/conf-editor/src/hardware-interface.svg");
     }
   else if (category.contains("Machine"))
     {
-      return QIcon(":/icons/xml-editor/src/machine.svg");
+      return QIcon(":/icons/conf-editor/src/machine.svg");
     }
   else if (category.contains("Vision"))
     {
-      return QIcon(":/icons/xml-editor/src/vision.svg");
+      return QIcon(":/icons/conf-editor/src/vision.svg");
     }
   else if (category.contains("Algo"))
     {
-      return QIcon(":/icons/xml-editor/src/algo.svg");
+      return QIcon(":/icons/conf-editor/src/algo.svg");
     }
   else if (category.contains("Log"))
     {
-      return QIcon(":/icons/xml-editor/src/logs.svg");
+      return QIcon(":/icons/conf-editor/src/logs.svg");
     }
   else if (category.contains("Benchmark"))
     {
-      return QIcon(":/icons/xml-editor/src/benchmarks.svg");
+      return QIcon(":/icons/conf-editor/src/benchmarks.svg");
     }
   else if (category.contains("Cheating"))
     {
-      return QIcon(":/icons/xml-editor/src/warning.svg");
+      return QIcon(":/icons/conf-editor/src/warning.svg");
     }
   else if (category.contains("Performance"))
     {
-      return QIcon(":/icons/xml-editor/src/metrics.svg");
+      return QIcon(":/icons/conf-editor/src/metrics.svg");
     }
   else if (category.contains("System"))
     {
-      return QIcon(":/icons/xml-editor/src/system.svg");
+      return QIcon(":/icons/conf-editor/src/system.svg");
     }
 
-  return QIcon(":/icons/xml-editor/src/tools.svg");
+  return QIcon(":/icons/conf-editor/src/tools.svg");
 }
 
 void CCategoriesView::setModel(CConfModel *model)

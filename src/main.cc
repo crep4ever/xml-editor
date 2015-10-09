@@ -18,18 +18,16 @@
 
 /*!
  * \file main.cc
- * \mainpage XML-editor Documentation
+ * \mainpage conf-editor Documentation
  *
- * The XML-editor application provides a simple way
- * to access and modify values from an XML configuration file.
+ * The conf-editor application provides a simple way
+ * to access and modify values from a configuration file.
  * It is specifically designed for ViT xml format so it's not really
  * generic and portable to other projects.
  *
- * The application features two main screens:
- * \li home page: quick access to recent and xml files
+ * The application features one main screen:
  * \li edit page: complementary views of file contents
  *
- * \image html home.png Home screen
  * \image html edit.png Edit screen
  */
 
@@ -85,7 +83,7 @@ int main(int argc, char *argv[])
 
   // Localization
   QDir translationDirectory;
-  QString translationFilename = QString("xml-editor_%1.qm").arg(QLocale::system().name().split('_').first());
+  QString translationFilename = QString("conf-editor_%1.qm").arg(QLocale::system().name().split('_').first());
   QString directory;
 
   translationDirectory = QDir(XML_EDITOR_DATA_PATH);
