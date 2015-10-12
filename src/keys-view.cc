@@ -26,15 +26,15 @@
 #include <QAction>
 #include <QPushButton>
 
+#include "conf-model.hh"
 #include "filter-lineedit.hh"
 
 CKeysView::CKeysView(QWidget *parent)
 : QWidget(parent)
-, m_view(0)
-, m_filterLineEdit(0)
+, m_view(new QTableView)
+, m_filterLineEdit(new CFilterLineEdit)
 , m_revertChangesButton(0)
 {
-    m_filterLineEdit = new CFilterLineEdit;
     connect(m_filterLineEdit, SIGNAL(textChanged(const QString &)),
             this, SIGNAL(parameterFilterChanged(const QString &)));
 
@@ -42,12 +42,11 @@ CKeysView::CKeysView(QWidget *parent)
     m_revertChangesButton->setIcon(QIcon::fromTheme("document-revert", QIcon(":/icons/tango/src/document-revert.svg")));
     m_revertChangesButton->setEnabled(false);
 
-
     QLayout *headerLayout = new QHBoxLayout;
     headerLayout->addWidget(m_filterLineEdit);
     headerLayout->addWidget(m_revertChangesButton);
 
-    m_view = new QTableView;
+    // View
     m_view->setShowGrid(false);
     m_view->setAlternatingRowColors(true);
     m_view->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -58,11 +57,22 @@ CKeysView::CKeysView(QWidget *parent)
     m_view->setSortingEnabled(true);
     m_view->verticalHeader()->setVisible(false);
 
+    // Context menu
+    m_view->setContextMenuPolicy(Qt::ActionsContextMenu);
+
     QAction *action = new QAction(tr("&Adjust columns"), this);
     connect(action, SIGNAL(triggered()),
             m_view, SLOT(resizeColumnsToContents()));
+    m_view->addAction(action);
 
-    m_view->setContextMenuPolicy(Qt::ActionsContextMenu);
+    action = new QAction(tr("Revert to &original value"), this);
+    connect(action, SIGNAL(triggered()),
+            this, SLOT(revertToOriginalValue()));
+    m_view->addAction(action);
+
+    action = new QAction(tr("Revert to &default value"), this);
+    connect(action, SIGNAL(triggered()),
+            this, SLOT(revertToDefaultValue()));
     m_view->addAction(action);
 
     QBoxLayout *layout = new QVBoxLayout;
@@ -96,6 +106,32 @@ void CKeysView::setModel(QSortFilterProxyModel *model)
             this, SLOT(updateRevertChangesLabel(int)));
 }
 
+QSortFilterProxyModel* CKeysView::proxyModel()
+{
+    Q_ASSERT(m_view);
+
+    QSortFilterProxyModel *proxy = qobject_cast<QSortFilterProxyModel*>(m_view->model());
+    if (!proxy)
+    {
+        qWarning() << "invalid proxy model";
+    }
+
+    return proxy;
+}
+
+CConfModel* CKeysView::sourceModel()
+{
+    Q_ASSERT(proxyModel());
+
+    CConfModel* source = qobject_cast<CConfModel*>(proxyModel()->sourceModel());
+    if (!source)
+    {
+        qWarning() << "invalid source model";
+    }
+
+    return source;
+}
+
 void CKeysView::resizeColumns()
 {
     m_view->setColumnWidth(2, 450);
@@ -121,4 +157,18 @@ void CKeysView::updateRevertChangesLabel(int count)
 void CKeysView::setFocus()
 {
     m_filterLineEdit->setFocus();
+}
+
+void CKeysView::revertToOriginalValue()
+{
+    const QModelIndex & current = m_view->selectionModel()->currentIndex();
+    qDebug() << "revert index " << current << " to orginal value";
+    sourceModel()->revertToOriginalValue(proxyModel()->mapToSource(current));
+}
+
+void CKeysView::revertToDefaultValue()
+{
+    const QModelIndex & current = m_view->selectionModel()->currentIndex();
+    qDebug() << "revert index " << current << " to default value";
+    sourceModel()->revertToDefaultValue(proxyModel()->mapToSource(current));
 }

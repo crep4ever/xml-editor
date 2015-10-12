@@ -26,6 +26,7 @@ class QSortFilterProxyModel;
 class QTableView;
 class QPushButton;
 class CFilterLineEdit;
+class CConfModel;
 
 /*!
   \file keys-view.hh
@@ -53,6 +54,9 @@ public:
 
     void setModel(QSortFilterProxyModel *model);
 
+    QSortFilterProxyModel* proxyModel();
+    CConfModel* sourceModel();
+
     void reset();
 
     void setFocus();
@@ -65,6 +69,8 @@ void parameterFilterChanged(const QString &);
 
 private slots:
 void updateRevertChangesLabel(int count);
+void revertToOriginalValue();
+void revertToDefaultValue();
 
 private:
 QTableView *m_view;

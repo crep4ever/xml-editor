@@ -64,9 +64,10 @@ CMainWindow::CMainWindow(QWidget *parent)
 
     // place elements into the main window
 
-    QSplitter *splitter = new QSplitter;
     m_categoriesView = new CCategoriesView;
     m_keysView = new CKeysView;
+
+    QSplitter *splitter = new QSplitter;
     splitter->addWidget(m_categoriesView);
     splitter->addWidget(m_keysView);
     splitter->setStretchFactor(0, 10);

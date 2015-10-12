@@ -167,6 +167,10 @@ public slots:
  */
 void revert();
 
+void revertToOriginalValue(const QModelIndex & p_index);
+
+void revertToDefaultValue(const QModelIndex & p_index);
+
 private:
 
 QList< QStringList > parseLocalConfData(const QString & p_data);

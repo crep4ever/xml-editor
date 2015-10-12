@@ -415,6 +415,46 @@ void CConfModel::revert()
     emit(editedValueCountChanged(0));
 }
 
+void CConfModel::revertToOriginalValue(const QModelIndex & p_index)
+{
+    if (m_originalValues.isEmpty())
+    {
+        qDebug() << "invalid originalValues";
+        return;
+    }
+
+    const int row = p_index.row();
+    qDebug() << "revertToOriginalValue of row " << row;
+
+    if (row < m_originalValues.size() && !m_originalValues[row].isEmpty())
+    {
+        setData(index(row, 3), m_originalValues[row], Qt::EditRole);
+        m_originalValues[row] = "";
+    }
+}
+
+void CConfModel::revertToDefaultValue(const QModelIndex & p_index)
+{
+    if (m_originalValues.isEmpty())
+    {
+        qDebug() << "invalid originalValues";
+        return;
+    }
+
+    const int row = p_index.row();
+    qDebug() << "revertToDefaultValue of row " << row;
+    qDebug() << "originalValues size" << m_originalValues.size();
+
+    const QVariant & defaultValue = data(index(row, 4));
+
+    if (defaultValue.isValid())
+    {
+        setData(index(row, 3), defaultValue, Qt::EditRole);
+    }
+}
+
+
+
 int CConfModel::editedValuesCount() const
 {
     int count = 0;
