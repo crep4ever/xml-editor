@@ -180,7 +180,7 @@ if(GENERATE_MANPAGES)
   install(DIRECTORY ${BUILD_DIR}/${relpath}/ DESTINATION ${CONF_EDITOR_MAN_PATH}
     REGEX ${regex} EXCLUDE)
 endif()
-install(FILES ${CONF_EDITOR_APPLICATION_NAME}.desktop DESTINATION share/applications)
-install(FILES icons/conf-editor/src/conf-editor.svg DESTINATION share/icons)
+install(FILES conf-editor.desktop DESTINATION share/applications)
+install(FILES icons/conf-editor/src/xml-editor.svg DESTINATION share/icons)
 install(FILES ${COMPILED_TRANSLATIONS} DESTINATION ${CONF_EDITOR_DATA_PATH}/lang)
 # }}}
