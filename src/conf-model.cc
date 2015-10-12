@@ -162,6 +162,11 @@ QVariant CConfModel::data(const QModelIndex &index, int role) const
 
 bool CConfModel::setData(const QModelIndex & p_index, const QVariant & value, int role)
 {
+    if (!p_index.isValid() || p_index.row() >= m_rowCount)
+    {
+        return false;
+    }
+
     const QModelIndex & begin = index(p_index.row(), 0);
     const QModelIndex & end   = index(p_index.row(), m_columnCount - 1);
 
