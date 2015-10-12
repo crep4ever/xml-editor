@@ -38,68 +38,68 @@
 // Config Dialog
 
 CConfigDialog::CConfigDialog(QWidget* parent)
-  : QDialog(parent)
+: QDialog(parent)
 {
-  setWindowTitle(tr("Preferences"));
+    setWindowTitle(tr("Preferences"));
 
-  m_contentsWidget = new QListWidget;
-  m_contentsWidget->setViewMode(QListView::IconMode);
-  m_contentsWidget->setIconSize(QSize(62, 62));
-  m_contentsWidget->setMovement(QListView::Static);
-  m_contentsWidget->setSpacing(12);
-  m_contentsWidget->setFixedWidth(110);
+    m_contentsWidget = new QListWidget;
+    m_contentsWidget->setViewMode(QListView::IconMode);
+    m_contentsWidget->setIconSize(QSize(62, 62));
+    m_contentsWidget->setMovement(QListView::Static);
+    m_contentsWidget->setSpacing(12);
+    m_contentsWidget->setFixedWidth(110);
 
-  m_pagesWidget = new QStackedWidget;
-  m_pagesWidget->addWidget(new CApplicationPage);
+    m_pagesWidget = new QStackedWidget;
+    m_pagesWidget->addWidget(new CApplicationPage);
 
 
-  QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Close);
-  connect(buttons, SIGNAL(rejected()), this, SLOT(close()));
+    QDialogButtonBox *buttons = new QDialogButtonBox(QDialogButtonBox::Close);
+    connect(buttons, SIGNAL(rejected()), this, SLOT(close()));
 
-  createIcons();
-  m_contentsWidget->setCurrentRow(0);
+    createIcons();
+    m_contentsWidget->setCurrentRow(0);
 
-  QBoxLayout *horizontalLayout = new QHBoxLayout;
-  horizontalLayout->addWidget(m_contentsWidget);
-  horizontalLayout->addWidget(m_pagesWidget);
+    QBoxLayout *horizontalLayout = new QHBoxLayout;
+    horizontalLayout->addWidget(m_contentsWidget);
+    horizontalLayout->addWidget(m_pagesWidget);
 
-  QBoxLayout *mainLayout = new QVBoxLayout;
-  mainLayout->addLayout(horizontalLayout);
-  mainLayout->addSpacing(12);
-  mainLayout->addWidget(buttons);
+    QBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addLayout(horizontalLayout);
+    mainLayout->addSpacing(12);
+    mainLayout->addWidget(buttons);
 
-  setLayout(mainLayout);
-  resize(600, 600);
+    setLayout(mainLayout);
+    resize(600, 600);
 }
 
 void CConfigDialog::createIcons()
 {
-  QListWidgetItem *displayButton = new QListWidgetItem(m_contentsWidget);
-  displayButton->setIcon(QIcon::fromTheme("preferences-system", QIcon(":/icons/tango/src/preferences-system.svg")));
-  displayButton->setText(tr("Application"));
-  displayButton->setTextAlignment(Qt::AlignHCenter);
-  displayButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    QListWidgetItem *displayButton = new QListWidgetItem(m_contentsWidget);
+    displayButton->setIcon(QIcon::fromTheme("preferences-system", QIcon(":/icons/tango/src/preferences-system.svg")));
+    displayButton->setText(tr("Application"));
+    displayButton->setTextAlignment(Qt::AlignHCenter);
+    displayButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-  connect(m_contentsWidget,
-          SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)),
-          this, SLOT(changePage(QListWidgetItem*,QListWidgetItem*)));
+    connect(m_contentsWidget,
+            SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)),
+            this, SLOT(changePage(QListWidgetItem*,QListWidgetItem*)));
 }
 
 void CConfigDialog::changePage(QListWidgetItem *current,
-			       QListWidgetItem *previous)
+                               QListWidgetItem *previous)
 {
-  if (!current)
-    current = previous;
+    if (!current)
+        current = previous;
 
-  m_pagesWidget->setCurrentIndex(m_contentsWidget->row(current));
+    m_pagesWidget->setCurrentIndex(m_contentsWidget->row(current));
 }
 
 void CConfigDialog::closeEvent(QCloseEvent *event)
 {
-  Q_UNUSED(event);
-  for ( int i = 0 ; i < m_pagesWidget->count() ; ++i )
+    Q_UNUSED(event);
+    for ( int i = 0 ; i < m_pagesWidget->count() ; ++i )
     {
-      m_pagesWidget->widget(i)->close();
+        m_pagesWidget->widget(i)->close();
     }
 }
 
@@ -107,16 +107,16 @@ void CConfigDialog::closeEvent(QCloseEvent *event)
 // Page
 
 CPage::CPage(QWidget *parent)
-  : QScrollArea(parent)
-  , m_content(new QWidget)
+: QScrollArea(parent)
+, m_content(new QWidget)
 {
-  setWidgetResizable(true);
+    setWidgetResizable(true);
 }
 
 void CPage::closeEvent(QCloseEvent *event)
 {
-  writeSettings();
-  event->accept();
+    writeSettings();
+    event->accept();
 }
 
 void CPage::readSettings()
@@ -127,48 +127,48 @@ void CPage::writeSettings()
 
 void CPage::setLayout(QLayout *layout)
 {
-  m_content->setLayout(layout);
-  setWidget(m_content);
+    m_content->setLayout(layout);
+    setWidget(m_content);
 }
 
 
 // Display Page
 
 CApplicationPage::CApplicationPage(QWidget *parent)
-  : CPage(parent)
+: CPage(parent)
 {
-  QGroupBox *displayApplicationGroupBox = new QGroupBox(tr("Display"));
-  m_statusBarCheckBox = new QCheckBox(tr("Status bar"));
-  m_toolBarCheckBox = new QCheckBox(tr("Tool bar"));
+    QGroupBox *displayApplicationGroupBox = new QGroupBox(tr("Display"));
+    m_statusBarCheckBox = new QCheckBox(tr("Status bar"));
+    m_toolBarCheckBox = new QCheckBox(tr("Tool bar"));
 
-  QVBoxLayout *displayApplicationLayout = new QVBoxLayout;
-  displayApplicationLayout->addWidget(m_statusBarCheckBox);
-  displayApplicationLayout->addWidget(m_toolBarCheckBox);
-  displayApplicationGroupBox->setLayout(displayApplicationLayout);
+    QVBoxLayout *displayApplicationLayout = new QVBoxLayout;
+    displayApplicationLayout->addWidget(m_statusBarCheckBox);
+    displayApplicationLayout->addWidget(m_toolBarCheckBox);
+    displayApplicationGroupBox->setLayout(displayApplicationLayout);
 
-  QVBoxLayout *mainLayout = new QVBoxLayout;
-  mainLayout->addWidget(displayApplicationGroupBox);
-  mainLayout->addStretch();
-  setLayout(mainLayout);
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(displayApplicationGroupBox);
+    mainLayout->addStretch();
+    setLayout(mainLayout);
 
-  readSettings();
+    readSettings();
 }
 
 void CApplicationPage::readSettings()
 {
-  QSettings settings;
-  settings.beginGroup("display");
-  m_statusBarCheckBox->setChecked(settings.value("statusBar", true).toBool());
-  m_toolBarCheckBox->setChecked(settings.value("toolBar", true).toBool());
-  settings.endGroup();
+    QSettings settings;
+    settings.beginGroup("display");
+    m_statusBarCheckBox->setChecked(settings.value("statusBar", true).toBool());
+    m_toolBarCheckBox->setChecked(settings.value("toolBar", true).toBool());
+    settings.endGroup();
 }
 
 void CApplicationPage::writeSettings()
 {
-  QSettings settings;
-  settings.beginGroup("display");
-  settings.setValue("statusBar", m_statusBarCheckBox->isChecked());
-  settings.setValue("toolBar", m_toolBarCheckBox->isChecked());
-  settings.endGroup();
+    QSettings settings;
+    settings.beginGroup("display");
+    settings.setValue("statusBar", m_statusBarCheckBox->isChecked());
+    settings.setValue("toolBar", m_toolBarCheckBox->isChecked());
+    settings.endGroup();
 }
 

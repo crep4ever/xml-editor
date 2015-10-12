@@ -42,41 +42,41 @@ class QGridLayout;
   to only display matching parameters.
 
   \image html categories.png
-*/
+ */
 class CCategoriesView : public QWidget
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  /// Constructor.
-  CCategoriesView(QWidget *parent = 0);
+    /// Constructor.
+    CCategoriesView(QWidget *parent = 0);
 
-  /// Destructor.
-  ~CCategoriesView();
+    /// Destructor.
+    ~CCategoriesView();
 
-  void setModel(CConfModel *model);
+    void setModel(CConfModel *model);
 
-  void reset();
+    void reset();
 
 private slots:
-  void listSubCategories();
-  void filterSubCategories();
-  void resetCategories();
-  void resetSubCategories();
+void listSubCategories();
+void filterSubCategories();
+void resetCategories();
+void resetSubCategories();
 
 
 signals:
-  void categoryFilterChanged(const QString &);
-  void subcategoryFilterChanged(const QString &);
+void categoryFilterChanged(const QString &);
+void subcategoryFilterChanged(const QString &);
 
 private:
-  QIcon iconFromCategory(const QString & category);
+QIcon iconFromCategory(const QString & category);
 
-  QSet<QString> m_categories;
-  QMultiMap<QString, QString> m_subcategories;
+QSet<QString> m_categories;
+QMultiMap<QString, QString> m_subcategories;
 
-  QGridLayout *m_categoriesLayout;
-  QGridLayout *m_subcategoriesLayout;
+QGridLayout *m_categoriesLayout;
+QGridLayout *m_subcategoriesLayout;
 };
 
 #endif  // __CATEGORIES_VIEW_HH__

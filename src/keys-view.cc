@@ -29,46 +29,46 @@
 #include "filter-lineedit.hh"
 
 CKeysView::CKeysView(QWidget *parent)
-  : QWidget(parent)
-  , m_view(0)
-  , m_filterLineEdit(0)
-  , m_revertChangesButton(0)
+: QWidget(parent)
+, m_view(0)
+, m_filterLineEdit(0)
+, m_revertChangesButton(0)
 {
-  m_filterLineEdit = new CFilterLineEdit;
-  connect(m_filterLineEdit, SIGNAL(textChanged(const QString &)),
-          this, SIGNAL(parameterFilterChanged(const QString &)));
+    m_filterLineEdit = new CFilterLineEdit;
+    connect(m_filterLineEdit, SIGNAL(textChanged(const QString &)),
+            this, SIGNAL(parameterFilterChanged(const QString &)));
 
-  m_revertChangesButton = new QPushButton(tr("Revert changes"));
-  m_revertChangesButton->setIcon(QIcon::fromTheme("document-revert", QIcon(":/icons/tango/src/document-revert.svg")));
-  m_revertChangesButton->setEnabled(false);
+    m_revertChangesButton = new QPushButton(tr("Revert changes"));
+    m_revertChangesButton->setIcon(QIcon::fromTheme("document-revert", QIcon(":/icons/tango/src/document-revert.svg")));
+    m_revertChangesButton->setEnabled(false);
 
 
-  QLayout *headerLayout = new QHBoxLayout;
-  headerLayout->addWidget(m_filterLineEdit);
-  headerLayout->addWidget(m_revertChangesButton);
+    QLayout *headerLayout = new QHBoxLayout;
+    headerLayout->addWidget(m_filterLineEdit);
+    headerLayout->addWidget(m_revertChangesButton);
 
-  m_view = new QTableView;
-  m_view->setShowGrid(false);
-  m_view->setAlternatingRowColors(true);
-  m_view->setSelectionMode(QAbstractItemView::SingleSelection);
-  m_view->setSelectionBehavior(QAbstractItemView::SelectRows);
-  m_view->setEditTriggers(QAbstractItemView::SelectedClicked |
-                          QAbstractItemView::EditKeyPressed |
-                          QAbstractItemView::DoubleClicked);
-  m_view->setSortingEnabled(true);
-  m_view->verticalHeader()->setVisible(false);
+    m_view = new QTableView;
+    m_view->setShowGrid(false);
+    m_view->setAlternatingRowColors(true);
+    m_view->setSelectionMode(QAbstractItemView::SingleSelection);
+    m_view->setSelectionBehavior(QAbstractItemView::SelectRows);
+    m_view->setEditTriggers(QAbstractItemView::SelectedClicked |
+                            QAbstractItemView::EditKeyPressed |
+                            QAbstractItemView::DoubleClicked);
+    m_view->setSortingEnabled(true);
+    m_view->verticalHeader()->setVisible(false);
 
-  QAction *action = new QAction(tr("&Adjust columns"), this);
-  connect(action, SIGNAL(triggered()),
-          m_view, SLOT(resizeColumnsToContents()));
+    QAction *action = new QAction(tr("&Adjust columns"), this);
+    connect(action, SIGNAL(triggered()),
+            m_view, SLOT(resizeColumnsToContents()));
 
-  m_view->setContextMenuPolicy(Qt::ActionsContextMenu);
-  m_view->addAction(action);
+    m_view->setContextMenuPolicy(Qt::ActionsContextMenu);
+    m_view->addAction(action);
 
-  QBoxLayout *layout = new QVBoxLayout;
-  layout->addLayout(headerLayout);
-  layout->addWidget(m_view);
-  setLayout(layout);
+    QBoxLayout *layout = new QVBoxLayout;
+    layout->addLayout(headerLayout);
+    layout->addWidget(m_view);
+    setLayout(layout);
 }
 
 CKeysView::~CKeysView()
@@ -81,44 +81,44 @@ void CKeysView::reset()
 
 void CKeysView::setModel(QSortFilterProxyModel *model)
 {
-  m_view->setModel(model);
+    m_view->setModel(model);
 
-  m_view->setColumnHidden(0, true); // hide category
-  m_view->setColumnHidden(1, true); // hide subcategory
-  m_view->setColumnHidden(2, false); // show parameter name
-  m_view->setColumnHidden(3, false); // show parameter value
-  m_view->setColumnHidden(4, false); // show parameter default value
+    m_view->setColumnHidden(0, true); // hide category
+    m_view->setColumnHidden(1, true); // hide subcategory
+    m_view->setColumnHidden(2, false); // show parameter name
+    m_view->setColumnHidden(3, false); // show parameter value
+    m_view->setColumnHidden(4, false); // show parameter default value
 
-  connect(m_revertChangesButton, SIGNAL(clicked()),
-          model->sourceModel(), SLOT(revert()));
+    connect(m_revertChangesButton, SIGNAL(clicked()),
+            model->sourceModel(), SLOT(revert()));
 
-  connect(model->sourceModel(), SIGNAL(editedValueCountChanged(int)),
-          this, SLOT(updateRevertChangesLabel(int)));
+    connect(model->sourceModel(), SIGNAL(editedValueCountChanged(int)),
+            this, SLOT(updateRevertChangesLabel(int)));
 }
 
 void CKeysView::resizeColumns()
 {
-  m_view->setColumnWidth(2, 450);
-  m_view->setColumnWidth(3, 150);
-  m_view->setColumnWidth(4, 150);
-  m_view->horizontalHeader()->setStretchLastSection(true);
+    m_view->setColumnWidth(2, 450);
+    m_view->setColumnWidth(3, 150);
+    m_view->setColumnWidth(4, 150);
+    m_view->horizontalHeader()->setStretchLastSection(true);
 }
 
 void CKeysView::updateRevertChangesLabel(int count)
 {
-  if (count == 0)
+    if (count == 0)
     {
-      m_revertChangesButton->setText(tr("Revert changes"));
-      m_revertChangesButton->setEnabled(false);
+        m_revertChangesButton->setText(tr("Revert changes"));
+        m_revertChangesButton->setEnabled(false);
     }
-  else
+    else
     {
-      m_revertChangesButton->setText(tr("Revert changes (%1)").arg(count));
-      m_revertChangesButton->setEnabled(true);
+        m_revertChangesButton->setText(tr("Revert changes (%1)").arg(count));
+        m_revertChangesButton->setEnabled(true);
     }
 }
 
 void CKeysView::setFocus()
 {
-  m_filterLineEdit->setFocus();
+    m_filterLineEdit->setFocus();
 }

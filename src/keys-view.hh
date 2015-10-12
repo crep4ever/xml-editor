@@ -39,37 +39,37 @@ class CFilterLineEdit;
   through the model.
 
   \image html keys.png
-*/
+ */
 class CKeysView : public QWidget
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  /// Constructor.
-  CKeysView(QWidget *parent = 0);
+    /// Constructor.
+    CKeysView(QWidget *parent = 0);
 
-  /// Destructor.
-  ~CKeysView();
+    /// Destructor.
+    ~CKeysView();
 
-  void setModel(QSortFilterProxyModel *model);
+    void setModel(QSortFilterProxyModel *model);
 
-  void reset();
+    void reset();
 
-  void setFocus();
+    void setFocus();
 
 public slots:
-  void resizeColumns();
+void resizeColumns();
 
 signals:
-  void parameterFilterChanged(const QString &);
+void parameterFilterChanged(const QString &);
 
 private slots:
-  void updateRevertChangesLabel(int count);
+void updateRevertChangesLabel(int count);
 
 private:
-  QTableView *m_view;
-  CFilterLineEdit *m_filterLineEdit;
-  QPushButton *m_revertChangesButton;
+QTableView *m_view;
+CFilterLineEdit *m_filterLineEdit;
+QPushButton *m_revertChangesButton;
 };
 
 #endif  // __KEYS_VIEW_HH__
