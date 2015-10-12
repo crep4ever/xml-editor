@@ -503,7 +503,6 @@ void CConfModel::revertToDefaultValue(const QModelIndex & p_index)
     emit(editedValueCountChanged(editedValuesCount()));
 }
 
-
 int CConfModel::editedValuesCount() const
 {
     int count = 0;

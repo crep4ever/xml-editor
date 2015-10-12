@@ -20,18 +20,17 @@
 #include <QLabel>
 #include <QBoxLayout>
 #include <QDebug>
-#include <QTableView>
-#include <QHeaderView>
 #include <QSortFilterProxyModel>
 #include <QAction>
 #include <QPushButton>
 
+#include "table-view.hh"
 #include "conf-model.hh"
 #include "filter-lineedit.hh"
 
 CKeysView::CKeysView(QWidget *parent)
 : QWidget(parent)
-, m_view(new QTableView)
+, m_view(new CTableView)
 , m_filterLineEdit(new CFilterLineEdit)
 , m_revertChangesButton(0)
 {
@@ -45,47 +44,6 @@ CKeysView::CKeysView(QWidget *parent)
     QLayout *headerLayout = new QHBoxLayout;
     headerLayout->addWidget(m_filterLineEdit);
     headerLayout->addWidget(m_revertChangesButton);
-
-    // View
-    m_view->setShowGrid(false);
-    m_view->setAlternatingRowColors(true);
-    m_view->setSelectionMode(QAbstractItemView::SingleSelection);
-    m_view->setSelectionBehavior(QAbstractItemView::SelectRows);
-    m_view->setEditTriggers(QAbstractItemView::SelectedClicked |
-                            QAbstractItemView::EditKeyPressed |
-                            QAbstractItemView::DoubleClicked);
-    m_view->setSortingEnabled(true);
-    m_view->verticalHeader()->setVisible(false);
-
-    // Context menu
-    m_view->setContextMenuPolicy(Qt::ActionsContextMenu);
-
-    QAction *action = new QAction(tr("&Adjust columns"), this);
-    connect(action, SIGNAL(triggered()),
-            m_view, SLOT(resizeColumnsToContents()));
-    m_view->addAction(action);
-
-    action = new QAction(tr("Revert to &initial value"), this);
-    connect(action, SIGNAL(triggered()),
-            this, SLOT(revertToOriginalValue()));
-    m_view->addAction(action);
-
-    action = new QAction(tr("Revert to &default value"), this);
-    connect(action, SIGNAL(triggered()),
-            this, SLOT(revertToDefaultValue()));
-    m_view->addAction(action);
-
-    // Shortcuts
-    qDebug() << " TAB " << m_view->tabKeyNavigation();
-//    QShortcut* shortcut = new QShortcut(QKeySequence(Qt::Key_Tab), m_view);
-//    connect(shortcut, SIGNAL(activated()), this, SLOT(nextRow()));
-//
-//    void Receiver::deleteRow()
-//    {
-//        QModelIndex idx = tableView->currentIndex();
-//        if (idx.isValid())
-//           tableView->model()->removeRow(idx.row(), idx.parent());
-//    }
 
     QBoxLayout *layout = new QVBoxLayout;
     layout->addLayout(headerLayout);
@@ -103,54 +61,13 @@ void CKeysView::reset()
 
 void CKeysView::setModel(QSortFilterProxyModel *model)
 {
-    m_view->setModel(model);
-
-    m_view->setColumnHidden(0, true);  // hide category
-    m_view->setColumnHidden(1, true);  // hide subcategory
-    m_view->setColumnHidden(2, false); // show parameter name
-    m_view->setColumnHidden(3, false); // show parameter value
-    m_view->setColumnHidden(4, true);  // hide parameter initial value
-    m_view->setColumnHidden(5, false); // show parameter default value
+    m_view->setProxyModel(model);
 
     connect(m_revertChangesButton, SIGNAL(clicked()),
             model->sourceModel(), SLOT(revert()));
 
     connect(model->sourceModel(), SIGNAL(editedValueCountChanged(int)),
             this, SLOT(updateRevertChangesLabel(int)));
-}
-
-QSortFilterProxyModel* CKeysView::proxyModel()
-{
-    Q_ASSERT(m_view);
-
-    QSortFilterProxyModel *proxy = qobject_cast<QSortFilterProxyModel*>(m_view->model());
-    if (!proxy)
-    {
-        qWarning() << "invalid proxy model";
-    }
-
-    return proxy;
-}
-
-CConfModel* CKeysView::sourceModel()
-{
-    Q_ASSERT(proxyModel());
-
-    CConfModel* source = qobject_cast<CConfModel*>(proxyModel()->sourceModel());
-    if (!source)
-    {
-        qWarning() << "invalid source model";
-    }
-
-    return source;
-}
-
-void CKeysView::resizeColumns()
-{
-    m_view->setColumnWidth(2, 450);
-    m_view->setColumnWidth(3, 150);
-    m_view->setColumnWidth(4, 150);
-    m_view->horizontalHeader()->setStretchLastSection(true);
 }
 
 void CKeysView::updateRevertChangesLabel(int count)
@@ -172,14 +89,8 @@ void CKeysView::setFocus()
     m_filterLineEdit->setFocus();
 }
 
-void CKeysView::revertToOriginalValue()
+void CKeysView::resizeColumns()
 {
-    const QModelIndex & current = m_view->selectionModel()->currentIndex();
-    sourceModel()->revertToOriginalValue(proxyModel()->mapToSource(current));
+    m_view->resizeColumns();
 }
 
-void CKeysView::revertToDefaultValue()
-{
-    const QModelIndex & current = m_view->selectionModel()->currentIndex();
-    sourceModel()->revertToDefaultValue(proxyModel()->mapToSource(current));
-}

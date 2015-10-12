@@ -1,4 +1,4 @@
-// Copyright (C) 2014, Romain Goffe <romain.goffe@gmail.com>
+// Copyright (C) 2015, Romain Goffe <romain.goffe@gmail.com>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License as
@@ -16,61 +16,46 @@
 // 02110-1301, USA.
 //******************************************************************************
 
-#ifndef __KEYS_VIEW_HH__
-#define __KEYS_VIEW_HH__
+#ifndef __TABLE_VIEW_HH__
+#define __TABLE_VIEW_HH__
 
-#include <QWidget>
-#include <QString>
+#include <QTableView>
 
+class QKeyEvent;
 class QSortFilterProxyModel;
-class QPushButton;
-class CFilterLineEdit;
 class CConfModel;
-class CTableView;
 
-/*!
-  \file keys-view.hh
-  \class CKeysView
-  \brief Lists pairs of name/values of a CConfModel
-
-  This view lists all parameters. Note that the category and
-  subcategory are not displayed (see CCategoriesView).
-
-  This view also contains a filtering search bar for quick search
-  through the model.
-
-  \image html keys.png
- */
-class CKeysView : public QWidget
+class CTableView : public QTableView
 {
     Q_OBJECT
 
 public:
     /// Constructor.
-    CKeysView(QWidget *parent = 0);
+    CTableView(QWidget *parent = 0);
 
     /// Destructor.
-    ~CKeysView();
+    ~CTableView();
 
-    void setModel(QSortFilterProxyModel *model);
+    void setProxyModel(QSortFilterProxyModel *model);
+    QSortFilterProxyModel* proxyModel();
 
-    void reset();
+    CConfModel* sourceModel();
 
-    void setFocus();
+
 
 public slots:
 void resizeColumns();
 
-signals:
-void parameterFilterChanged(const QString &);
-
 private slots:
-void updateRevertChangesLabel(int count);
+void revertToOriginalValue();
+void revertToDefaultValue();
+void editActivated();
 
-private:
-CTableView *m_view;
-CFilterLineEdit *m_filterLineEdit;
-QPushButton *m_revertChangesButton;
+
+protected:
+virtual bool focusNextPrevChild (bool next);
+//virtual void keyPressEvent(QKeyEvent * p_event);
+
 };
 
-#endif  // __KEYS_VIEW_HH__
+#endif  // __TABLE_VIEW_HH__

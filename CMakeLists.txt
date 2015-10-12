@@ -22,6 +22,7 @@ set(CONF_EDITOR_SOURCES
   src/conf-model.cc
   src/categories-view.cc
   src/keys-view.cc
+  src/table-view.cc
   src/conf-proxy-model.cc
   )
 
@@ -35,6 +36,7 @@ set(CONF_EDITOR_QT_HEADER
   src/conf-model.hh
   src/categories-view.hh
   src/keys-view.hh
+  src/table-view.hh
   src/conf-proxy-model.hh
   )
 
