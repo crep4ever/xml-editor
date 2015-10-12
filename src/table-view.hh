@@ -49,7 +49,7 @@ void resizeColumns();
 private slots:
 void revertToOriginalValue();
 void revertToDefaultValue();
-void editActivated();
+void enterKeyPressed();
 
 
 protected:

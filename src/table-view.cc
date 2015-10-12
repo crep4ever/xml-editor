@@ -59,10 +59,10 @@ CTableView::CTableView(QWidget *parent) : QTableView(parent)
 
     // Additional shortcuts
     QShortcut *s = new QShortcut(QKeySequence(Qt::Key_Return), this);
-    connect(s, SIGNAL(activated()), SLOT(editActivated()));
+    connect(s, SIGNAL(activated()), SLOT(enterKeyPressed()), Qt::QueuedConnection);
 
     s = new QShortcut(QKeySequence(Qt::Key_Enter), this);
-    connect(s, SIGNAL(activated()), SLOT(editActivated()));
+    connect(s, SIGNAL(activated()), SLOT(enterKeyPressed()), Qt::QueuedConnection);
 
     s = new QShortcut(QKeySequence(Qt::Key_I), this);
     connect(s, SIGNAL(activated()), SLOT(revertToOriginalValue()));
@@ -128,20 +128,33 @@ bool CTableView::focusNextPrevChild(bool p_next)
 {
     if (p_next)
     {
-        const QModelIndex next = proxyModel()->index(currentIndex().row() + 1, 0);
+        const QModelIndex next = proxyModel()->index(currentIndex().row() + 1, 3);
         setCurrentIndex(next);
     }
     else
     {
-        const QModelIndex prev = proxyModel()->index(currentIndex().row() - 1, 0);
+        const QModelIndex prev = proxyModel()->index(currentIndex().row() - 1, 3);
         setCurrentIndex(prev);
     }
+
+    setState(QAbstractItemView::NoState);
+    setFocus(Qt::ShortcutFocusReason);
 
     return true;
 }
 
-void CTableView::editActivated()
+void CTableView::enterKeyPressed()
 {
-    edit(currentIndex());
+    if (state() != QAbstractItemView::EditingState)
+    {
+        edit(currentIndex());
+        setState(QAbstractItemView::EditingState);
+    }
+    else
+    {
+        const QModelIndex next = proxyModel()->index(currentIndex().row() + 1, 3);
+        setCurrentIndex(next);
+        setFocus(Qt::ShortcutFocusReason);
+    }
 }
 
