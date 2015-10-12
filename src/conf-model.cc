@@ -227,131 +227,71 @@ int CConfModel::columnCount(const QModelIndex &index) const
 
 void CConfModel::load(const QString & filename)
 {
-  const bool vitFile = QFileInfo(filename).baseName().contains("localconf", Qt::CaseInsensitive) || QFileInfo(filename).baseName().contains("persistentconf", Qt::CaseInsensitive);
+  const QString baseName = QFileInfo(filename).baseName();
+  const bool vitFile = baseName.contains("localconf", Qt::CaseInsensitive) || baseName.contains("persistentconf", Qt::CaseInsensitive);
 
   if (!vitFile)
     {
       QMessageBox messageBox;
-      messageBox.setText(tr("Be sure to select a Vit configuration file (LocalConf files). Standard xml files are not supported yet."));
+      messageBox.setText(tr("Be sure to select a Vit configuration file (LocalConf files)."));
       messageBox.exec();
-    }
-
-  QFile file(filename);
-  if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-      qWarning() << tr("Can't open file in read mode: %1").arg(filename);
       return;
     }
 
-  QTextStream in(&file);
-  in.setCodec("UTF-8");
-  m_rawData = in.readAll();
-  file.close();
+  // open local conf file
+  {
+    QFile file(filename);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+      {
+        qWarning() << tr("Can't open file in read mode: %1").arg(filename);
+        return;
+      }
 
-  if (vitFile)
+    QTextStream curStream(&file);
+    curStream.setCodec("UTF-8");
+    m_rawData = curStream.readAll();
+    file.close();
+  }
+  
+  // Update model with current local conf values
+  const QList< QStringList > & currentConfData = parseLocalConfData(VitToXml(m_rawData));
+  foreach (const QStringList & r, currentConfData)
     {
-      parseLocalConfData(VitToXml(m_rawData));
-
-      // look for potential LocalConf.xml.new in same path
-      const QString originalLocalConf = QFileInfo(filename).absolutePath() + QDir::separator() + "LocalConf.xml.new";
-
-      QFile file(originalLocalConf);
-      if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        {
-          qWarning() << tr("Can't open file in read mode: %1").arg(filename);
-          return;
-        }
-
-      QTextStream in(&file);
-      in.setCodec("UTF-8");
-      QString originalConfData = in.readAll();
-      file.close();
-
-      parseOriginalLocalConfData(VitToXml(originalConfData));
+      addRow(r);
     }
-  else
+  
+  // look for potential LocalConf.xml.new in same path
+  const QString refFilename = QFileInfo(filename).absolutePath() + QDir::separator() + "LocalConf.xml.new";
+  QString refRawData;
+  {
+    QFile file(refFilename);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+      {
+        qWarning() << tr("Can't open file in read mode: %1").arg(refFilename);
+        return;
+      }
+
+    QTextStream in(&file);
+    in.setCodec("UTF-8");
+    refRawData = in.readAll();
+    file.close();
+  }
+
+  // Update model with default local conf values
+  const QList< QStringList > & referenceConfData = parseLocalConfData(VitToXml(refRawData));
+  foreach (const QStringList & r, referenceConfData)
     {
-      parseXmlData(m_rawData);
-    }
-}
-
-void CConfModel::parseXmlData(const QString & p_data)
-{
-  QString category, subcategory, key, value;
-
-  QXmlStreamReader xml(p_data);
-
-  while (!xml.atEnd())
-    {
-      xml.readNext();
-
-      //qDebug() << "name " << xml.name();
-      //qDebug() << "text " << xml.text();
-      //qDebug() << "start " << xml.isStartElement();
-      //qDebug() << "end " << xml.isEndElement();
-
-      if (xml.isStartElement())
-        {
-          category = xml.name().toString();
-          //qDebug() << "start category " << category;
-
-          while (!xml.atEnd())
-            {
-              xml.readNext();
-
-              if (xml.isEndElement() && xml.name().toString() == category) // reach end tag of parent category
-                {
-                  //qDebug() << "stop parsing subcategories of category " << category;
-                  break;
-                }
-
-              if (xml.isStartElement())
-                {
-                  subcategory = xml.name().toString();
-                  //qDebug() << "start subcategory " << subcategory;
-
-                  QStringList attributes;
-                  foreach (const QXmlStreamAttribute & attribute, xml.attributes())
-                    {
-                      //qDebug() << xml.name() << " with attribute " << attribute.name();
-
-                      attributes << QString("[%1 = %2]")
-                        .arg(attribute.name().toString())
-                        .arg(attribute.value().toString());
-                    }
-
-                  key = attributes.join(" ");
-
-                  xml.readNext();
-
-                  value = xml.text().toString();
-
-                  if (!category.isEmpty() && !value.isEmpty())
-                    {
-                      //qDebug() << "category " << category;
-                      //qDebug() << "subcategory " << subcategory;
-                      //qDebug() << "key " << key;
-                      //qDebug() << "value " << value;
-
-                      addRow(QStringList() << category << subcategory << key << value);
-                    }
-                }
-            }
-        }
-    }
-
-
-  if (xml.hasError())
-    {
-      qWarning() << tr("Badly formed xml document");
-      qWarning() << tr("Error: %1").arg(xml.errorString());
+      updateLocalConfRow(r);
     }
 }
 
-void CConfModel::parseLocalConfData(const QString & p_data)
+
+QList<QStringList> CConfModel::parseLocalConfData(const QString & p_data)
 {
+  QList<QStringList> rows;
+
   QXmlStreamReader xml(p_data);
-  while (!xml.atEnd())
+  while (!xml.hasError() && !xml.atEnd())
     {
       xml.readNext();
       const QString str = xml.text().toString();
@@ -368,10 +308,10 @@ void CConfModel::parseLocalConfData(const QString & p_data)
                   QString subcategory = tokens2[3];
                   QString key = tokens2[4].remove("::false");
 
-                  addRow(QStringList() << category
-                         << subcategory
-                         << key
-                         << value);
+                  rows.push_back(QStringList() << category
+                                 << subcategory
+                                 << key
+                                 << value);
                 }
             }
         }
@@ -382,42 +322,8 @@ void CConfModel::parseLocalConfData(const QString & p_data)
       qWarning() << tr("Badly formed xml document");
       qWarning() << tr("Error: %1").arg(xml.errorString());
     }
-}
 
-void CConfModel::parseOriginalLocalConfData(const QString & p_data)
-{
-  QXmlStreamReader xml(p_data);
-  while (!xml.atEnd())
-    {
-      xml.readNext();
-      const QString str = xml.text().toString();
-      if (!str.isEmpty())
-        {
-          QStringList tokens = str.split("=");
-          if (tokens.size() > 1)
-            {
-              QString value = tokens[1];
-              QStringList tokens2 = tokens[0].split("/");
-              if (tokens2.size() > 4)
-                {
-                  QString category = tokens2[2];
-                  QString subcategory = tokens2[3];
-                  QString key = tokens2[4].remove("::false");
-
-                  updateLocalConfRow(QStringList() << category
-                                     << subcategory
-                                     << key
-                                     << value);
-                }
-            }
-        }
-    }
-
-  if (xml.hasError())
-    {
-      qWarning() << tr("Badly formed xml document");
-      qWarning() << tr("Error: %1").arg(xml.errorString());
-    }
+  return rows;
 }
 
 

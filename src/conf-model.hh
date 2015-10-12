@@ -169,9 +169,8 @@ public slots:
 
 private:
 
-  void parseLocalConfData(const QString & p_data);
-  void parseOriginalLocalConfData(const QString & p_data);
-  void parseXmlData(const QString & p_data);
+  QList< QStringList > parseLocalConfData(const QString & p_data);
+  //void parseOriginalLocalConfData(const QString & p_data);
 
   void updateLocalConfRow(const QStringList & p_originalConfValues);
 
