@@ -138,7 +138,7 @@ QVariant CConfModel::data(const QModelIndex &index, int role) const
             return QVariant(); // value is equal to default and has not been modified
 
         case Qt::ToolTipRole:
-            if (index.column() == 3)
+            if (index.column() == 3 || index.column() == 5)
             {
                 return tr("Current value: %1 \nInitial value: %2 \n Default value: %3")
                                 .arg(data(index, ValueRole).toString())
