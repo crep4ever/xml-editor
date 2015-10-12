@@ -24,6 +24,7 @@
 #include <QFile>
 #include <QDir>
 #include <QMessageBox>
+#include <QElapsedTimer>
 
 #include "utils/tango-colors.hh"
 
@@ -227,6 +228,9 @@ int CConfModel::columnCount(const QModelIndex &index) const
 
 void CConfModel::load(const QString & filename)
 {
+  QElapsedTimer timer;
+  timer.start();
+
   const QString baseName = QFileInfo(filename).baseName();
   const bool vitFile = baseName.contains("localconf", Qt::CaseInsensitive) || baseName.contains("persistentconf", Qt::CaseInsensitive);
 
@@ -260,6 +264,9 @@ void CConfModel::load(const QString & filename)
       addRow(r);
     }
   
+  qDebug() << "Build model from " << QFileInfo(filename).fileName() << " in " << timer.elapsed() << "ms";
+  timer.restart();
+
   // look for potential LocalConf.xml.new in same path
   const QString refFilename = QFileInfo(filename).absolutePath() + QDir::separator() + "LocalConf.xml.new";
   QString refRawData;
@@ -283,6 +290,9 @@ void CConfModel::load(const QString & filename)
     {
       updateLocalConfRow(r);
     }
+
+  qDebug() << "Update model with default values from " << QFileInfo(refFilename).fileName() << " in " << timer.elapsed() << "ms";
+
 }
 
 
