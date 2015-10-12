@@ -33,9 +33,8 @@ CConfModel::CConfModel(const QString & filename, QObject *parent)
 : QAbstractTableModel(parent)
 , m_filename(filename)
 , m_rows()
-, m_originalValues()
 , m_rowCount(0)
-, m_columnCount(5)
+, m_columnCount(6)
 {
     load(filename);
 }
@@ -60,12 +59,20 @@ QVariant CConfModel::headerData (int section, Qt::Orientation orientation, int r
             case 3:
                 return tr("Value");
             case 4:
-                return tr("Default");
+                return tr("Initial value");
+            case 5:
+                return tr("Default value");
             default:
                 return QVariant();
         }
     }
     return QVariant();
+}
+
+
+QModelIndex CConfModel::row(const int p_rowIndex) const
+{
+    return index(p_rowIndex, 0);
 }
 
 QVariant CConfModel::data(const QModelIndex &index, int role) const
@@ -88,6 +95,8 @@ QVariant CConfModel::data(const QModelIndex &index, int role) const
                 case 3:
                     return data(index, ValueRole);
                 case 4:
+                    return data(index, InitialValueRole);
+                case 5:
                     return data(index, DefaultValueRole);
 
                 default:
@@ -108,21 +117,21 @@ QVariant CConfModel::data(const QModelIndex &index, int role) const
         case ValueRole:
             return m_rows[index.row()][3];
 
+        case InitialValueRole:
+            return m_rows[index.row()][4];
+
         case DefaultValueRole:
-            if (m_rows[index.row()].count() >= 5)
-                return m_rows[index.row()][4];
-            else
-                return QVariant();
+            return m_rows[index.row()][5];
 
         case Qt::EditRole:
             return  data(index, Qt::DisplayRole);
 
         case Qt::BackgroundRole:
-            if (!m_originalValues[index.row()].isEmpty())
+            if (data(index, ValueRole) != data(index, InitialValueRole))
             {
                 return _TangoChameleon1; // value has been modified by user
             }
-            if (!data(index, DefaultValueRole).isNull() && data(index, DefaultValueRole) != data(index, ValueRole))
+            else if (data(index, ValueRole) != data(index, DefaultValueRole))
             {
                 return _TangoPlum1; // value is different from default value
             }
@@ -131,7 +140,10 @@ QVariant CConfModel::data(const QModelIndex &index, int role) const
         case Qt::ToolTipRole:
             if (index.column() == 3)
             {
-                return !m_originalValues[index.row()].isEmpty() ? tr("Original value: %1").arg(m_originalValues[index.row()]) : QVariant();
+                return tr("Current value: %1 \nInitial value: %2 \n Default value: %3")
+                                .arg(data(index, ValueRole).toString())
+                                .arg(data(index, InitialValueRole).toString())
+                                .arg(data(index, DefaultValueRole).toString());
             }
             else
             {
@@ -148,36 +160,80 @@ QVariant CConfModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-bool CConfModel::setData(const QModelIndex & index, const QVariant & value, int role)
+bool CConfModel::setData(const QModelIndex & p_index, const QVariant & value, int role)
 {
+    const QModelIndex & begin = index(p_index.row(), 0);
+    const QModelIndex & end   = index(p_index.row(), m_columnCount - 1);
+
     switch (role)
     {
         case Qt::EditRole:
         {
-            m_rows[index.row()][index.column()] = value.toString();
-
             const QString param = QString("/Conf/%1/%2/%3::false")
-                          .arg(m_rows[index.row()][0])
-                          .arg(m_rows[index.row()][1])
-                          .arg(m_rows[index.row()][2]);
+                                                          .arg(data(p_index, CategoryRole).toString())
+                                                          .arg(data(p_index, SubCategoryRole).toString())
+                                                          .arg(data(p_index, ParameterRole).toString());
 
-            const QRegExp rxParam(QString("%1=([^<]+)").arg(param));
-            rxParam.indexIn(m_rawData);
-            const QString oldValue = rxParam.cap(1);
+            const QString oldValue = data(p_index, InitialValueRole).toString();
             const QString newValue = value.toString();
 
             if (oldValue != newValue)
             {
-                if (m_originalValues[index.row()].isEmpty())
-                {
-                    m_originalValues[index.row()] = oldValue;
-                }
                 m_rawData.replace(QString("%1=%2").arg(param).arg(oldValue),
                                   QString("%1=%2").arg(param).arg(value.toString()));
 
-                emit(editedValueCountChanged(editedValuesCount()));
-                emit(dataChanged(index, index));
+                if (setData(p_index, newValue, ValueRole))
+                {
+                    emit(editedValueCountChanged(editedValuesCount()));
+                    return true;
+                }
             }
+        }
+        return false;
+
+        case CategoryRole:
+        {
+            m_rows[p_index.row()][0] = value.toString();
+            emit(dataChanged(begin, end));
+        }
+        return true;
+
+        case SubCategoryRole:
+        {
+            m_rows[p_index.row()][1] = value.toString();
+            emit(dataChanged(begin, end));
+        }
+        return true;
+
+
+        case ParameterRole:
+        {
+            m_rows[p_index.row()][2] = value.toString();
+            emit(dataChanged(begin, end));
+        }
+        return true;
+
+
+        case ValueRole:
+        {
+            m_rows[p_index.row()][3] = value.toString();
+            emit(dataChanged(begin, end));
+        }
+        return true;
+
+
+        case InitialValueRole:
+        {
+            m_rows[p_index.row()][4] = value.toString();
+            emit(dataChanged(begin, end));
+        }
+        return true;
+
+
+        case DefaultValueRole:
+        {
+            m_rows[p_index.row()][5] = value.toString();
+            emit(dataChanged(begin, end));
         }
         return true;
 
@@ -190,24 +246,26 @@ bool CConfModel::setData(const QModelIndex & index, const QVariant & value, int 
 
 void CConfModel::addRow(const QStringList & row)
 {
+    Q_ASSERT(row.count() == m_columnCount);
     m_rows << row;
-    m_originalValues << "";
     ++m_rowCount;
 }
 
-void CConfModel::updateLocalConfRow(const QStringList & p_originalConfValues)
+void CConfModel::addDefaultValue(const QStringList & p_data)
 {
+    Q_ASSERT(p_data.count() == 4);
+
     // find corresponding row in model
     for (int i = 0; i < m_rows.count(); ++i)
     {
-        // Check that columns "category", "subcategory" and "parameter"
-        // are the same so that the last item of p_originalConfValues can be considered
-        // as the default value for the LocalConf.xml that is in m_rows
-        if (m_rows[i][0] == p_originalConfValues[0] &&   // category
-                        m_rows[i][1] == p_originalConfValues[1] &&   // subcategory
-                        m_rows[i][2] == p_originalConfValues[2])     // parameter
+        const QModelIndex & idx = row(i);
+
+        // Find the row that matches the columns "category", "subcategory" and "parameter"
+        if (data(idx, ParameterRole)   == p_data[2] &&
+            data(idx, SubCategoryRole) == p_data[1] &&
+            data(idx, CategoryRole)    == p_data[0])
         {
-            m_rows[i] << p_originalConfValues[3];
+            setData(idx, p_data[3], DefaultValueRole); // parameter default value
             break;
         }
     }
@@ -261,7 +319,14 @@ void CConfModel::load(const QString & filename)
     const QList< QStringList > & currentConfData = parseLocalConfData(VitToXml(m_rawData));
     foreach (const QStringList & r, currentConfData)
     {
-        addRow(r);
+        QStringList modelRow;
+        modelRow << r[0]; // category
+        modelRow << r[1]; // subcategory
+        modelRow << r[2]; // param
+        modelRow << r[3]; // value
+        modelRow << r[3]; // initial value
+        modelRow << "";   // default value
+        addRow(modelRow);
     }
 
     qDebug() << "Build model from " << QFileInfo(filename).fileName() << " in " << timer.elapsed() << "ms";
@@ -288,7 +353,7 @@ void CConfModel::load(const QString & filename)
     const QList< QStringList > & referenceConfData = parseLocalConfData(VitToXml(refRawData));
     foreach (const QStringList & r, referenceConfData)
     {
-        updateLocalConfRow(r);
+        addDefaultValue(r);
     }
 
     qDebug() << "Update model with default values from " << QFileInfo(refFilename).fileName() << " in " << timer.elapsed() << "ms";
@@ -385,13 +450,25 @@ void CConfModel::save()
         return;
     }
 
-    // Reset original values
-    for (int i = 0; i < rowCount(); ++i)
+    // Update raw data
+    for (int i = 0; i < m_rowCount; ++i)
     {
-        if (!m_originalValues[i].isEmpty())
+        const QModelIndex & idx = row(i);
+
+        const QString param = QString("/Conf/%1/%2/%3::false").arg(data(idx, CategoryRole).toString())
+                                                              .arg(data(idx, SubCategoryRole).toString())
+                                                              .arg(data(idx, ParameterRole).toString());
+
+        const QString oldValue = data(idx, InitialValueRole).toString();
+        const QString curValue = data(idx, ValueRole).toString();
+
+        if (oldValue != curValue)
         {
-            m_originalValues[i] = "";
-            emit(dataChanged(index(i, 0), index(i, 3)));
+            m_rawData.replace(QString("%1=%2").arg(param).arg(oldValue),
+                              QString("%1=%2").arg(param).arg(curValue));
+
+            // Reset initial value
+            setData(idx, curValue, InitialValueRole);
         }
     }
     emit(editedValueCountChanged(0));
@@ -406,53 +483,25 @@ void CConfModel::revert()
 {
     for (int i = 0; i < rowCount(); ++i)
     {
-        if (!m_originalValues[i].isEmpty())
-        {
-            setData(index(i, 3), m_originalValues[i], Qt::EditRole);
-            m_originalValues[i] = "";
-        }
+        const QModelIndex & r = row(i);
+        setData(r, data(r, InitialValueRole), ValueRole);
     }
     emit(editedValueCountChanged(0));
 }
 
 void CConfModel::revertToOriginalValue(const QModelIndex & p_index)
 {
-    if (m_originalValues.isEmpty())
-    {
-        qDebug() << "invalid originalValues";
-        return;
-    }
-
-    const int row = p_index.row();
-    qDebug() << "revertToOriginalValue of row " << row;
-
-    if (row < m_originalValues.size() && !m_originalValues[row].isEmpty())
-    {
-        setData(index(row, 3), m_originalValues[row], Qt::EditRole);
-        m_originalValues[row] = "";
-    }
+    Q_ASSERT(p_index.row() < m_rowCount);
+    setData(p_index, data(p_index, InitialValueRole), ValueRole);
+    emit(editedValueCountChanged(editedValuesCount()));
 }
 
 void CConfModel::revertToDefaultValue(const QModelIndex & p_index)
 {
-    if (m_originalValues.isEmpty())
-    {
-        qDebug() << "invalid originalValues";
-        return;
-    }
-
-    const int row = p_index.row();
-    qDebug() << "revertToDefaultValue of row " << row;
-    qDebug() << "originalValues size" << m_originalValues.size();
-
-    const QVariant & defaultValue = data(index(row, 4));
-
-    if (defaultValue.isValid())
-    {
-        setData(index(row, 3), defaultValue, Qt::EditRole);
-    }
+    Q_ASSERT(p_index.row() < m_rowCount);
+    setData(p_index, data(p_index, DefaultValueRole), ValueRole);
+    emit(editedValueCountChanged(editedValuesCount()));
 }
-
 
 
 int CConfModel::editedValuesCount() const
@@ -460,7 +509,8 @@ int CConfModel::editedValuesCount() const
     int count = 0;
     for (int i = 0; i < rowCount(); ++i)
     {
-        if (!m_originalValues[i].isEmpty())
+        const QModelIndex & r = row(i);
+        if (data(r, ValueRole) != data(r, InitialValueRole))
         {
             ++count;
         }

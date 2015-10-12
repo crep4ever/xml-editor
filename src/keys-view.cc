@@ -65,7 +65,7 @@ CKeysView::CKeysView(QWidget *parent)
             m_view, SLOT(resizeColumnsToContents()));
     m_view->addAction(action);
 
-    action = new QAction(tr("Revert to &original value"), this);
+    action = new QAction(tr("Revert to &initial value"), this);
     connect(action, SIGNAL(triggered()),
             this, SLOT(revertToOriginalValue()));
     m_view->addAction(action);
@@ -74,6 +74,18 @@ CKeysView::CKeysView(QWidget *parent)
     connect(action, SIGNAL(triggered()),
             this, SLOT(revertToDefaultValue()));
     m_view->addAction(action);
+
+    // Shortcuts
+    qDebug() << " TAB " << m_view->tabKeyNavigation();
+//    QShortcut* shortcut = new QShortcut(QKeySequence(Qt::Key_Tab), m_view);
+//    connect(shortcut, SIGNAL(activated()), this, SLOT(nextRow()));
+//
+//    void Receiver::deleteRow()
+//    {
+//        QModelIndex idx = tableView->currentIndex();
+//        if (idx.isValid())
+//           tableView->model()->removeRow(idx.row(), idx.parent());
+//    }
 
     QBoxLayout *layout = new QVBoxLayout;
     layout->addLayout(headerLayout);
@@ -93,11 +105,12 @@ void CKeysView::setModel(QSortFilterProxyModel *model)
 {
     m_view->setModel(model);
 
-    m_view->setColumnHidden(0, true); // hide category
-    m_view->setColumnHidden(1, true); // hide subcategory
+    m_view->setColumnHidden(0, true);  // hide category
+    m_view->setColumnHidden(1, true);  // hide subcategory
     m_view->setColumnHidden(2, false); // show parameter name
     m_view->setColumnHidden(3, false); // show parameter value
-    m_view->setColumnHidden(4, false); // show parameter default value
+    m_view->setColumnHidden(4, true);  // hide parameter initial value
+    m_view->setColumnHidden(5, false); // show parameter default value
 
     connect(m_revertChangesButton, SIGNAL(clicked()),
             model->sourceModel(), SLOT(revert()));
@@ -162,13 +175,11 @@ void CKeysView::setFocus()
 void CKeysView::revertToOriginalValue()
 {
     const QModelIndex & current = m_view->selectionModel()->currentIndex();
-    qDebug() << "revert index " << current << " to orginal value";
     sourceModel()->revertToOriginalValue(proxyModel()->mapToSource(current));
 }
 
 void CKeysView::revertToDefaultValue()
 {
     const QModelIndex & current = m_view->selectionModel()->currentIndex();
-    qDebug() << "revert index " << current << " to default value";
     sourceModel()->revertToDefaultValue(proxyModel()->mapToSource(current));
 }

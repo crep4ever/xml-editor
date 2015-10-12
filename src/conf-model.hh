@@ -59,7 +59,8 @@ public:
         SubCategoryRole = Qt::UserRole + 2,
         ParameterRole = Qt::UserRole + 3,
         ValueRole = Qt::UserRole + 4,
-        DefaultValueRole = Qt::UserRole + 5
+        InitialValueRole = Qt::UserRole + 5,
+        DefaultValueRole = Qt::UserRole + 6
     };
 
     /// Constructor
@@ -120,6 +121,8 @@ public:
      */
     virtual int columnCount(const QModelIndex &index = QModelIndex()) const;
 
+    QModelIndex row(const int p_rowIndex) const;
+
     /*!
     Add a new row to the model.
     A \a row contains 4 strings (category / subcategory / name / value).
@@ -174,9 +177,8 @@ void revertToDefaultValue(const QModelIndex & p_index);
 private:
 
 QList< QStringList > parseLocalConfData(const QString & p_data);
-//void parseOriginalLocalConfData(const QString & p_data);
 
-void updateLocalConfRow(const QStringList & p_originalConfValues);
+void addDefaultValue(const QStringList & p_data);
 
 signals:
 
@@ -191,7 +193,6 @@ private:
 QString m_filename;
 QString m_rawData;
 QList< QStringList > m_rows;
-QStringList m_originalValues;
 
 int m_rowCount;
 int m_columnCount;
