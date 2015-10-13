@@ -316,7 +316,7 @@ void CConfModel::load(const QString & filename)
         modelRow << r[2]; // param
         modelRow << r[3]; // value
         modelRow << r[3]; // initial value
-        modelRow << "";   // default value
+        modelRow << r[3];   // default value
         addRow(modelRow);
     }
 
