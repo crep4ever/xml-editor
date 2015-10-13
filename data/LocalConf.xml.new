@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Algo>
     <SubCat1>
-        <Param1>/Conf/Algo/SubCat1/Param1::false=10</Param1>
-        <Param2>/Conf/Algo/SubCat1/Param2::false=100</Param2>
+        <Param1>/Conf/Algo/SubCat1/Param1::false=value1</Param1>
+        <Param2>/Conf/Algo/SubCat1/Param2::false=value2</Param2>
         <Param3>/Conf/Algo/SubCat1/Param3::false=value3</Param3>
     </SubCat1>
     <SubCat2>
