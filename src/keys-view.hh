@@ -21,9 +21,11 @@
 
 #include <QWidget>
 #include <QString>
+#include <QModelIndex>
 
 class QSortFilterProxyModel;
 class QPushButton;
+class QLabel;
 class CFilterLineEdit;
 class CConfModel;
 class CTableView;
@@ -52,6 +54,12 @@ public:
     /// Destructor.
     ~CKeysView();
 
+    CTableView* tableView() const;
+
+    CConfModel* sourceModel() const;
+
+    QSortFilterProxyModel* proxyModel() const;
+
     void setModel(QSortFilterProxyModel *model);
 
     void reset();
@@ -66,11 +74,15 @@ void parameterFilterChanged(const QString &);
 
 private slots:
 void updateRevertChangesLabel(int count);
+void updateSelectionInfo(const QModelIndex & p_index);
+
 
 private:
 CTableView *m_view;
 CFilterLineEdit *m_filterLineEdit;
 QPushButton *m_revertChangesButton;
+QLabel *m_currentSelectionInfo;
+
 };
 
 #endif  // __KEYS_VIEW_HH__

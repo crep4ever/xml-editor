@@ -17,12 +17,12 @@
 //******************************************************************************
 #include "keys-view.hh"
 
+#include <QObject>
 #include <QLabel>
 #include <QBoxLayout>
-#include <QDebug>
 #include <QSortFilterProxyModel>
-#include <QAction>
 #include <QPushButton>
+#include <QDebug>
 
 #include "table-view.hh"
 #include "conf-model.hh"
@@ -33,6 +33,7 @@ CKeysView::CKeysView(QWidget *parent)
 , m_view(new CTableView)
 , m_filterLineEdit(new CFilterLineEdit)
 , m_revertChangesButton(0)
+, m_currentSelectionInfo(new QLabel)
 {
     connect(m_filterLineEdit, SIGNAL(textChanged(const QString &)),
             this, SIGNAL(parameterFilterChanged(const QString &)));
@@ -45,9 +46,17 @@ CKeysView::CKeysView(QWidget *parent)
     headerLayout->addWidget(m_filterLineEdit);
     headerLayout->addWidget(m_revertChangesButton);
 
+    // Current selection info
+
+    m_currentSelectionInfo->setTextInteractionFlags(Qt::TextSelectableByMouse);
+
+    connect(m_view, SIGNAL(clicked(const QModelIndex &)),
+            this, SLOT(updateSelectionInfo(const QModelIndex &)));
+
     QBoxLayout *layout = new QVBoxLayout;
     layout->addLayout(headerLayout);
     layout->addWidget(m_view);
+    layout->addWidget(m_currentSelectionInfo);
     setLayout(layout);
 }
 
@@ -69,6 +78,22 @@ void CKeysView::setModel(QSortFilterProxyModel *model)
     connect(model->sourceModel(), SIGNAL(editedValueCountChanged(int)),
             this, SLOT(updateRevertChangesLabel(int)));
 }
+
+CTableView* CKeysView::tableView() const
+{
+    return m_view;
+}
+
+CConfModel* CKeysView::sourceModel() const
+{
+    return m_view->sourceModel();
+}
+
+QSortFilterProxyModel* CKeysView::proxyModel() const
+{
+    return m_view->proxyModel();
+}
+
 
 void CKeysView::updateRevertChangesLabel(int count)
 {
@@ -93,4 +118,28 @@ void CKeysView::resizeColumns()
 {
     m_view->resizeColumns();
 }
+
+void CKeysView::updateSelectionInfo(const QModelIndex & p_index)
+{
+    if (!p_index.isValid())
+    {
+        return;
+    }
+
+    const QModelIndex & idx = proxyModel()->mapToSource(p_index);
+
+    const QString cat    = sourceModel()->data(idx, CConfModel::CategoryRole).toString();
+    const QString subcat = sourceModel()->data(idx, CConfModel::SubCategoryRole).toString();
+    const QString param  = sourceModel()->data(idx, CConfModel::ParameterRole).toString();
+    const QString curVal = sourceModel()->data(idx, CConfModel::ValueRole).toString();
+    const QString iniVal = sourceModel()->data(idx, CConfModel::InitialValueRole).toString();
+    const QString defVal = sourceModel()->data(idx, CConfModel::DefaultValueRole).toString();
+
+    const QString infoParameter = tr("<b>Parameter:</b> %1 / %2 / %3").arg(cat).arg(subcat).arg(param);
+    const QString infoValues    = tr("<b>Values:</b> %1 (current) %2 (initial) %3 (default)").arg(curVal).arg(iniVal).arg(defVal);
+    const QString info = QString("%1 <br/> %2").arg(infoParameter).arg(infoValues);
+
+    m_currentSelectionInfo->setText(info);
+}
+
 

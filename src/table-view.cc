@@ -130,10 +130,12 @@ bool CTableView::focusNextPrevChild(bool p_next)
     {
         const QModelIndex next = proxyModel()->index(currentIndex().row() + 1, 3);
         setCurrentIndex(next);
+        emit(clicked(next));
     }
     else
     {
         const QModelIndex prev = proxyModel()->index(currentIndex().row() - 1, 3);
+        emit(clicked(prev));
         setCurrentIndex(prev);
     }
 
@@ -153,6 +155,7 @@ void CTableView::enterKeyPressed()
     else
     {
         const QModelIndex next = proxyModel()->index(currentIndex().row() + 1, 3);
+        emit(clicked(next));
         setCurrentIndex(next);
         setFocus(Qt::ShortcutFocusReason);
     }
