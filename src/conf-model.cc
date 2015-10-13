@@ -174,24 +174,10 @@ bool CConfModel::setData(const QModelIndex & p_index, const QVariant & value, in
     {
         case Qt::EditRole:
         {
-            const QString param = QString("/Conf/%1/%2/%3::false")
-                                                          .arg(data(p_index, CategoryRole).toString())
-                                                          .arg(data(p_index, SubCategoryRole).toString())
-                                                          .arg(data(p_index, ParameterRole).toString());
-
-            const QString oldValue = data(p_index, InitialValueRole).toString();
-            const QString newValue = value.toString();
-
-            if (oldValue != newValue)
+            if (setData(p_index, value, ValueRole))
             {
-                m_rawData.replace(QString("%1=%2").arg(param).arg(oldValue),
-                                  QString("%1=%2").arg(param).arg(value.toString()));
-
-                if (setData(p_index, newValue, ValueRole))
-                {
-                    emit(editedValueCountChanged(editedValuesCount()));
-                    return true;
-                }
+                emit(editedValueCountChanged(editedValuesCount()));
+                return true;
             }
         }
         return false;
