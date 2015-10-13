@@ -58,8 +58,8 @@ int main(int argc, char *argv[])
 
     QApplication::setOrganizationName("ViTechnology");
     QApplication::setOrganizationDomain("vitechnology.com");
-    QApplication::setApplicationName(XML_EDITOR_APPLICATION_NAME);
-    QApplication::setApplicationVersion(XML_EDITOR_VERSION);
+    QApplication::setApplicationName(CONF_EDITOR_APPLICATION_NAME);
+    QApplication::setApplicationVersion(CONF_EDITOR_VERSION);
 
     // Load the application ressources (icons, ...)
     Q_INIT_RESOURCE(xml);
@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
     QString translationFilename = QString("conf-editor_%1.qm").arg(QLocale::system().name().split('_').first());
     QString directory;
 
-    translationDirectory = QDir(XML_EDITOR_DATA_PATH);
+    translationDirectory = QDir(CONF_EDITOR_DATA_PATH);
     if (translationDirectory.exists())
         directory = translationDirectory.absoluteFilePath("lang");
     else
