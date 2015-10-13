@@ -35,7 +35,6 @@
 #include <QStackedWidget>
 #include <QDebug>
 
-#include "preferences.hh"
 #include "conf-model.hh"
 #include "categories-view.hh"
 #include "keys-view.hh"
@@ -50,8 +49,6 @@ CMainWindow::CMainWindow(QWidget *parent)
 , m_proxy(0)
 , m_categoriesView(0)
 , m_keysView(0)
-, m_isToolBarDisplayed(true)
-, m_isStatusBarDisplayed(true)
 , m_openPath(QDir::homePath())
 , m_savePath(QDir::homePath())
 {
@@ -97,11 +94,6 @@ void CMainWindow::readSettings(bool firstLaunch)
     }
     m_openPath = settings.value("openPath", QDir::homePath()).toString();
     m_savePath = settings.value("savePath", QDir::homePath()).toString();
-    settings.endGroup();
-
-    settings.beginGroup("display");
-    setStatusBarDisplayed(settings.value("statusBar", true).toBool());
-    setToolBarDisplayed(settings.value("toolBar", true).toBool());
     settings.endGroup();
 }
 
@@ -154,34 +146,6 @@ void CMainWindow::createActions()
     m_exitAct->setStatusTip(tr("Quit the program"));
     m_exitAct->setMenuRole(QAction::QuitRole);
     connect(m_exitAct, SIGNAL(triggered()), this, SLOT(close()));
-
-    m_preferencesAct = new QAction(tr("&Preferences"), this);
-    m_preferencesAct->setIcon(QIcon::fromTheme("document-properties", QIcon(":/icons/tango/src/document-properties.svg")));
-    m_preferencesAct->setStatusTip(tr("Configure the application"));
-    m_exitAct->setShortcut(QKeySequence::Preferences);
-    m_preferencesAct->setMenuRole(QAction::PreferencesRole);
-    connect(m_preferencesAct, SIGNAL(triggered()), SLOT(preferences()));
-}
-
-void CMainWindow::setToolBarDisplayed(bool value)
-{
-    m_mainToolBar->setVisible(value);
-}
-
-bool CMainWindow::isToolBarDisplayed()
-{
-    return m_isToolBarDisplayed;
-}
-
-void CMainWindow::setStatusBarDisplayed(bool value)
-{
-    m_isStatusBarDisplayed = value;
-    statusBar()->setVisible(value);
-}
-
-bool CMainWindow::isStatusBarDisplayed()
-{
-    return m_isStatusBarDisplayed;
 }
 
 void CMainWindow::closeEvent(QCloseEvent *event)
@@ -210,8 +174,6 @@ void CMainWindow::createMenus()
     fileMenu->addAction(m_saveAct);
     fileMenu->addAction(m_saveAsAct);
     fileMenu->addSeparator();
-    fileMenu->addAction(m_preferencesAct);
-    fileMenu->addSeparator();
     fileMenu->addAction(m_exitAct);
 
     QMenu *helpMenu = menuBar()->addMenu(tr("&Help"));
@@ -231,13 +193,6 @@ void CMainWindow::createToolBar()
     addToolBar(m_mainToolBar);
 
     setUnifiedTitleAndToolBarOnMac(true);
-}
-
-void CMainWindow::preferences()
-{
-    CConfigDialog dialog(this);
-    dialog.exec();
-    readSettings();
 }
 
 void CMainWindow::about()

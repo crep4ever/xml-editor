@@ -61,9 +61,6 @@ void save();
 void saveAs();
 void setModified(int);
 // application
-void preferences();
-void setToolBarDisplayed(bool);
-void setStatusBarDisplayed(bool);
 void about();
 
 private:
@@ -74,9 +71,6 @@ void createActions();
 void createMenus();
 void createToolBar();
 
-bool isToolBarDisplayed();
-bool isStatusBarDisplayed();
-
 // Widgets
 QStackedWidget *m_mainWidget;
 QToolBar *m_mainToolBar;
@@ -85,12 +79,7 @@ CConfProxyModel *m_proxy;
 CCategoriesView *m_categoriesView;
 CKeysView *m_keysView;
 
-// Settings
-bool m_isToolBarDisplayed;
-bool m_isStatusBarDisplayed;
-
 // Application actions
-QAction *m_preferencesAct;
 QAction *m_aboutAct;
 QAction *m_exitAct;
 

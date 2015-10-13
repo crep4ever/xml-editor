@@ -16,7 +16,6 @@ include(${CMAKE_MODULE_PATH}/conf-editor-config.cmake)
 set(CONF_EDITOR_SOURCES
   src/main.cc
   src/main-window.cc
-  src/preferences.cc
   src/utils/lineedit.cc
   src/filter-lineedit.cc
   src/conf-model.cc
@@ -29,7 +28,6 @@ set(CONF_EDITOR_SOURCES
 # header (moc)
 set(CONF_EDITOR_QT_HEADER
   src/main-window.hh
-  src/preferences.hh
   src/utils/lineedit.hh
   src/utils/lineedit_p.hh
   src/filter-lineedit.hh
