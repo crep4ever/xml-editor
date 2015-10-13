@@ -60,10 +60,10 @@ CTableView::CTableView(QWidget *parent) : QTableView(parent)
 
     // Additional shortcuts
     QShortcut *s = new QShortcut(QKeySequence(Qt::Key_Return), this);
-    connect(s, SIGNAL(activated()), SLOT(enterKeyPressed()), Qt::QueuedConnection);
+    connect(s, SIGNAL(activated()), SLOT(enterKeyPressed()));
 
     s = new QShortcut(QKeySequence(Qt::Key_Enter), this);
-    connect(s, SIGNAL(activated()), SLOT(enterKeyPressed()), Qt::QueuedConnection);
+    connect(s, SIGNAL(activated()), SLOT(enterKeyPressed()));
 
     s = new QShortcut(QKeySequence(Qt::Key_I), this);
     connect(s, SIGNAL(activated()), SLOT(revertToOriginalValue()));
@@ -150,6 +150,8 @@ void CTableView::enterKeyPressed()
 {
     if (state() != QAbstractItemView::EditingState)
     {
+        const QModelIndex current = proxyModel()->index(currentIndex().row(), 3);
+        setCurrentIndex(current);
         edit(currentIndex());
         setState(QAbstractItemView::EditingState);
     }
