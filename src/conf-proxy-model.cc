@@ -69,26 +69,25 @@ bool CConfProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceP
     if (!m_keywordFilter.isEmpty())
     {
         foreach (const QString & keyword, m_keywordFilter)
-                        {
+        {
             QRegExp re(keyword,  Qt::CaseInsensitive);
             re.setMinimal(true);
 
             if (re.indexIn(sourceModel()->data(index, CConfModel::CategoryRole).toString()) == -1 &&
-                            re.indexIn(sourceModel()->data(index, CConfModel::SubCategoryRole).toString()) == -1 &&
-                            re.indexIn(sourceModel()->data(index, CConfModel::ParameterRole).toString()) == -1 &&
-                            re.indexIn(sourceModel()->data(index, CConfModel::ValueRole).toString()) == -1 &&
-                            re.indexIn(sourceModel()->data(index, CConfModel::DefaultValueRole).toString()) == -1)
+                re.indexIn(sourceModel()->data(index, CConfModel::SubCategoryRole).toString()) == -1 &&
+                re.indexIn(sourceModel()->data(index, CConfModel::ParameterRole).toString()) == -1 &&
+                re.indexIn(sourceModel()->data(index, CConfModel::ValueRole).toString()) == -1 &&
+                re.indexIn(sourceModel()->data(index, CConfModel::DefaultValueRole).toString()) == -1)
             {
                 accept = false;
             }
-                        }
+        }
     }
 
     if (m_onlyModified)
     {
         const bool isModified = sourceModel() && 
-                        !sourceModel()->data(index, CConfModel::DefaultValueRole).isNull() &&
-                        sourceModel()->data(index, CConfModel::DefaultValueRole) != sourceModel()->data(index, CConfModel::ValueRole);
+	  sourceModel()->data(index, CConfModel::DefaultValueRole) != sourceModel()->data(index, CConfModel::ValueRole);
 
         accept = accept && isModified;
     }
