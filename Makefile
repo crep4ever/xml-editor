@@ -7,7 +7,7 @@ else
     ECHO=@:
 endif
 
-TARGETS=xml-editor
+TARGETS=conf
 BUILDLN=build
 
 all: $(TARGETS) $(BUILDLN) ;

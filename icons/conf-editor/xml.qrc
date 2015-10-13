@@ -1,5 +1,5 @@
 <!DOCTYPE RCC><RCC version="1.0">
-  <qresource prefix="icons/xml-editor">
+  <qresource prefix="icons/conf-editor">
     <file>48x48/fold.png</file>
     <file>48x48/unfold.png</file>
 

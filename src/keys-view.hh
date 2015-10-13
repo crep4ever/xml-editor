@@ -21,11 +21,14 @@
 
 #include <QWidget>
 #include <QString>
+#include <QModelIndex>
 
 class QSortFilterProxyModel;
-class QTableView;
 class QPushButton;
+class QLabel;
 class CFilterLineEdit;
+class CConfModel;
+class CTableView;
 
 /*!
   \file keys-view.hh
@@ -39,37 +42,47 @@ class CFilterLineEdit;
   through the model.
 
   \image html keys.png
-*/
+ */
 class CKeysView : public QWidget
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  /// Constructor.
-  CKeysView(QWidget *parent = 0);
+    /// Constructor.
+    CKeysView(QWidget *parent = 0);
 
-  /// Destructor.
-  ~CKeysView();
+    /// Destructor.
+    ~CKeysView();
 
-  void setModel(QSortFilterProxyModel *model);
+    CTableView* tableView() const;
 
-  void reset();
+    CConfModel* sourceModel() const;
 
-  void setFocus();
+    QSortFilterProxyModel* proxyModel() const;
+
+    void setModel(QSortFilterProxyModel *model);
+
+    void reset();
+
+    void setFocus();
 
 public slots:
-  void resizeColumns();
+void resizeColumns();
 
 signals:
-  void parameterFilterChanged(const QString &);
+void parameterFilterChanged(const QString &);
 
 private slots:
-  void updateRevertChangesLabel(int count);
+void updateRevertChangesLabel(int count);
+void updateSelectionInfo(const QModelIndex & p_index);
+
 
 private:
-  QTableView *m_view;
-  CFilterLineEdit *m_filterLineEdit;
-  QPushButton *m_revertChangesButton;
+CTableView *m_view;
+CFilterLineEdit *m_filterLineEdit;
+QPushButton *m_revertChangesButton;
+QLabel *m_currentSelectionInfo;
+
 };
 
 #endif  // __KEYS_VIEW_HH__

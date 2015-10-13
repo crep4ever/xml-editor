@@ -30,53 +30,53 @@
 #define ITEMS_PER_ROW 4
 
 CCategoriesView::CCategoriesView(QWidget *parent)
-  : QWidget(parent)
-  , m_categories()
-  , m_subcategories()
-  , m_categoriesLayout(new QGridLayout)
-  , m_subcategoriesLayout(new QGridLayout)
+: QWidget(parent)
+, m_categories()
+, m_subcategories()
+, m_categoriesLayout(new QGridLayout)
+, m_subcategoriesLayout(new QGridLayout)
 {
-  // Categories
-  QLabel *catTitle = new QLabel(tr("Categories"));
-  QFont titleFont("Arial", 16, QFont::Bold);
-  catTitle->setFont(titleFont);
+    // Categories
+    QLabel *catTitle = new QLabel(tr("Categories"));
+    QFont titleFont("Arial", 16, QFont::Bold);
+    catTitle->setFont(titleFont);
 
-  QVBoxLayout *categoriesWrapperLayout = new QVBoxLayout;
-  categoriesWrapperLayout->addWidget(catTitle);
-  categoriesWrapperLayout->addLayout(m_categoriesLayout);
-  categoriesWrapperLayout->addStretch();
+    QVBoxLayout *categoriesWrapperLayout = new QVBoxLayout;
+    categoriesWrapperLayout->addWidget(catTitle);
+    categoriesWrapperLayout->addLayout(m_categoriesLayout);
+    categoriesWrapperLayout->addStretch();
 
-  QWidget *categoriesWidget = new QWidget;
-  categoriesWidget->setLayout(categoriesWrapperLayout);
+    QWidget *categoriesWidget = new QWidget;
+    categoriesWidget->setLayout(categoriesWrapperLayout);
 
-  // SubCategories
-  QLabel *subcatTitle = new QLabel(tr("SubCategories"));
-  subcatTitle->setFont(titleFont);
+    // SubCategories
+    QLabel *subcatTitle = new QLabel(tr("SubCategories"));
+    subcatTitle->setFont(titleFont);
 
-  QVBoxLayout *subcategoriesWrapperLayout = new QVBoxLayout;
-  subcategoriesWrapperLayout->addWidget(subcatTitle);
-  subcategoriesWrapperLayout->addLayout(m_subcategoriesLayout);
-  subcategoriesWrapperLayout->addStretch();
+    QVBoxLayout *subcategoriesWrapperLayout = new QVBoxLayout;
+    subcategoriesWrapperLayout->addWidget(subcatTitle);
+    subcategoriesWrapperLayout->addLayout(m_subcategoriesLayout);
+    subcategoriesWrapperLayout->addStretch();
 
-  QWidget *subcategoriesWidget = new QWidget;
-  subcategoriesWidget->setLayout(subcategoriesWrapperLayout);
+    QWidget *subcategoriesWidget = new QWidget;
+    subcategoriesWidget->setLayout(subcategoriesWrapperLayout);
 
-  // Main layout
-  QSplitter *splitter = new QSplitter;
-  splitter->setOrientation(Qt::Vertical);
-  splitter->addWidget(categoriesWidget);
-  splitter->addWidget(subcategoriesWidget);
-  splitter->setStretchFactor(1, 10);
+    // Main layout
+    QSplitter *splitter = new QSplitter;
+    splitter->setOrientation(Qt::Vertical);
+    splitter->addWidget(categoriesWidget);
+    splitter->addWidget(subcategoriesWidget);
+    splitter->setStretchFactor(1, 10);
 
-  QScrollArea *scrollArea = new QScrollArea;
-  scrollArea->setBackgroundRole(QPalette::Dark);
-  scrollArea->setWidgetResizable(true);
-  scrollArea->setWidget(splitter);
+    QScrollArea *scrollArea = new QScrollArea;
+    scrollArea->setBackgroundRole(QPalette::Dark);
+    scrollArea->setWidgetResizable(true);
+    scrollArea->setWidget(splitter);
 
-  QLayout *layout = new QHBoxLayout;
-  layout->addWidget(scrollArea);
+    QLayout *layout = new QHBoxLayout;
+    layout->addWidget(scrollArea);
 
-  setLayout(layout);
+    setLayout(layout);
 }
 
 CCategoriesView::~CCategoriesView()
@@ -85,157 +85,157 @@ CCategoriesView::~CCategoriesView()
 
 void CCategoriesView::reset()
 {
-  m_categories.clear();
-  m_subcategories.clear();
+    m_categories.clear();
+    m_subcategories.clear();
 
-  resetCategories();
-  resetSubCategories();
+    resetCategories();
+    resetSubCategories();
 }
 
 void CCategoriesView::resetCategories()
 {
-  // remove items without destroying containers
-  for (int i = 0; i < m_categoriesLayout->rowCount(); ++i)
-    for (int j = 0; j < m_categoriesLayout->columnCount(); ++j)
-      {
-	QLayoutItem * item = m_categoriesLayout->itemAtPosition(i, j);
-	if (item)
-	  {
-	    delete item->widget();
-	  }
-      }
+    // remove items without destroying containers
+    for (int i = 0; i < m_categoriesLayout->rowCount(); ++i)
+        for (int j = 0; j < m_categoriesLayout->columnCount(); ++j)
+        {
+            QLayoutItem * item = m_categoriesLayout->itemAtPosition(i, j);
+            if (item)
+            {
+                delete item->widget();
+            }
+        }
 }
 
 void CCategoriesView::resetSubCategories()
 {
-  // remove items without destroying containers
-  for (int i = 0; i < m_subcategoriesLayout->rowCount(); ++i)
-    for (int j = 0; j < m_subcategoriesLayout->columnCount(); ++j)
-      {
-	QLayoutItem * item = m_subcategoriesLayout->itemAtPosition(i, j);
-	if (item)
-	  {
-	    delete item->widget();
-	  }
-      }
+    // remove items without destroying containers
+    for (int i = 0; i < m_subcategoriesLayout->rowCount(); ++i)
+        for (int j = 0; j < m_subcategoriesLayout->columnCount(); ++j)
+        {
+            QLayoutItem * item = m_subcategoriesLayout->itemAtPosition(i, j);
+            if (item)
+            {
+                delete item->widget();
+            }
+        }
 }
 
 QIcon CCategoriesView::iconFromCategory(const QString & category)
 {
-  if (category.contains("Process"))
+    if (category.contains("Process"))
     {
-      return QIcon(":/icons/xml-editor/src/process.svg");
+        return QIcon(":/icons/conf-editor/src/process.svg");
     }
-  else if (category.contains("Display"))
+    else if (category.contains("Display"))
     {
-      return QIcon(":/icons/xml-editor/src/display.svg");
+        return QIcon(":/icons/conf-editor/src/display.svg");
     }
-  else if (category.contains("HardwareInterface"))
+    else if (category.contains("HardwareInterface"))
     {
-      return QIcon(":/icons/xml-editor/src/hardware-interface.svg");
+        return QIcon(":/icons/conf-editor/src/hardware-interface.svg");
     }
-  else if (category.contains("Machine"))
+    else if (category.contains("Machine"))
     {
-      return QIcon(":/icons/xml-editor/src/machine.svg");
+        return QIcon(":/icons/conf-editor/src/machine.svg");
     }
-  else if (category.contains("Vision"))
+    else if (category.contains("Vision"))
     {
-      return QIcon(":/icons/xml-editor/src/vision.svg");
+        return QIcon(":/icons/conf-editor/src/vision.svg");
     }
-  else if (category.contains("Algo"))
+    else if (category.contains("Algo"))
     {
-      return QIcon(":/icons/xml-editor/src/algo.svg");
+        return QIcon(":/icons/conf-editor/src/algo.svg");
     }
-  else if (category.contains("Log"))
+    else if (category.contains("Log"))
     {
-      return QIcon(":/icons/xml-editor/src/logs.svg");
+        return QIcon(":/icons/conf-editor/src/logs.svg");
     }
-  else if (category.contains("Benchmark"))
+    else if (category.contains("Benchmark"))
     {
-      return QIcon(":/icons/xml-editor/src/benchmarks.svg");
+        return QIcon(":/icons/conf-editor/src/benchmarks.svg");
     }
-  else if (category.contains("Cheating"))
+    else if (category.contains("Cheating"))
     {
-      return QIcon(":/icons/xml-editor/src/warning.svg");
+        return QIcon(":/icons/conf-editor/src/warning.svg");
     }
-  else if (category.contains("Performance"))
+    else if (category.contains("Performance"))
     {
-      return QIcon(":/icons/xml-editor/src/metrics.svg");
+        return QIcon(":/icons/conf-editor/src/metrics.svg");
     }
-  else if (category.contains("System"))
+    else if (category.contains("System"))
     {
-      return QIcon(":/icons/xml-editor/src/system.svg");
+        return QIcon(":/icons/conf-editor/src/system.svg");
     }
 
-  return QIcon(":/icons/xml-editor/src/tools.svg");
+    return QIcon(":/icons/conf-editor/src/tools.svg");
 }
 
 void CCategoriesView::setModel(CConfModel *model)
 {
-  reset();
+    reset();
 
-  for (int i = 0; i < model->rowCount(); ++i)
+    for (int i = 0; i < model->rowCount(); ++i)
     {
-      const QString cat = model->data(model->index(i, 0)).toString();
-      const QString subcat = model->data(model->index(i, 1)).toString();
+        const QString cat = model->data(model->index(i, 0)).toString();
+        const QString subcat = model->data(model->index(i, 1)).toString();
 
-      m_categories.insert(cat);
-      m_subcategories.insert(cat, subcat);
+        m_categories.insert(cat);
+        m_subcategories.insert(cat, subcat);
     }
 
-  foreach (const QString & cat, m_categories)
+    foreach (const QString & cat, m_categories)
     {
-      QToolButton *catButton = new QToolButton;
-      catButton->setMinimumSize(QSize(140, 120));
-      catButton->setText(cat);
-      catButton->setToolTip(cat);
-      catButton->setIcon(iconFromCategory(cat));
-      catButton->setIconSize(QSize(80, 80));
-      catButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-      m_categoriesLayout->addWidget(catButton,
-				    m_categoriesLayout->count() / ITEMS_PER_ROW,
-				    m_categoriesLayout->count() % ITEMS_PER_ROW);
-      connect(catButton, SIGNAL(clicked()), this, SLOT(listSubCategories()));
+        QToolButton *catButton = new QToolButton;
+        catButton->setMinimumSize(QSize(140, 120));
+        catButton->setText(cat);
+        catButton->setToolTip(cat);
+        catButton->setIcon(iconFromCategory(cat));
+        catButton->setIconSize(QSize(80, 80));
+        catButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+        m_categoriesLayout->addWidget(catButton,
+                                      m_categoriesLayout->count() / ITEMS_PER_ROW,
+                                      m_categoriesLayout->count() % ITEMS_PER_ROW);
+        connect(catButton, SIGNAL(clicked()), this, SLOT(listSubCategories()));
     }
 }
 
 void CCategoriesView::listSubCategories()
 {
-  QToolButton *categoryButton = qobject_cast< QToolButton* >(QObject::sender());
-  if (!categoryButton)
-    return;
+    QToolButton *categoryButton = qobject_cast< QToolButton* >(QObject::sender());
+    if (!categoryButton)
+        return;
 
-  resetSubCategories();
+    resetSubCategories();
 
-  QString category = categoryButton->text();
-  emit(categoryFilterChanged(category));
+    QString category = categoryButton->text();
+    emit(categoryFilterChanged(category));
 
-  QStringList subcategories(m_subcategories.values(category));
-  subcategories.removeDuplicates();
+    QStringList subcategories(m_subcategories.values(category));
+    subcategories.removeDuplicates();
 
-  for (int i = 0; i < subcategories.size(); ++i)
+    for (int i = 0; i < subcategories.size(); ++i)
     {
-      const QString subcat = subcategories[i];
+        const QString subcat = subcategories[i];
 
-      QToolButton *subcatButton = new QToolButton;
-      subcatButton->setMinimumSize(QSize(140, 120));
-      subcatButton->setText(subcat);
-      subcatButton->setToolTip(subcat);
-      subcatButton->setIcon(categoryButton->icon());
-      subcatButton->setIconSize(QSize(80, 80));
-      subcatButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-      m_subcategoriesLayout->addWidget(subcatButton,
-				       m_subcategoriesLayout->count() / ITEMS_PER_ROW,
-				       m_subcategoriesLayout->count() % ITEMS_PER_ROW);
-      connect(subcatButton, SIGNAL(clicked()), this, SLOT(filterSubCategories()));
+        QToolButton *subcatButton = new QToolButton;
+        subcatButton->setMinimumSize(QSize(140, 120));
+        subcatButton->setText(subcat);
+        subcatButton->setToolTip(subcat);
+        subcatButton->setIcon(categoryButton->icon());
+        subcatButton->setIconSize(QSize(80, 80));
+        subcatButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+        m_subcategoriesLayout->addWidget(subcatButton,
+                                         m_subcategoriesLayout->count() / ITEMS_PER_ROW,
+                                         m_subcategoriesLayout->count() % ITEMS_PER_ROW);
+        connect(subcatButton, SIGNAL(clicked()), this, SLOT(filterSubCategories()));
     }
 }
 
 void CCategoriesView::filterSubCategories()
 {
-  QToolButton *button = qobject_cast< QToolButton* >(QObject::sender());
-  if (!button)
-    return;
+    QToolButton *button = qobject_cast< QToolButton* >(QObject::sender());
+    if (!button)
+        return;
 
-  emit(subcategoryFilterChanged(button->text()));
+    emit(subcategoryFilterChanged(button->text()));
 }

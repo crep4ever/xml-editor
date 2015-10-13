@@ -34,76 +34,74 @@ class CKeysView;
   \brief Base class of the application.
 
   Class for the main window of the application.
-*/
+ */
 class CMainWindow : public QMainWindow
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public slots:
-  void open(const QString &filename);
+void open(const QString &filename);
 
 public:
-  /// Constructor.
-  CMainWindow(QWidget *parent=0);
+/// Constructor.
+CMainWindow(QWidget *parent=0);
 
-  /// Destructor.
-  ~CMainWindow();
+/// Destructor.
+~CMainWindow();
 
 protected:
-  /*!
+/*!
     Saves settings before closing the application.
-  */
-  void closeEvent(QCloseEvent *event);
+ */
+void closeEvent(QCloseEvent *event);
 
 private slots:
-  void open();
-  void save();
-  void saveAs();
-  void setModified(int);
-  // application
-  void home();
-  void preferences();
-  void setToolBarDisplayed(bool);
-  void setStatusBarDisplayed(bool);
-  void about();
+void open();
+void save();
+void saveAs();
+void setModified(int);
+// application
+void preferences();
+void setToolBarDisplayed(bool);
+void setStatusBarDisplayed(bool);
+void about();
 
 private:
-  void readSettings(bool firstLaunch = false);
-  void writeSettings();
+void readSettings(bool firstLaunch = false);
+void writeSettings();
 
-  void createActions();
-  void createMenus();
-  void createToolBar();
+void createActions();
+void createMenus();
+void createToolBar();
 
-  bool isToolBarDisplayed();
-  bool isStatusBarDisplayed();
+bool isToolBarDisplayed();
+bool isStatusBarDisplayed();
 
-  // Widgets
-  QStackedWidget *m_mainWidget;
-  QToolBar *m_mainToolBar;
-  CConfModel *m_model;
-  CConfProxyModel *m_proxy;
-  CCategoriesView *m_categoriesView;
-  CKeysView *m_keysView;
+// Widgets
+QStackedWidget *m_mainWidget;
+QToolBar *m_mainToolBar;
+CConfModel *m_model;
+CConfProxyModel *m_proxy;
+CCategoriesView *m_categoriesView;
+CKeysView *m_keysView;
 
-  // Settings
-  bool m_isToolBarDisplayed;
-  bool m_isStatusBarDisplayed;
+// Settings
+bool m_isToolBarDisplayed;
+bool m_isStatusBarDisplayed;
 
-  // Application actions
-  QAction *m_preferencesAct;
-  QAction *m_aboutAct;
-  QAction *m_exitAct;
+// Application actions
+QAction *m_preferencesAct;
+QAction *m_aboutAct;
+QAction *m_exitAct;
 
-  QAction *m_openAct;
-  QAction *m_saveAct;
-  QAction *m_saveAsAct;
-  QAction *m_homeAct;
+QAction *m_openAct;
+QAction *m_saveAct;
+QAction *m_saveAsAct;
 
-  // Settings
-  QString m_openPath;
-  QString m_savePath;
-  QStringList m_recentPaths;
+// Settings
+QString m_openPath;
+QString m_savePath;
+QStringList m_recentPaths;
 };
 
 #endif  // __MAIN_WINDOW_HH__

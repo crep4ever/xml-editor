@@ -18,18 +18,16 @@
 
 /*!
  * \file main.cc
- * \mainpage XML-editor Documentation
+ * \mainpage conf-editor Documentation
  *
- * The XML-editor application provides a simple way
- * to access and modify values from an XML configuration file.
+ * The conf-editor application provides a simple way
+ * to access and modify values from a configuration file.
  * It is specifically designed for ViT xml format so it's not really
  * generic and portable to other projects.
  *
- * The application features two main screens:
- * \li home page: quick access to recent and xml files
+ * The application features one main screen:
  * \li edit page: complementary views of file contents
  *
- * \image html home.png Home screen
  * \image html edit.png Edit screen
  */
 
@@ -47,92 +45,92 @@
 
 namespace // anonymous namespace
 {
-  bool isFilenameSupported(const QString & filename)
-  {
+bool isFilenameSupported(const QString & filename)
+{
     return (filename.endsWith(".xml"));
-  }
+}
 }
 
 /// Main routine of the application
 int main(int argc, char *argv[])
 {
-  QApplication application(argc, argv);
+    QApplication application(argc, argv);
 
-  QApplication::setOrganizationName("ViTechnology");
-  QApplication::setOrganizationDomain("vitechnology.com");
-  QApplication::setApplicationName(XML_EDITOR_APPLICATION_NAME);
-  QApplication::setApplicationVersion(XML_EDITOR_VERSION);
+    QApplication::setOrganizationName("ViTechnology");
+    QApplication::setOrganizationDomain("vitechnology.com");
+    QApplication::setApplicationName(CONF_EDITOR_APPLICATION_NAME);
+    QApplication::setApplicationVersion(CONF_EDITOR_VERSION);
 
-  // Load the application ressources (icons, ...)
-  Q_INIT_RESOURCE(xml);
+    // Load the application ressources (icons, ...)
+    Q_INIT_RESOURCE(xml);
 
-  // Check for a standard theme icon. If it does not exist, for
-  // instance on MacOSX or Windows, fallback to one of the theme
-  // provided in the ressource file.
-  if (!QIcon::hasThemeIcon("document-open"))
+    // Check for a standard theme icon. If it does not exist, for
+    // instance on MacOSX or Windows, fallback to one of the theme
+    // provided in the ressource file.
+    if (!QIcon::hasThemeIcon("document-open"))
     {
-      QIcon::setThemeName("tango");
+        QIcon::setThemeName("tango");
     }
 
-  // Parse command line arguments
-  QStringList arguments = QApplication::arguments();
-  bool helpFlag = false;;
-  bool versionFlag = false;
-  if (arguments.contains("-h") || arguments.contains("--help"))
-    helpFlag = true;
-  else if (arguments.contains("-v") || arguments.contains("--version"))
-    versionFlag = true;
+    // Parse command line arguments
+    QStringList arguments = QApplication::arguments();
+    bool helpFlag = false;;
+    bool versionFlag = false;
+    if (arguments.contains("-h") || arguments.contains("--help"))
+        helpFlag = true;
+    else if (arguments.contains("-v") || arguments.contains("--version"))
+        versionFlag = true;
 
-  // Localization
-  QDir translationDirectory;
-  QString translationFilename = QString("xml-editor_%1.qm").arg(QLocale::system().name().split('_').first());
-  QString directory;
+    // Localization
+    QDir translationDirectory;
+    QString translationFilename = QString("conf-editor_%1.qm").arg(QLocale::system().name().split('_').first());
+    QString directory;
 
-  translationDirectory = QDir(XML_EDITOR_DATA_PATH);
-  if (translationDirectory.exists())
-    directory = translationDirectory.absoluteFilePath("lang");
-  else
-    directory = QDir::current().absoluteFilePath("lang");
+    translationDirectory = QDir(CONF_EDITOR_DATA_PATH);
+    if (translationDirectory.exists())
+        directory = translationDirectory.absoluteFilePath("lang");
+    else
+        directory = QDir::current().absoluteFilePath("lang");
 
-  QTranslator translator;
-  translator.load(translationFilename, directory);
-  application.installTranslator(&translator);
+    QTranslator translator;
+    translator.load(translationFilename, directory);
+    application.installTranslator(&translator);
 
-  if (helpFlag)
+    if (helpFlag)
     {
-      QTextStream out(stdout);
-      out << "Usage: " << QApplication::applicationName() << " [OPTIONS] [FILE]" << endl;
-      out << endl;
+        QTextStream out(stdout);
+        out << "Usage: " << QApplication::applicationName() << " [OPTIONS] [FILE]" << endl;
+        out << endl;
 
-      out << "Options:" << endl;
-      out << "    " << "-h, --help" << "\t\t" << QObject::tr("Print this help and exit") << endl;
-      out << "    " << "-v, --version" << "\t" << QObject::tr("Print the version of this application") << endl;
-      out << endl;
+        out << "Options:" << endl;
+        out << "    " << "-h, --help" << "\t\t" << QObject::tr("Print this help and exit") << endl;
+        out << "    " << "-v, --version" << "\t" << QObject::tr("Print the version of this application") << endl;
+        out << endl;
 
-      out << "File:" << endl;
-      out << "    " << QObject::tr("XML configuration file") << endl;
+        out << "File:" << endl;
+        out << "    " << QObject::tr("XML configuration file") << endl;
 
-      out << " " << QApplication::applicationVersion() << endl;
-      return 0;
+        out << " " << QApplication::applicationVersion() << endl;
+        return 0;
     }
-  else if (versionFlag)
+    else if (versionFlag)
     {
-      QTextStream out(stdout);
-      out << QApplication::applicationName();
-      out << " " << QApplication::applicationVersion() << endl;
-      return 0;
+        QTextStream out(stdout);
+        out << QApplication::applicationName();
+        out << " " << QApplication::applicationVersion() << endl;
+        return 0;
     }
 
-  CMainWindow mainWindow;
-  mainWindow.show();
+    CMainWindow mainWindow;
+    mainWindow.show();
 
-  foreach (const QString & arg, arguments)
+    foreach (const QString & arg, arguments)
     {
-      if (QFile(arg).exists() && isFilenameSupported(arg))
+        if (QFile(arg).exists() && isFilenameSupported(arg))
         {
-          mainWindow.open(arg);
+            mainWindow.open(arg);
         }
     }
 
-  return application.exec();
+    return application.exec();
 }

@@ -41,7 +41,7 @@ void clearKeywordFilter();
 const QStringList & keywordFilter() const;
 
 signals:
- void filteringChanged();
+void filteringChanged();
 
 
 protected:

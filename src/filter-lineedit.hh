@@ -95,10 +95,10 @@ public:
     void addAction(QAction *action);
 
 public slots:
-    void filterModifiedValues();
+void filterModifiedValues();
 
 private:
-    QMenu* m_menu;
+QMenu* m_menu;
 };
 
 #endif // __FILTER_LINEEDIT_HH__

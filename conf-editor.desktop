@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Conf Editor
+Name[fr]=Éditeur de fichiers de configuration
+Name[en]=Conf files editor
+GenericName=Conf Editor
+Comment=Edit VIT conf files
+TryExec=conf
+Exec=conf %U
+Icon=xml-editor.svg
+Terminal=false
+Categories=Application;Utility;

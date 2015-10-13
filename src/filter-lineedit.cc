@@ -24,155 +24,155 @@
 #include <QDebug>
 
 CClearButton::CClearButton(QWidget *parent)
-  : QToolButton(parent)
+: QToolButton(parent)
 {
-  setCursor(Qt::ArrowCursor);
-  setFocusPolicy(Qt::NoFocus);
-  setToolTip(tr("Clear"));
-  setMinimumSize(22, 22);
-  setVisible(false);
+    setCursor(Qt::ArrowCursor);
+    setFocusPolicy(Qt::NoFocus);
+    setToolTip(tr("Clear"));
+    setMinimumSize(22, 22);
+    setVisible(false);
 
-  // First check for a style icon
-  if (m_icon.isNull())
+    // First check for a style icon
+    if (m_icon.isNull())
     {
-      QIcon icon = QIcon::fromTheme("edit-clear", QIcon(":/icons/tango/src/edit-clear.svg"));
-      if (!icon.isNull())
-	m_icon = icon.pixmap(16, 16).toImage();
+        QIcon icon = QIcon::fromTheme("edit-clear", QIcon(":/icons/tango/src/edit-clear.svg"));
+        if (!icon.isNull())
+            m_icon = icon.pixmap(16, 16).toImage();
     }
 }
 
 void CClearButton::textChanged(const QString &text)
 {
-  setVisible(!text.isEmpty());
+    setVisible(!text.isEmpty());
 }
 
 void CClearButton::paintEvent(QPaintEvent *event)
 {
-  Q_UNUSED(event);
-  QPainter painter(this);
+    Q_UNUSED(event);
+    QPainter painter(this);
 
-  if (!m_icon.isNull())
+    if (!m_icon.isNull())
     {
-      int x = (width() - m_icon.width()) / 2 - 1;
-      int y = (height() - m_icon.height()) / 2 - 1;
-      painter.drawImage(x, y, m_icon);
-      return;
+        int x = (width() - m_icon.width()) / 2 - 1;
+        int y = (height() - m_icon.height()) / 2 - 1;
+        painter.drawImage(x, y, m_icon);
+        return;
     }
 
-  // Fall back to boring circle X
-  painter.setRenderHint(QPainter::Antialiasing, true);
+    // Fall back to boring circle X
+    painter.setRenderHint(QPainter::Antialiasing, true);
 
-  QPalette p = palette();
-  QColor circleColor = isDown() ? p.color(QPalette::Dark) : p.color(QPalette::Mid);
-  QColor xColor = p.color(QPalette::Window);
+    QPalette p = palette();
+    QColor circleColor = isDown() ? p.color(QPalette::Dark) : p.color(QPalette::Mid);
+    QColor xColor = p.color(QPalette::Window);
 
-  // draw circle
-  painter.setBrush(circleColor);
-  painter.setPen(circleColor);
-  int padding = width() / 5;
-  int circleRadius = width() - (padding * 2);
-  painter.drawEllipse(padding, padding, circleRadius, circleRadius);
+    // draw circle
+    painter.setBrush(circleColor);
+    painter.setPen(circleColor);
+    int padding = width() / 5;
+    int circleRadius = width() - (padding * 2);
+    painter.drawEllipse(padding, padding, circleRadius, circleRadius);
 
-  // draw X
-  painter.setPen(xColor);
-  padding *= 2;
-  painter.drawLine(padding, padding, width() - padding, width() - padding);
-  painter.drawLine(padding, height() - padding, width() - padding, padding);
+    // draw X
+    painter.setPen(xColor);
+    padding *= 2;
+    painter.drawLine(padding, padding, width() - padding, width() - padding);
+    painter.drawLine(padding, height() - padding, width() - padding, padding);
 }
 
 CMagButton::CMagButton(QWidget *parent)
-  : QToolButton(parent)
+: QToolButton(parent)
 {
-  setCursor(Qt::ArrowCursor);
-  setFocusPolicy(Qt::NoFocus);
-  setToolTip(tr("Filter"));
-  setMinimumSize(22, 22);
-  setVisible(true);
-  setPopupMode(QToolButton::InstantPopup);
+    setCursor(Qt::ArrowCursor);
+    setFocusPolicy(Qt::NoFocus);
+    setToolTip(tr("Filter"));
+    setMinimumSize(22, 22);
+    setVisible(true);
+    setPopupMode(QToolButton::InstantPopup);
 }
 
 void CMagButton::paintEvent(QPaintEvent *event)
 {
-  Q_UNUSED(event);
-  QPainter painter(this);
+    Q_UNUSED(event);
+    QPainter painter(this);
 
-  if (!m_icon.isNull())
+    if (!m_icon.isNull())
     {
-      int x = (width() - m_icon.width()) / 2 - 1;
-      int y = (height() - m_icon.height()) / 2 - 1;
-      painter.drawImage(x, y, m_icon);
-      return;
+        int x = (width() - m_icon.width()) / 2 - 1;
+        int y = (height() - m_icon.height()) / 2 - 1;
+        painter.drawImage(x, y, m_icon);
+        return;
     }
 
-  // Fall back to boring circle X
-  painter.setRenderHint(QPainter::Antialiasing, true);
+    // Fall back to boring circle X
+    painter.setRenderHint(QPainter::Antialiasing, true);
 
-  QPalette p = palette();
+    QPalette p = palette();
 
-  QPen pen(QColor::fromRgb(85,85,85));
-  pen.setWidth(2);
+    QPen pen(QColor::fromRgb(85,85,85));
+    pen.setWidth(2);
 
-  // draw circle
-  painter.setPen(pen);
-  int padding = width() / 4;
-  int circleRadius = (width() - (padding * 2))*3/4;
-  painter.drawEllipse(padding, padding, circleRadius, circleRadius);
+    // draw circle
+    painter.setPen(pen);
+    int padding = width() / 4;
+    int circleRadius = (width() - (padding * 2))*3/4;
+    painter.drawEllipse(padding, padding, circleRadius, circleRadius);
 
-  // draw
-  painter.drawLine(padding+circleRadius, padding+circleRadius, width() - padding, width() - padding);
+    // draw
+    painter.drawLine(padding+circleRadius, padding+circleRadius, width() - padding, width() - padding);
 }
 
 CFilterLineEdit::CFilterLineEdit(QWidget *parent)
-  : LineEdit(parent)
-  , m_menu(new QMenu(this))
+: LineEdit(parent)
+, m_menu(new QMenu(this))
 {
-  CClearButton *clearButton = new CClearButton(this);
-  CMagButton *magButton = new CMagButton(this);
-  QString style("QListView, QLineEdit {"
-		"selection-color: white; "
-		"border: 2px groove gray;"
-		"border-radius: 13px;"
-		"padding: 2px 2px;"
-		"background-image: url(:/icons/xxx.png);"
-		"background-position: top right;"
-		"padding-right: 0px;"
-		"}"
-		"QLineEdit:focus {"
-		"selection-color: white;   "
-		"border: 2px groove gray;"
-		"border-radius: 13px;"
-		"padding: 2px 2px;"
-		"background-image: url(:/icons/xxx.png);"
-		"padding-right: 0px;"
-		"}"
-		"QLineEdit:edit-focus {"
-		"selection-color: white;   "
-		"border: 2px groove gray;"
-		"border-radius: 13px;"
-		"padding: 2px 2px;"
-		"background-image: url(:/icons/xxx.png);"
-		"padding-right: 0px;"
-		"}");
+    CClearButton *clearButton = new CClearButton(this);
+    CMagButton *magButton = new CMagButton(this);
+    QString style("QListView, QLineEdit {"
+                    "selection-color: white; "
+                    "border: 2px groove gray;"
+                    "border-radius: 13px;"
+                    "padding: 2px 2px;"
+                    "background-image: url(:/icons/xxx.png);"
+                    "background-position: top right;"
+                    "padding-right: 0px;"
+                    "}"
+                    "QLineEdit:focus {"
+                    "selection-color: white;   "
+                    "border: 2px groove gray;"
+                    "border-radius: 13px;"
+                    "padding: 2px 2px;"
+                    "background-image: url(:/icons/xxx.png);"
+                    "padding-right: 0px;"
+                    "}"
+                    "QLineEdit:edit-focus {"
+                    "selection-color: white;   "
+                    "border: 2px groove gray;"
+                    "border-radius: 13px;"
+                    "padding: 2px 2px;"
+                    "background-image: url(:/icons/xxx.png);"
+                    "padding-right: 0px;"
+                    "}");
 
-  setStyleSheet(style);
-  setAttribute(Qt::WA_MacShowFocusRect, 0);
-  addWidget(magButton, LeftSide);
-  magButton->setMenu(m_menu);
-  connect(magButton, SIGNAL(clicked()), magButton, SLOT(showMenu()));
+    setStyleSheet(style);
+    setAttribute(Qt::WA_MacShowFocusRect, 0);
+    addWidget(magButton, LeftSide);
+    magButton->setMenu(m_menu);
+    connect(magButton, SIGNAL(clicked()), magButton, SLOT(showMenu()));
 
-  connect(clearButton, SIGNAL(clicked()), this, SLOT(clear()));
-  connect(this, SIGNAL(textChanged(const QString&)),
-	  clearButton, SLOT(textChanged(const QString&)));
-  addWidget(clearButton, RightSide);
-  addWidget(magButton, LeftSide);
+    connect(clearButton, SIGNAL(clicked()), this, SLOT(clear()));
+    connect(this, SIGNAL(textChanged(const QString&)),
+            clearButton, SLOT(textChanged(const QString&)));
+    addWidget(clearButton, RightSide);
+    addWidget(magButton, LeftSide);
 
-  QAction *action = new QAction(tr("Filter modified values"), this);
-  action->setStatusTip(tr("Filter modified values"));
-  connect(action, SIGNAL(triggered()), SLOT(filterModifiedValues()));
-  addAction(action);
+    QAction *action = new QAction(tr("Filter modified values"), this);
+    action->setStatusTip(tr("Filter modified values"));
+    connect(action, SIGNAL(triggered()), SLOT(filterModifiedValues()));
+    addAction(action);
 
-  updateTextMargins();
-  setInactiveText(tr("Filter"));
+    updateTextMargins();
+    setInactiveText(tr("Filter"));
 }
 
 CFilterLineEdit::~CFilterLineEdit()
@@ -180,7 +180,7 @@ CFilterLineEdit::~CFilterLineEdit()
 
 void CFilterLineEdit::addAction(QAction* action)
 {
-  m_menu->addAction(action);
+    m_menu->addAction(action);
 }
 
 void CFilterLineEdit::filterModifiedValues()

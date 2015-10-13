@@ -40,32 +40,32 @@ class QSpinBox;
     \class CConfigDialog
     \brief Handles the display of the configuration pages
     \image html preferences.png
-*/
+ */
 class CConfigDialog : public QDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  /// Constructor.
-  CConfigDialog(QWidget* parent = 0);
+    /// Constructor.
+    CConfigDialog(QWidget* parent = 0);
 
 public slots:
-  /*!
+/*!
     Changes the configuration page from \a previous to \a current.
-  */
-  void changePage(QListWidgetItem *current, QListWidgetItem *previous);
+ */
+void changePage(QListWidgetItem *current, QListWidgetItem *previous);
 
 protected:
-  /*!
+/*!
     Saves all pages settings before closing.
-  */
-  void closeEvent(QCloseEvent *event);
+ */
+void closeEvent(QCloseEvent *event);
 
 private:
-  void createIcons();
+void createIcons();
 
-  QListWidget *m_contentsWidget;
-  QStackedWidget *m_pagesWidget;
+QListWidget *m_contentsWidget;
+QStackedWidget *m_pagesWidget;
 };
 
 /**
@@ -74,27 +74,27 @@ private:
  */
 class CPage : public QScrollArea
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  /// Constructor.
-  CPage(QWidget *parent = 0);
+    /// Constructor.
+    CPage(QWidget *parent = 0);
 
-  /*!
+    /*!
     Applies the layout \a layout to the current page.
-  */
-  void setLayout(QLayout *layout);
+     */
+    void setLayout(QLayout *layout);
 
 protected:
-  /*!
+    /*!
     Saves settings before closing the page.
-  */
-  void closeEvent(QCloseEvent *event);
+     */
+    void closeEvent(QCloseEvent *event);
 
 private:
-  virtual void readSettings();
-  virtual void writeSettings();
+    virtual void readSettings();
+    virtual void writeSettings();
 
-  QWidget *m_content;
+    QWidget *m_content;
 };
 
 /**
@@ -103,43 +103,18 @@ private:
  */
 class CApplicationPage : public CPage
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  /// Constructor.
-  CApplicationPage(QWidget *parent = 0);
+    /// Constructor.
+    CApplicationPage(QWidget *parent = 0);
 
 private:
-  void readSettings();
-  void writeSettings();
+    void readSettings();
+    void writeSettings();
 
-  QCheckBox *m_statusBarCheckBox;
-  QCheckBox *m_toolBarCheckBox;
-};
-
-/**
- * \class CHomePage
- * \brief Access home screen settings within CConfigDialog
- */
-class CHomePage : public CPage
-{
-  Q_OBJECT
-
-public:
-  /// Constructor.
-  CHomePage(QWidget *parent = 0);
-
-private slots:
-  void pickFolder();
-  void addFolder(const QString & path);
-  void removeFolder();
-
-private:
-  void readSettings();
-  void writeSettings();
-
-  QListWidget * m_folderList;
-  QSpinBox *m_recentFilesBox;
+    QCheckBox *m_statusBarCheckBox;
+    QCheckBox *m_toolBarCheckBox;
 };
 
 #endif // __PREFERENCES_HH__

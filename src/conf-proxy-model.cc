@@ -22,24 +22,24 @@ CConfProxyModel::~CConfProxyModel()
 
 void CConfProxyModel::setFilterWildcard(const QString &filterString)
 {
-  m_filterString = filterString;
-  m_filterString.replace("*", " ");
+    m_filterString = filterString;
+    m_filterString.replace("*", " ");
 
-  clearKeywordFilter();
+    clearKeywordFilter();
 
-  m_onlyModified = false;
+    m_onlyModified = false;
 
-  QString filter = m_filterString;
-  if (filter.contains(":modified"))
+    QString filter = m_filterString;
+    if (filter.contains(":modified"))
     {
-      m_onlyModified = true;
-      filter.remove(":modified");
+        m_onlyModified = true;
+        filter.remove(":modified");
     }
 
-  m_keywordFilter << filter.split(" ");
-  invalidateFilter();
+    m_keywordFilter << filter.split(" ");
+    invalidateFilter();
 
-  emit(filteringChanged());
+    emit(filteringChanged());
 }
 
 QString CConfProxyModel::filterString() const
@@ -49,12 +49,12 @@ QString CConfProxyModel::filterString() const
 
 void CConfProxyModel::clearKeywordFilter()
 {
-  m_keywordFilter.clear();
+    m_keywordFilter.clear();
 }
 
 const QStringList & CConfProxyModel::keywordFilter() const
 {
-  return m_keywordFilter;
+    return m_keywordFilter;
 }
 
 bool CConfProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
@@ -68,30 +68,30 @@ bool CConfProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceP
 
     if (!m_keywordFilter.isEmpty())
     {
-      foreach (const QString & keyword, m_keywordFilter)
-        {
-          QRegExp re(keyword,  Qt::CaseInsensitive);
-          re.setMinimal(true);
+        foreach (const QString & keyword, m_keywordFilter)
+                        {
+            QRegExp re(keyword,  Qt::CaseInsensitive);
+            re.setMinimal(true);
 
-          if (re.indexIn(sourceModel()->data(index, CConfModel::CategoryRole).toString()) == -1 &&
-              re.indexIn(sourceModel()->data(index, CConfModel::SubCategoryRole).toString()) == -1 &&
-              re.indexIn(sourceModel()->data(index, CConfModel::ParameterRole).toString()) == -1 &&
-              re.indexIn(sourceModel()->data(index, CConfModel::ValueRole).toString()) == -1 &&
-              re.indexIn(sourceModel()->data(index, CConfModel::DefaultValueRole).toString()) == -1)
+            if (re.indexIn(sourceModel()->data(index, CConfModel::CategoryRole).toString()) == -1 &&
+                            re.indexIn(sourceModel()->data(index, CConfModel::SubCategoryRole).toString()) == -1 &&
+                            re.indexIn(sourceModel()->data(index, CConfModel::ParameterRole).toString()) == -1 &&
+                            re.indexIn(sourceModel()->data(index, CConfModel::ValueRole).toString()) == -1 &&
+                            re.indexIn(sourceModel()->data(index, CConfModel::DefaultValueRole).toString()) == -1)
             {
-              accept = false;
+                accept = false;
             }
-	    }
+                        }
     }
 
     if (m_onlyModified)
-      {
+    {
         const bool isModified = sourceModel() && 
-          !sourceModel()->data(index, CConfModel::DefaultValueRole).isNull() && 
-          sourceModel()->data(index, CConfModel::DefaultValueRole) != sourceModel()->data(index, CConfModel::ValueRole);
+                        !sourceModel()->data(index, CConfModel::DefaultValueRole).isNull() &&
+                        sourceModel()->data(index, CConfModel::DefaultValueRole) != sourceModel()->data(index, CConfModel::ValueRole);
 
         accept = accept && isModified;
-      }
+    }
 
     return accept;
 }

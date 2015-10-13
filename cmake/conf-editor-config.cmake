@@ -1,4 +1,4 @@
-set(PROJECT_NAME xml-editor)
+set(PROJECT_NAME conf)
 
 # If ${SOURCE_DIR} is a git repository VERSION is set to
 # `git describe --tags` later.
@@ -102,26 +102,26 @@ else()
 endif()
 
 # set man path
-if(DEFINED XML_EDITOR_MAN_PATH)
-  set(XML_EDITOR_MAN_PATH ${XML_EDITOR_MAN_PATH} CACHE PATH "xml-editor manpage directory")
+if(DEFINED CONF_EDITOR_MAN_PATH)
+  set(CONF_EDITOR_MAN_PATH ${CONF_EDITOR_MAN_PATH} CACHE PATH "conf-editor manpage directory")
 else()
-  set(XML_EDITOR_MAN_PATH ${PREFIX}/share/man CACHE PATH "xml-editor manpage directory")
+  set(CONF_EDITOR_MAN_PATH ${PREFIX}/share/man CACHE PATH "conf-editor manpage directory")
 endif()
 
 # Hide to avoid confusion
 mark_as_advanced(CMAKE_INSTALL_PREFIX)
 
-set(XML_EDITOR_APPLICATION_NAME ${PROJECT_NAME})
-set(XML_EDITOR_VERSION          ${VERSION})
-set(XML_EDITOR_COMPILE_MACHINE  ${CMAKE_SYSTEM_PROCESSOR})
-set(XML_EDITOR_COMPILE_HOSTNAME ${BUILDHOSTNAME})
-set(XML_EDITOR_COMPILE_BY       $ENV{USER})
-set(XML_EDITOR_RELEASE          ${CODENAME})
-set(XML_EDITOR_DATA_PATH        ${PREFIX}/share/${XML_EDITOR_APPLICATION_NAME})
+set(CONF_EDITOR_APPLICATION_NAME ${PROJECT_NAME})
+set(CONF_EDITOR_VERSION          ${VERSION})
+set(CONF_EDITOR_COMPILE_MACHINE  ${CMAKE_SYSTEM_PROCESSOR})
+set(CONF_EDITOR_COMPILE_HOSTNAME ${BUILDHOSTNAME})
+set(CONF_EDITOR_COMPILE_BY       $ENV{USER})
+set(CONF_EDITOR_RELEASE          ${CODENAME})
+set(CONF_EDITOR_DATA_PATH        ${PREFIX}/share/${CONF_EDITOR_APPLICATION_NAME})
 # }}}
 
 # {{{ Configure files
-set(XML_EDITOR_CONFIGURE_FILES 
+set(CONF_EDITOR_CONFIGURE_FILES 
   config.hh.in
   )
 
@@ -134,7 +134,7 @@ macro(a_configure_file file)
     @ONLY)
 endmacro()
 
-foreach(file ${XML_EDITOR_CONFIGURE_FILES})
+foreach(file ${CONF_EDITOR_CONFIGURE_FILES})
   a_configure_file(${file})
 endforeach()
 #}}}

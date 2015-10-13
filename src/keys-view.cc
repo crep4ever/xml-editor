@@ -17,59 +17,48 @@
 //******************************************************************************
 #include "keys-view.hh"
 
+#include <QObject>
 #include <QLabel>
 #include <QBoxLayout>
-#include <QDebug>
-#include <QTableView>
-#include <QHeaderView>
 #include <QSortFilterProxyModel>
-#include <QAction>
 #include <QPushButton>
+#include <QDebug>
 
+#include "table-view.hh"
+#include "conf-model.hh"
 #include "filter-lineedit.hh"
 
 CKeysView::CKeysView(QWidget *parent)
-  : QWidget(parent)
-  , m_view(0)
-  , m_filterLineEdit(0)
-  , m_revertChangesButton(0)
+: QWidget(parent)
+, m_view(new CTableView)
+, m_filterLineEdit(new CFilterLineEdit)
+, m_revertChangesButton(0)
+, m_currentSelectionInfo(new QLabel)
 {
-  m_filterLineEdit = new CFilterLineEdit;
-  connect(m_filterLineEdit, SIGNAL(textChanged(const QString &)),
-          this, SIGNAL(parameterFilterChanged(const QString &)));
 
-  m_revertChangesButton = new QPushButton(tr("Revert changes"));
-  m_revertChangesButton->setIcon(QIcon::fromTheme("document-revert", QIcon(":/icons/tango/src/document-revert.svg")));
-  m_revertChangesButton->setEnabled(false);
+    connect(m_filterLineEdit, SIGNAL(textChanged(const QString &)),
+            this, SIGNAL(parameterFilterChanged(const QString &)));
 
+    m_revertChangesButton = new QPushButton(tr("Revert changes"));
+    m_revertChangesButton->setIcon(QIcon::fromTheme("document-revert", QIcon(":/icons/tango/src/document-revert.svg")));
+    m_revertChangesButton->setEnabled(false);
 
-  QLayout *headerLayout = new QHBoxLayout;
-  headerLayout->addWidget(m_filterLineEdit);
-  headerLayout->addWidget(m_revertChangesButton);
+    QLayout *headerLayout = new QHBoxLayout;
+    headerLayout->addWidget(m_filterLineEdit);
+    headerLayout->addWidget(m_revertChangesButton);
 
-  m_view = new QTableView;
-  m_view->setShowGrid(false);
-  m_view->setAlternatingRowColors(true);
-  m_view->setSelectionMode(QAbstractItemView::SingleSelection);
-  m_view->setSelectionBehavior(QAbstractItemView::SelectRows);
-  m_view->setEditTriggers(QAbstractItemView::SelectedClicked |
-                          QAbstractItemView::EditKeyPressed |
-                          QAbstractItemView::DoubleClicked);
-  m_view->setSortingEnabled(true);
-  m_view->verticalHeader()->setVisible(false);
-  m_view->verticalHeader()->setDefaultSectionSize(50);
+    // Current selection info
 
-  QAction *action = new QAction(tr("&Adjust columns"), this);
-  connect(action, SIGNAL(triggered()),
-          m_view, SLOT(resizeColumnsToContents()));
+    m_currentSelectionInfo->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
-  m_view->setContextMenuPolicy(Qt::ActionsContextMenu);
-  m_view->addAction(action);
+    connect(m_view, SIGNAL(clicked(const QModelIndex &)),
+            this, SLOT(updateSelectionInfo(const QModelIndex &)));
 
-  QBoxLayout *layout = new QVBoxLayout;
-  layout->addLayout(headerLayout);
-  layout->addWidget(m_view);
-  setLayout(layout);
+    QBoxLayout *layout = new QVBoxLayout;
+    layout->addLayout(headerLayout);
+    layout->addWidget(m_view);
+    layout->addWidget(m_currentSelectionInfo);
+    setLayout(layout);
 }
 
 CKeysView::~CKeysView()
@@ -82,44 +71,76 @@ void CKeysView::reset()
 
 void CKeysView::setModel(QSortFilterProxyModel *model)
 {
-  m_view->setModel(model);
+    m_view->setProxyModel(model);
 
-  m_view->setColumnHidden(0, true); // hide category
-  m_view->setColumnHidden(1, true); // hide subcategory
-  m_view->setColumnHidden(2, false); // show parameter name
-  m_view->setColumnHidden(3, false); // show parameter value
-  m_view->setColumnHidden(4, false); // show parameter default value
+    connect(m_revertChangesButton, SIGNAL(clicked()),
+            model->sourceModel(), SLOT(revert()));
 
-  connect(m_revertChangesButton, SIGNAL(clicked()),
-          model->sourceModel(), SLOT(revert()));
-
-  connect(model->sourceModel(), SIGNAL(editedValueCountChanged(int)),
-          this, SLOT(updateRevertChangesLabel(int)));
+    connect(model->sourceModel(), SIGNAL(editedValueCountChanged(int)),
+            this, SLOT(updateRevertChangesLabel(int)));
 }
 
-void CKeysView::resizeColumns()
+CTableView* CKeysView::tableView() const
 {
-  m_view->setColumnWidth(2, 450);
-  m_view->setColumnWidth(3, 150);
-  m_view->setColumnWidth(4, 150);
-  m_view->horizontalHeader()->setStretchLastSection(true);
+    return m_view;
 }
+
+CConfModel* CKeysView::sourceModel() const
+{
+    return m_view->sourceModel();
+}
+
+QSortFilterProxyModel* CKeysView::proxyModel() const
+{
+    return m_view->proxyModel();
+}
+
 
 void CKeysView::updateRevertChangesLabel(int count)
 {
-  if (count == 0)
+    if (count == 0)
     {
-      m_revertChangesButton->setText(tr("Revert changes"));
-      m_revertChangesButton->setEnabled(false);
+        m_revertChangesButton->setText(tr("Revert changes"));
+        m_revertChangesButton->setEnabled(false);
     }
-  else
+    else
     {
-      m_revertChangesButton->setText(tr("Revert changes (%1)").arg(count));
-      m_revertChangesButton->setEnabled(true);
+        m_revertChangesButton->setText(tr("Revert changes (%1)").arg(count));
+        m_revertChangesButton->setEnabled(true);
     }
 }
 
 void CKeysView::setFocus()
 {
-  m_filterLineEdit->setFocus();
+    m_filterLineEdit->setFocus();
 }
+
+void CKeysView::resizeColumns()
+{
+    m_view->resizeColumns();
+}
+
+void CKeysView::updateSelectionInfo(const QModelIndex & p_index)
+{
+    if (!p_index.isValid())
+    {
+        return;
+    }
+
+    const QModelIndex & idx = proxyModel()->mapToSource(p_index);
+
+    const QString cat    = sourceModel()->data(idx, CConfModel::CategoryRole).toString();
+    const QString subcat = sourceModel()->data(idx, CConfModel::SubCategoryRole).toString();
+    const QString param  = sourceModel()->data(idx, CConfModel::ParameterRole).toString();
+    const QString curVal = sourceModel()->data(idx, CConfModel::ValueRole).toString();
+    const QString iniVal = sourceModel()->data(idx, CConfModel::InitialValueRole).toString();
+    const QString defVal = sourceModel()->data(idx, CConfModel::DefaultValueRole).toString();
+
+    const QString infoParameter = tr("<b>Parameter:</b> %1 / %2 / %3").arg(cat).arg(subcat).arg(param);
+    const QString infoValues    = tr("<b>Values:</b> %1 (current) %2 (initial) %3 (default)").arg(curVal).arg(iniVal).arg(defVal);
+    const QString info = QString("%1 <br/> %2").arg(infoParameter).arg(infoValues);
+
+    m_currentSelectionInfo->setText(info);
+}
+
+
