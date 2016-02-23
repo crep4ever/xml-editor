@@ -145,6 +145,18 @@ public:
     void setFilename(const QString & path);
 
     /*!
+    Returns \a true if a reference file for default values
+    exists, \a false otherwise.
+
+    For example, the file "LocalConf.xml.new" is used
+    as a reference for the file "LocalConf.xml".
+
+    This accesssor can then be used to display / hide
+    the default value column in the CKeysView.
+     */
+    bool refFilenameExists() const;
+
+    /*!
     Build the model by parsing an xml file.
     \sa save
      */
@@ -196,6 +208,8 @@ QList< QStringList > m_rows;
 
 int m_rowCount;
 int m_columnCount;
+
+bool m_refFilenameExists;
 };
 
 #endif // __CONF_MODEL_HH__

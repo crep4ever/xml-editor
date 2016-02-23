@@ -38,6 +38,7 @@
 #include "conf-model.hh"
 #include "categories-view.hh"
 #include "keys-view.hh"
+#include "table-view.hh"
 #include "conf-proxy-model.hh"
 #include "config.hh"
 
@@ -241,6 +242,7 @@ void CMainWindow::open(const QString & filename)
 
     m_categoriesView->setModel(m_model);
     m_keysView->setModel(m_proxy);
+    m_keysView->tableView()->setColumnHidden(5, !m_model->refFilenameExists()); // show parameter default value
     m_keysView->resizeColumns();
 
     connect(m_model, SIGNAL(editedValueCountChanged(int)),

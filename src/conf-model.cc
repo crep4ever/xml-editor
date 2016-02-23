@@ -35,6 +35,7 @@ CConfModel::CConfModel(const QString & filename, QObject *parent)
 , m_rows()
 , m_rowCount(0)
 , m_columnCount(6)
+, m_refFilenameExists(false)
 {
     load(filename);
 }
@@ -338,6 +339,8 @@ void CConfModel::load(const QString & filename)
         in.setCodec("UTF-8");
         refRawData = in.readAll();
         file.close();
+
+        m_refFilenameExists = true;
     }
 
     // Update model with default local conf values
@@ -429,6 +432,11 @@ QString CConfModel::filename() const
 void CConfModel::setFilename(const QString & path)
 {
     m_filename = path;
+}
+
+bool CConfModel::refFilenameExists() const
+{
+    return m_refFilenameExists;
 }
 
 void CConfModel::save()
