@@ -478,6 +478,70 @@ void CConfModel::save()
     out << m_rawData;
 }
 
+void CConfModel::saveDiff()
+{
+    // Open file
+    QFile file(filename());
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        qWarning() << tr("Can't open file in write mode: %1").arg(filename());
+        return;
+    }
+
+    // First pass: save indexes of modified values
+    QList<QModelIndex> modified;
+    for (int i = 0; i < m_rowCount; ++i)
+    {
+        const QModelIndex & index = row(i);
+        if (data(index, ValueRole) != data(index, DefaultValueRole))
+        {
+            // value is different from default value so it should be saved in the diff file
+            modified << index;
+        }
+    }
+
+    // Second pass: save as xml document
+    QXmlStreamWriter stream(&file);
+    stream.setAutoFormatting(true);
+    stream.writeStartDocument();
+
+    QString currentCat, currentSubCat;
+
+    foreach (const QModelIndex & index, modified)
+    {
+        const QString cat    = data(index, CategoryRole).toString();
+        const QString subcat = data(index, SubCategoryRole).toString();
+        const QString param  = data(index, ParameterRole).toString();
+        const QString value  = data(index, ValueRole).toString();
+        const QString vit    = QString("/Conf/%1/%2/%3::false=%4").arg(cat).arg(subcat).arg(param).arg(value);
+
+        if (cat != currentCat)
+        {
+            // close previous subcategory and category
+            stream.writeEndElement();
+            stream.writeEndElement();
+
+            stream.writeStartElement(cat);
+            stream.writeStartElement(subcat);
+            currentCat = cat;
+            currentSubCat = subcat;
+        }
+        else if (subcat != currentSubCat)
+        {
+            // close previous subcategory
+            stream.writeEndElement();
+
+            stream.writeStartElement(subcat);
+            currentSubCat = subcat;
+        }
+
+        stream.writeTextElement(param, vit);
+    }
+    stream.writeEndDocument();
+
+    emit(editedValueCountChanged(0));
+}
+
 void CConfModel::revert()
 {
     for (int i = 0; i < rowCount(); ++i)

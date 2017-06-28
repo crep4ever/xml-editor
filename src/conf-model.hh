@@ -170,6 +170,13 @@ public:
     void save();
 
     /*!
+    Only save modified values to a file.
+    The destination is stored in \a filename()
+    \sa filename, setFilename, load
+     */
+    void saveDiff();
+
+    /*!
     Return the number of parameter values that have changed.
     \sa revert, editedValueCountChanged
      */

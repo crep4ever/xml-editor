@@ -135,6 +135,11 @@ void CMainWindow::createActions()
     m_saveAsAct->setStatusTip(tr("Save the current data file with a different name"));
     connect(m_saveAsAct, SIGNAL(triggered()), this, SLOT(saveAs()));
 
+    m_saveDiffAct = new QAction(tr("Save &Diff..."), this);
+    m_saveDiffAct->setEnabled(false);
+    m_saveDiffAct->setStatusTip(tr("Only save modified values in a new configuration file"));
+    connect(m_saveDiffAct, SIGNAL(triggered()), this, SLOT(saveDiff()));
+
     m_aboutAct = new QAction(tr("&About"), this);
     m_aboutAct->setIcon(QIcon::fromTheme("help-about", QIcon(":/icons/tango/src/help-about.svg")));
     m_aboutAct->setStatusTip(tr("About this application"));
@@ -174,6 +179,7 @@ void CMainWindow::createMenus()
     fileMenu->addAction(m_openAct);
     fileMenu->addAction(m_saveAct);
     fileMenu->addAction(m_saveAsAct);
+    fileMenu->addAction(m_saveDiffAct);
     fileMenu->addSeparator();
     fileMenu->addAction(m_exitAct);
 
@@ -260,6 +266,7 @@ void CMainWindow::open(const QString & filename)
     m_mainWidget->setCurrentIndex(1);
 
     m_saveAsAct->setEnabled(true);
+    m_saveDiffAct->setEnabled(true);
 
 
     statusBar()->showMessage(filename);
@@ -273,7 +280,7 @@ void CMainWindow::open()
     QString filename = QFileDialog::getOpenFileName(this,
                                                     tr("Open xml configuration file"),
                                                     m_openPath,
-                                                    tr("Data files (*.xml *.patch)"));
+                                                    tr("Configuration files (*.xml *.patch)"));
     if (!filename.isEmpty())
         open(filename);
 }
@@ -289,7 +296,7 @@ void CMainWindow::saveAs()
     QString filename = QFileDialog::getSaveFileName(this,
                                                     tr("Save file"),
                                                     m_savePath,
-                                                    tr("XML files (*.xml)"));
+                                                    tr("Configuration files (*.xml *.patch)"));
     if (!filename.isEmpty())
     {
         QFileInfo fi(filename);
@@ -302,6 +309,30 @@ void CMainWindow::saveAs()
                        .arg(fi.absolutePath())
                        .arg(QApplication::applicationName()));
         save();
+    }
+}
+
+void CMainWindow::saveDiff()
+{
+    QString filename = QFileDialog::getSaveFileName(this,
+                                                    tr("Save diff file"),
+                                                    m_savePath,
+                                                    tr("Configuration files (*.xml *.patch)"));
+    if (!filename.isEmpty())
+    {
+        QFileInfo fi(filename);
+        m_savePath = fi.absolutePath();
+        writeSettings(); //update savePath setting
+        m_model->setFilename(filename);
+
+        setWindowTitle(QString("%1 (%2) [*] - %3")
+                       .arg(fi.fileName())
+                       .arg(fi.absolutePath())
+                       .arg(QApplication::applicationName()));
+
+        m_model->saveDiff();
+
+        open(filename);
     }
 }
 

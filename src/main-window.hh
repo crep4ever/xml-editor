@@ -59,6 +59,7 @@ private slots:
 void open();
 void save();
 void saveAs();
+void saveDiff();
 void setModified(int);
 // application
 void about();
@@ -86,6 +87,7 @@ QAction *m_exitAct;
 QAction *m_openAct;
 QAction *m_saveAct;
 QAction *m_saveAsAct;
+QAction *m_saveDiffAct;
 
 // Settings
 QString m_openPath;
