@@ -271,9 +271,9 @@ void CMainWindow::open(const QString & filename)
 void CMainWindow::open()
 {
     QString filename = QFileDialog::getOpenFileName(this,
-                                                    tr("Open xml file"),
+                                                    tr("Open xml configuration file"),
                                                     m_openPath,
-                                                    tr("Data files (*.xml)"));
+                                                    tr("Data files (*.xml *.patch)"));
     if (!filename.isEmpty())
         open(filename);
 }

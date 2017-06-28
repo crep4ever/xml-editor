@@ -47,7 +47,7 @@ namespace // anonymous namespace
 {
 bool isFilenameSupported(const QString & filename)
 {
-    return (filename.endsWith(".xml"));
+    return (filename.endsWith(".xml") || filename.endsWith(".patch"));
 }
 }
 

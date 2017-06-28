@@ -281,15 +281,15 @@ void CConfModel::load(const QString & filename)
     QElapsedTimer timer;
     timer.start();
 
-    const QString baseName = QFileInfo(filename).baseName();
-    const bool vitFile = baseName.contains("localconf", Qt::CaseInsensitive) || baseName.contains("persistentconf", Qt::CaseInsensitive);
+    const QFileInfo fi = QFileInfo(filename);
+    const bool vitFile = fi.baseName().contains("conf", Qt::CaseInsensitive);
 
     if (!vitFile)
     {
-        QMessageBox messageBox;
-        messageBox.setText(tr("Be sure to select a Vit configuration file (LocalConf files)."));
-        messageBox.exec();
-        return;
+        QMessageBox::warning(0, 
+                             tr("Unrecognized ViTechnology configuration file"),
+                             tr("The file: \n\n %1 \n\n does not look like a ViTechnology configuration file.\n"
+                                "Usual configuration files correspond either to LocalConf.xml or patch files.").arg(fi.absoluteFilePath()));
     }
 
     // open local conf file
@@ -317,7 +317,7 @@ void CConfModel::load(const QString & filename)
         modelRow << r[2]; // param
         modelRow << r[3]; // value
         modelRow << r[3]; // initial value
-        modelRow << r[3];   // default value
+        modelRow << r[3]; // default value
         addRow(modelRow);
     }
 
