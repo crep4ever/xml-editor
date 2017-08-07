@@ -404,9 +404,14 @@ Qt::ItemFlags CConfModel::flags(const QModelIndex & index) const
         return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 }
 
-QString CConfModel::VitToXml(const QString & vit)
+QString CConfModel::VitToXml(const QString & p_vit)
 {
-    QStringList lines = vit.split("\n");
+    QStringList lines = p_vit.split("\n");
+
+    if (!lines.first().contains("xml version"))
+    {
+        lines.insert(lines.begin(), "<?xml version=\"1.0\" encoding=\"utf-8\"?>");
+    }
 
     // Add xml parent node
     lines.insert(lines.begin() + 1, "<Settings>");
